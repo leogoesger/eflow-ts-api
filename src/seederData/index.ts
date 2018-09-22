@@ -1,3 +1,4 @@
-import locations from "./locations";
+import { products } from './products';
+import { categories } from './categories';
 
-export { locations };
+export { categories, products };

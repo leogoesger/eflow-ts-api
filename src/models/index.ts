@@ -1,16 +1,30 @@
 // src/db/models/index.js
 
-import * as Sequelize from "sequelize";
-import productFactory from "./Product";
+import * as Sequelize from 'sequelize';
+import { productFactory, ProductModel } from './Product';
+import { categoryFactory, CategoryModel } from './Category';
+import { config } from '../config/config';
 
-const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config.json")[env];
-const url = config.url || process.env.DATABSE_CONNECTION_URI;
+const env = process.env.NODE_ENV || 'development';
+const configEnv = config[env] as any;
 
-const sequelize = new Sequelize(url, config);
+const sequelize = new Sequelize(
+    configEnv.database,
+    configEnv.username,
+    config.password,
+    configEnv
+);
 
-const db = {
+export interface IDB {
+    Product: ProductModel;
+    Category: CategoryModel;
+    Sequelize: Sequelize.SequelizeStatic;
+    sequelize: Sequelize.Sequelize;
+}
+
+const db: IDB = {
     Product: productFactory(sequelize),
+    Category: categoryFactory(sequelize),
     Sequelize,
     sequelize,
 };
@@ -21,4 +35,6 @@ const db = {
     }
 });
 
-export default db;
+const { Product, Category } = db;
+
+export { Product, Category, db };

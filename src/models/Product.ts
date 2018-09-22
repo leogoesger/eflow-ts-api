@@ -1,4 +1,4 @@
-import * as Sequelize from "sequelize";
+import * as Sequelize from 'sequelize';
 
 interface IProductAttributes {
     id?: Int32Array; // id is an auto-generated UUID
@@ -12,7 +12,9 @@ interface IProductAttributes {
 type ProductInstance = Sequelize.Instance<IProductAttributes> &
     IProductAttributes;
 
-export default (sequalize: Sequelize.Sequelize) => {
+type ProductModel = Sequelize.Model<ProductInstance, IProductAttributes>;
+
+const productFactory = (sequalize: Sequelize.Sequelize) => {
     const attributes: SequelizeAttributes<IProductAttributes> = {
         id: {
             defaultValue: Sequelize.INTEGER,
@@ -27,8 +29,17 @@ export default (sequalize: Sequelize.Sequelize) => {
         name: { type: Sequelize.STRING, allowNull: false },
         price: { type: Sequelize.DECIMAL(10, 2), allowNull: false },
     };
-    return sequalize.define<ProductInstance, IProductAttributes>(
-        "Product",
+    const Product = sequalize.define<ProductInstance, IProductAttributes>(
+        'Product',
         attributes
     );
+    Product.associate = models => {
+        Product.hasMany(models.Category, {
+            foreignKey: 'productId',
+            as: 'categories',
+        });
+    };
+    return Product;
 };
+
+export { ProductModel, productFactory };
