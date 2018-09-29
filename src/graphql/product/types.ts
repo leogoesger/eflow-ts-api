@@ -7,15 +7,17 @@ export const productTypes = `
         category: [Category]
     }
 
-    type Query {
-        dummy: Boolean
-    }
-    
-    type Mutation {
-        dummy: Boolean
+    input CreateProductPayload {
+        name: String
+        price: Float
+        archived: Boolean
     }
 
     extend type Query {
         getProducts: [Product]
+    }
+
+    extend type Mutation {
+        createProduct (productPayload: CreateProductPayload): Product
     }
 `;

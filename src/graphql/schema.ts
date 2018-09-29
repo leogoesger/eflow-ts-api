@@ -1,14 +1,11 @@
 import { makeExecutableSchema } from 'graphql-tools';
 
-import { categoryQueries, categoryTypes } from './category';
-import { productQueries, productTypes } from './product';
-
-const typeDefs = [categoryTypes, productTypes];
-const Query = { ...categoryQueries, ...productQueries };
+import { typeDefs, Query, Mutation } from './root';
 
 export default makeExecutableSchema({
-    typeDefs,
-    resolvers: {
-        Query,
-    },
+  typeDefs,
+  resolvers: {
+    Query,
+    Mutation,
+  },
 });

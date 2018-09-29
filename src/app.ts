@@ -15,11 +15,11 @@ app.use(bodyParser.json());
 app.use(routes);
 
 app.use(
-    '/api/graphql',
-    expressGraphQL({
-        schema,
-        graphiql: true,
-    })
+  '/api/graphql',
+  expressGraphQL({
+    schema,
+    graphiql: true,
+  })
 );
 
 export default app;
