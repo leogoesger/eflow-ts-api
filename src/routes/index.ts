@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import testRoutes from "./tests";
+import { ping } from './ping';
 
 const router = Router();
 
-router.use("/api/test", testRoutes);
+router.use('/api/ping', ping);
 
 export default router;

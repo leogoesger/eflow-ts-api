@@ -1,4 +1,4 @@
-import { products } from './products';
-import { categories } from './categories';
+import { gauges } from './gauges';
+import { classifications } from './classifications';
 
-export { categories, products };
+export { gauges, classifications };

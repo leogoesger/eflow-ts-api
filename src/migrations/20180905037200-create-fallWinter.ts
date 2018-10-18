@@ -3,26 +3,17 @@ import { QueryInterface } from 'sequelize';
 
 module.exports = {
   up: (queryInterface: QueryInterface) => {
-    return queryInterface.createTable('Products', {
+    return queryInterface.createTable('FallWinters', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
-        type: Sequelize.TEXT,
+      magWet: {
+        type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
         allowNull: true,
       },
-      price: {
-        type: Sequelize.DECIMAL,
-        allowNull: true,
-      },
-      archived: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true,
-      },
-
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -31,9 +22,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      gaugeId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Gauges',
+          key: 'id',
+        },
+      },
     });
   },
   down: (queryInterface: QueryInterface) => {
-    return queryInterface.dropTable('Products');
+    return queryInterface.dropTable('FallWinters');
   },
 };

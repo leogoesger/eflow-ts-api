@@ -1,9 +1,18 @@
 // src/db/models/index.js
 
 import * as Sequelize from 'sequelize';
-import { productFactory, ProductModel, IProduct } from './Product';
-import { categoryFactory, CategoryModel } from './Category';
 import { config } from '../config/config';
+
+import { allYearFactory, AllYearModel, IAllYear } from './AllYear';
+import { annualFlowFactory, AnnualFlowModel, IAnnualFlow } from './AnnualFlow';
+import {
+  classificationFactory,
+  ClassificationModel,
+  IClassification,
+} from './Classification';
+import { fallFactory, FallModel, IFall } from './Fall';
+import { fallWinterFactory, FallWinterModel, IFallWinter } from './FallWinter';
+import { gaugeFactory, GaugeModel, IGauge } from './Gauge';
 
 const env = process.env.NODE_ENV || 'development';
 const configEnv = config[env] as any;
@@ -16,15 +25,25 @@ const sequelize = new Sequelize(
 );
 
 export interface IDB {
-  Product: ProductModel;
-  Category: CategoryModel;
+  AllYear: AllYearModel;
+  AnnualFlow: AnnualFlowModel;
+  Gauge: GaugeModel;
+  Classification: ClassificationModel;
+  Fall: FallModel;
+  FallWinter: FallWinterModel;
+
   Sequelize: Sequelize.SequelizeStatic;
   sequelize: Sequelize.Sequelize;
 }
 
 const db: IDB = {
-  Product: productFactory(sequelize),
-  Category: categoryFactory(sequelize),
+  AllYear: allYearFactory(sequelize),
+  AnnualFlow: annualFlowFactory(sequelize),
+  Gauge: gaugeFactory(sequelize),
+  Classification: classificationFactory(sequelize),
+  Fall: fallFactory(sequelize),
+  FallWinter: fallWinterFactory(sequelize),
+
   Sequelize,
   sequelize,
 };
@@ -35,6 +54,20 @@ const db: IDB = {
   }
 });
 
-const { Product, Category } = db;
+const { AllYear, AnnualFlow, Classification, Fall, FallWinter, Gauge } = db;
 
-export { Product, IProduct, Category, db };
+export {
+  AllYear,
+  IAllYear,
+  AnnualFlow,
+  IAnnualFlow,
+  Classification,
+  IClassification,
+  Fall,
+  IFall,
+  FallWinter,
+  IFallWinter,
+  Gauge,
+  IGauge,
+  db,
+};
