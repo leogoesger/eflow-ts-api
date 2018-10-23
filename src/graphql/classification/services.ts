@@ -1,4 +1,4 @@
-import { Classification } from '../../models';
+import { Classification } from '../../db/models';
 
 export class classificationServices {
   Classification = Classification;

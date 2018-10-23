@@ -1,5 +1,5 @@
 import { gaugeServices } from './services';
-import { IGauge } from '../../models';
+import { IGauge } from '../../db/models';
 
 const service = new gaugeServices();
 

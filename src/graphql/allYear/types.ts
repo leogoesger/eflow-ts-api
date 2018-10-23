@@ -8,13 +8,8 @@ export const allYearTypes = `
         updatedAt: String
     }
 
-    input validatePL {
-        gaugeNum: Int
-        yearNum: Int
-    }
-
     extend type Query {
         getAllYear(id: Int): AllYear
-        validateAllYear(validatePL: validatePL): Boolean
+        validateAllYear(validatePL: validatePL!): Boolean @hasRole(role: "ADMIN")
     }
 `;

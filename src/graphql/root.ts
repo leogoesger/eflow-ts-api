@@ -2,10 +2,19 @@ import { classificationQueries, classificationTypes } from './classification';
 import { gaugeQueries, gaugeMutations, gaugeTypes } from './gauge';
 import { allYearQueries, allYearTypes } from './allYear';
 import { userQueries, userMutations, userTypes } from './user';
+import { annualFlowQueries, annualFlowTypes } from './annualFlow';
 
 export const rootQuery = `
-    type Query 
-    type Mutation
+  directive @isAuthenticated on FIELD | FIELD_DEFINITION
+  directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
+
+  input validatePL {
+    gaugeNum: Int
+    yearNum: Int
+  }
+  
+  type Query 
+  type Mutation
 `;
 
 const typeDefs = [
@@ -14,12 +23,14 @@ const typeDefs = [
   gaugeTypes,
   allYearTypes,
   userTypes,
+  annualFlowTypes,
 ];
 const Query = {
   ...classificationQueries,
   ...gaugeQueries,
   ...allYearQueries,
   ...userQueries,
+  ...annualFlowQueries,
 };
 const Mutation = { ...gaugeMutations, ...userMutations };
 

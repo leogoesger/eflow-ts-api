@@ -7,7 +7,7 @@ import * as cors from 'cors';
 import schema from './graphql/schema';
 import * as expressGraphQL from 'express-graphql';
 
-import { router } from './routes';
+import { router } from './routesCtrl';
 
 const app = express();
 app.use(cors());

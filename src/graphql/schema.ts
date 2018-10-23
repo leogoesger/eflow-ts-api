@@ -1,5 +1,6 @@
 import { makeExecutableSchema } from 'graphql-tools';
 
+import { directiveResolvers } from './directiveResolvers';
 import { typeDefs, Query, Mutation } from './root';
 
 export default makeExecutableSchema({
@@ -8,4 +9,5 @@ export default makeExecutableSchema({
     Query,
     Mutation,
   },
+  directiveResolvers,
 });

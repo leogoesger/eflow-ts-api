@@ -2,8 +2,8 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IAnnualFlow {
-  id: number;
-  year: number[];
+  id?: number;
+  year: number;
   flowData: number[];
   gaugeId: number;
   updatedAt?: string;

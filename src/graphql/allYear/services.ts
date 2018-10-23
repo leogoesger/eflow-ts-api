@@ -1,4 +1,4 @@
-import { AllYear } from '../../models';
+import { AllYear } from '../../db/models';
 
 export interface IValidatePayload {
   gaugeNum: number;

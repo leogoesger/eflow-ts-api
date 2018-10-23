@@ -1,4 +1,4 @@
-import { Gauge, IGauge } from '../../models';
+import { Gauge, IGauge } from '../../db/models';
 
 export class gaugeServices {
   Gauge = Gauge;

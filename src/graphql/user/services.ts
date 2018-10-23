@@ -1,7 +1,7 @@
 import { sign } from 'jsonwebtoken';
 import * as uuidv4 from 'uuid/v4';
 
-import { User } from '../../models';
+import { User } from '../../db/models';
 import { IToken, IUser } from './models';
 import { genSalt, hash, compare } from 'bcrypt';
 

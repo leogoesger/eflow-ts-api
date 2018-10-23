@@ -11,7 +11,7 @@
     "migrate:down": "yarn tsc && sequelize db:migrate:undo:all",
     "seed:up": "yarn tsc && sequelize db:seed:all",
     "seed:down": "yarn tsc && sequelize db:seed:undo:all",
-    "dev-prepare": "rimraf ./build && yarn build && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all"
+    "dev:prepare": "rimraf ./build && yarn build && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -22,10 +22,10 @@
     "@types/express": "^4.16.0",
     "@types/express-graphql": "^0.6.1",
     "@types/jsonwebtoken": "^7.2.8",
-    "@types/uuid": "^3.4.4",
     "@types/morgan": "^1.7.35",
     "@types/pg": "^7.4.10",
     "@types/sequelize": "^4.27.25",
+    "@types/uuid": "^3.4.4",
     "codelyzer": "^4.4.4",
     "nodemon": "^1.18.3",
     "rimraf": "^2.6.2",
@@ -35,10 +35,13 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
+    "@types/csvtojson": "^1.1.5",
+    "@types/request": "^2.47.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
+    "csvtojson": "^2.0.8",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
@@ -48,6 +51,8 @@
     "morgan": "^1.9.0",
     "pg": "^7.4.3",
     "rand-token": "^0.4.0",
+    "request": "^2.88.0",
+    "rxjs": "^6.3.3",
     "sequelize": "^4.38.0",
     "sequelize-cli": "^4.1.1",
     "uuid": "^3.3.2"
