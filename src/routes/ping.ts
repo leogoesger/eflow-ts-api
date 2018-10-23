@@ -15,7 +15,7 @@ ping.route('/').get(async (_, res) => {
 
     return res
       .status(200)
-      .send({ msg: 'Server is live and well!', sha, author, date });
+      .send({ msg: 'Server is alive and well!', sha, author, date });
   } catch (error) {
     return res.status(500).send({ msg: error.toString() });
   }

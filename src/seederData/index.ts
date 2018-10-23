@@ -1,4 +1,5 @@
 import { gauges } from './gauges';
 import { classifications } from './classifications';
+import { allYears } from './allYears';
 
-export { gauges, classifications };
+export { allYears, gauges, classifications };

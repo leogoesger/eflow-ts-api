@@ -7,6 +7,9 @@ export interface IFall {
   magnitude: number[];
   timingWet: number[];
   duration: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type FallInstance = Sequelize.Instance<IFall> & IFall;
@@ -36,6 +39,10 @@ const fallFactory = (sequalize: Sequelize.Sequelize) => {
     duration: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const Fall = sequalize.define<FallInstance, IFall>('Fall', attributes);

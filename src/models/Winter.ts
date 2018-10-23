@@ -23,6 +23,9 @@ export interface IWinter {
   magnitude10: number[];
   magnitude20: number[];
   magnitude50: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type WinterInstance = Sequelize.Instance<IWinter> & IWinter;
@@ -116,6 +119,10 @@ const winterFactory = (sequalize: Sequelize.Sequelize) => {
     magnitude50: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const Winter = sequalize.define<WinterInstance, IWinter>(

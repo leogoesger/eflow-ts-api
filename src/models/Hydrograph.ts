@@ -21,6 +21,10 @@ export interface IHydrograph {
   data: number[];
   percentille: Percentilles;
   type: Types;
+  classId: number;
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type HydrographInstance = Sequelize.Instance<IHydrograph> & IHydrograph;
@@ -54,6 +58,14 @@ const hydrographFactory = (sequalize: Sequelize.Sequelize) => {
     type: {
       type: Sequelize.ENUM,
       values: ['GAUGE', 'CLASS'],
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+    },
+    classId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const Hydrograph = sequalize.define<HydrographInstance, IHydrograph>(

@@ -6,6 +6,9 @@ export interface IAllYear {
   average: number[];
   standardDeviation: number[];
   coeffientVariance: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type AllYearInstance = Sequelize.Instance<IAllYear> & IAllYear;
@@ -31,6 +34,10 @@ const allYearFactory = (sequalize: Sequelize.Sequelize) => {
     coeffientVariance: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const AllYear = sequalize.define<AllYearInstance, IAllYear>(

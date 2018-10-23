@@ -55,6 +55,6 @@ module.exports = {
     });
   },
   down: (queryInterface: QueryInterface) => {
-    return queryInterface.dropTable('FallWinters');
+    return queryInterface.dropTable('Users');
   },
 };

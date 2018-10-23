@@ -44,6 +44,9 @@ export interface IGauge {
   Peak_Tim_50: number[];
   Peak_Dur_50: number[];
   Peak_Fre_50: number[];
+  classId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type GaugeInstance = Sequelize.Instance<IGauge> & IGauge;
@@ -207,6 +210,10 @@ const gaugeFactory = (sequalize: Sequelize.Sequelize) => {
     Peak_Fre_50: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    classId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const Gauge = sequalize.define<GaugeInstance, IGauge>('Gauge', attributes);

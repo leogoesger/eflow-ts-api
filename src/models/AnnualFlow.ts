@@ -5,6 +5,9 @@ export interface IAnnualFlow {
   id: number;
   year: number[];
   flowData: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type AnnualFlowInstance = Sequelize.Instance<IAnnualFlow> & IAnnualFlow;
@@ -26,6 +29,10 @@ const annualFlowFactory = (sequalize: Sequelize.Sequelize) => {
     flowData: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const AnnualFlow = sequalize.define<AnnualFlowInstance, IAnnualFlow>(

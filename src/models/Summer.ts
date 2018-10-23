@@ -9,6 +9,9 @@ export interface ISummer {
   durationFlush: number[];
   durationWet: number[];
   noFlowCount: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type SummerInstance = Sequelize.Instance<ISummer> & ISummer;
@@ -46,6 +49,10 @@ const summerFactory = (sequalize: Sequelize.Sequelize) => {
     noFlowCount: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const Summer = sequalize.define<SummerInstance, ISummer>(

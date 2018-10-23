@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 interface IConfig {
   [index: string]: any;
 }

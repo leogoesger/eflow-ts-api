@@ -5,6 +5,9 @@ export interface IYear {
   id: number;
   year: number[];
   allYears: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type YearInstance = Sequelize.Instance<IYear> & IYear;
@@ -26,6 +29,10 @@ const yearFactory = (sequalize: Sequelize.Sequelize) => {
     allYears: {
       type: Sequelize.ARRAY(Sequelize.INTEGER),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const Year = sequalize.define<YearInstance, IYear>('Year', attributes);

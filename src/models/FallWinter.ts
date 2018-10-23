@@ -4,6 +4,9 @@ import { SequelizeAttributes } from '../types';
 export interface IFallWinter {
   id: number;
   magWet: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type FallWinterInstance = Sequelize.Instance<IFallWinter> & IFallWinter;
@@ -21,6 +24,10 @@ const fallWinterFactory = (sequalize: Sequelize.Sequelize) => {
     magWet: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const FallWinter = sequalize.define<FallWinterInstance, IFallWinter>(

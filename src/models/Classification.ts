@@ -39,6 +39,8 @@ export interface IClassification {
   Peak_Tim_50: number[];
   Peak_Dur_50: number[];
   Peak_Fre_50: number[];
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type ClassificationInstance = Sequelize.Instance<IClassification> &

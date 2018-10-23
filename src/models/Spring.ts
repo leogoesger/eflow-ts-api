@@ -7,6 +7,9 @@ export interface ISpring {
   magnitude: number[];
   rateOfChange: number[];
   duration: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type SpringInstance = Sequelize.Instance<ISpring> & ISpring;
@@ -36,6 +39,10 @@ const springFactory = (sequalize: Sequelize.Sequelize) => {
     duration: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: true,
+    },
+    gaugeId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const Spring = sequalize.define<SpringInstance, ISpring>(

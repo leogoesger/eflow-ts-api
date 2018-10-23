@@ -1,5 +1,9 @@
 import * as Sequelize from 'sequelize';
 import { verify } from 'jsonwebtoken';
+
+import * as Promise from 'bluebird';
+global.Promise = Promise;
+
 import { SequelizeAttributes } from '../types';
 
 enum Role {
@@ -20,10 +24,8 @@ export interface IUser {
 
 type UserInstance = Sequelize.Instance<IUser> & IUser;
 
-// type UserModel = Sequelize.Model<UserInstance, IUser>;
-
 interface UserModel extends Sequelize.Model<UserInstance, IUser> {
-  findByToken: (d: any) => any;
+  findByToken: (d: string) => Promise<IUser>;
 }
 
 const userFactory = (sequalize: Sequelize.Sequelize) => {
@@ -72,13 +74,14 @@ const userFactory = (sequalize: Sequelize.Sequelize) => {
     });
   };
 
-  User.findByToken = (token: string) => {
+  User.findByToken = (token: string): Promise<IUser> => {
     let decoded;
+
     try {
-      decoded = verify(token, process.env.FF_JWT_TOKEN) as any;
+      decoded = verify(token, process.env.EFLOW_JWT_SECRET) as any;
       return User.find({ where: { email: decoded.email } });
-    } catch (e) {
-      return Promise.reject();
+    } catch (error) {
+      return null;
     }
   };
   return User;
