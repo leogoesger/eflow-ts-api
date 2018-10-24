@@ -3,7 +3,7 @@ import { QueryInterface } from 'sequelize';
 
 module.exports = {
   up: (queryInterface: QueryInterface) => {
-    return queryInterface.createTable('AnnualFlow', {
+    return queryInterface.createTable('AnnualFlows', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface: QueryInterface) => {
-    return queryInterface.dropTable('AnnualFlow');
+    return queryInterface.dropTable('AnnualFlows');
   },
 };

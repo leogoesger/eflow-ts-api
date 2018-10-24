@@ -5,9 +5,9 @@ import { annualFlow } from '../seederData';
 
 module.exports = {
   up: (queryInterface: QueryInterface, _: any) => {
-    return queryInterface.bulkInsert('AnnualFlow', annualFlow);
+    return queryInterface.bulkInsert('AnnualFlows', annualFlow);
   },
   down: (queryInterface: QueryInterface, _: any) => {
-    return queryInterface.bulkDelete('AnnualFlow', {});
+    return queryInterface.bulkDelete('AnnualFlows', {});
   },
 };

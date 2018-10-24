@@ -4,7 +4,7 @@ import { SequelizeAttributes } from '../types';
 export interface IAnnualFlow {
   id?: number;
   year: number;
-  flowData: number[];
+  flowData: number[] | string;
   gaugeId: number;
   updatedAt?: string;
   createdAt?: string;
@@ -23,12 +23,12 @@ const annualFlowFactory = (sequalize: Sequelize.Sequelize) => {
       type: Sequelize.INTEGER,
     },
     year: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
-      allowNull: true,
+      type: Sequelize.INTEGER,
+      allowNull: false,
     },
     flowData: {
       type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
-      allowNull: true,
+      allowNull: false,
     },
     gaugeId: {
       allowNull: false,
