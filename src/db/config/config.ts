@@ -12,5 +12,11 @@ export const config: IConfig = {
     dialect: 'postgres',
     logging: false,
     operatorsAliases: false,
+    pool: {
+      max: 30,
+      min: 0,
+      idle: 1000000,
+      acquire: 1000000,
+    },
   },
 };

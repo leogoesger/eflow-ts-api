@@ -5,7 +5,13 @@
     "database": "eflow_test",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "pool": {
+      "max": 30,
+      "min": 0,
+      "idle": 1000000,
+      "acquire": 1000000
+    }
   },
   "test": {
     "username": "root",
@@ -13,7 +19,13 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "pool": {
+      "max": 30,
+      "min": 0,
+      "idle": 1000000,
+      "acquire": 1000000
+    }
   },
   "production": {
     "username": "root",
@@ -21,6 +33,12 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "pool": {
+      "max": 30,
+      "min": 0,
+      "idle": 1000000,
+      "acquire": 1000000
+    }
   }
 }
