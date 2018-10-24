@@ -1,31 +1,29 @@
 import * as csv from 'csvtojson';
 import axios from 'axios';
 import { Request, Response } from 'express';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { from, Observable, forkJoin, of } from 'rxjs';
+import { map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { AnnualFlow } from '../../db/models';
 import { gauges } from '../../static/allGauges';
 
 export const uploadAnnualFlow = async (_: Request, res: Response) => {
-  let i = 0;
   await AnnualFlow.destroy({ where: {} });
   const arraySrc$ = from(gauges).pipe(
     mergeMap(gauge => readCSVFile(gauge.id)),
-    mergeMap((csvStr: any) => readStringToArray(csvStr.data)),
-    map((array: string[][]) => transposeArray(array)),
-    mergeMap((array: number[][]) => uploadToDB(array, 10255800)),
-    mergeMap(item => uploadedItems(item))
+    mergeMap(({ data, gaugeId }: any) => readStringToArray(data, gaugeId)),
+    map(({ data, gaugeId }) => transposeArray(data, gaugeId)),
+    mergeMap(({ data, gaugeId }) => forkJoin(uploadToDB(data, gaugeId))),
+    catchError(error => of(`Bad Promise: ${error}`))
   );
   arraySrc$.subscribe(
     (item: any) => {
-      i += 1;
-      console.log(i);
+      console.log(item);
     },
     (error: any) => {
       res.status(400).send(error);
     },
-    () => res.status(200)
+    () => res.status(200).send()
   );
 };
 
@@ -36,8 +34,8 @@ const readCSVFile = (gaugeId: number) => {
   return Observable.create((observer: any) =>
     axios
       .get(csvFilePath)
-      .then(d => {
-        observer.next(d);
+      .then(({ data }) => {
+        observer.next({ data, gaugeId });
         observer.complete();
       })
       .catch(err => {
@@ -47,24 +45,28 @@ const readCSVFile = (gaugeId: number) => {
   );
 };
 
-const readStringToArray = (csvStr: string) => {
+const readStringToArray = (csvStr: string, gaugeId: number) => {
   return Observable.create((observer: any) =>
     csv({
       noheader: true,
       output: 'csv',
     })
       .fromString(csvStr)
-      .then((csvRow: any) => {
-        observer.next(csvRow);
+      .then((data: any) => {
+        observer.next({ data, gaugeId });
         observer.complete();
       })
   );
 };
 
-const transposeArray = (array: string[][]) =>
-  array[0].map((_, i) =>
-    array.map(row => (isNaN(Number(row[i])) ? null : Number(row[i])))
-  );
+const transposeArray = (array: string[][], gaugeId: number) => {
+  return {
+    data: array[0].map((_, i) =>
+      array.map(row => (isNaN(Number(row[i])) ? null : Number(row[i])))
+    ),
+    gaugeId,
+  };
+};
 
 export const uploadToDB = (array: number[][], gaugeId: number) => {
   const result = array.map(ary => ({
@@ -75,8 +77,8 @@ export const uploadToDB = (array: number[][], gaugeId: number) => {
 
   return Observable.create((observer: any) => {
     AnnualFlow.bulkCreate(result)
-      .then(d => {
-        observer.next(d);
+      .then(() => {
+        observer.next(gaugeId);
         observer.complete();
       })
       .catch(err => {
@@ -84,8 +86,4 @@ export const uploadToDB = (array: number[][], gaugeId: number) => {
         observer.complete();
       });
   });
-};
-
-const uploadedItems = (item: any) => {
-  return item;
 };
