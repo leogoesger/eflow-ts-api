@@ -2,7 +2,7 @@ import { User } from '../db/models';
 
 interface IContext {
   headers: {
-    'auth-token'?: string;
+    auth_token?: string;
   };
 }
 
@@ -13,8 +13,8 @@ const directiveResolvers = {
     args: any,
     ctx: IContext
   ) => {
-    if (ctx.headers && ctx.headers['auth-token']) {
-      const user = await User.findByToken(ctx.headers['auth-token']);
+    if (ctx.headers && ctx.headers['auth_token']) {
+      const user = await User.findByToken(ctx.headers['auth_token']);
       return next();
     }
     throw new Error(`Must be logged in to view this field`);
@@ -26,8 +26,8 @@ const directiveResolvers = {
     { role }: any,
     ctx: IContext
   ) => {
-    if (ctx.headers && ctx.headers['auth-token']) {
-      const user = await User.findByToken(ctx.headers['auth-token']);
+    if (ctx.headers && ctx.headers['auth_token']) {
+      const user = await User.findByToken(ctx.headers['auth_token']);
       if (user.role === role) return next();
     }
     throw new Error(`Must have role: ${role}`);

@@ -37,6 +37,10 @@ export class userServices {
 
   public async login(userInput: IUser): Promise<IToken> {
     const user = await this.User.findOne({ where: { email: userInput.email } });
+
+    if (!user) {
+      throw 'No user found';
+    }
     const res = await compare(userInput.password, user.password);
 
     if (res === true) {
