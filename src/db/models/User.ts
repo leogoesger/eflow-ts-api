@@ -6,20 +6,22 @@ global.Promise = Promise;
 
 import { SequelizeAttributes } from '../types';
 
-enum Role {
-  'USER',
-  'ADMIN',
-  'SUPER_ADMIN',
+export enum UserRole {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN',
 }
 
 export interface IUser {
-  id: number;
-  role: Role;
+  id?: number;
+  role: UserRole;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  institution: string;
+  institution?: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type UserInstance = Sequelize.Instance<IUser> & IUser;

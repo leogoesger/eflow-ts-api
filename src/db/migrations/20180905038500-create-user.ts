@@ -12,7 +12,7 @@ module.exports = {
       },
       role: {
         type: Sequelize.ENUM,
-        values: ['USER', 'ADMIN'],
+        values: ['USER', 'ADMIN', 'SUPER_ADMIN'],
         defaultValue: 'USER',
       },
       firstName: {

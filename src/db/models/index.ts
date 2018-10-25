@@ -26,7 +26,7 @@ import { releaseFactory, ReleaseModel, IRelease } from './Release';
 import { springFactory, SpringModel, ISpring } from './Spring';
 import { summerFactory, SummerModel, ISummer } from './Summer';
 import { uploadDataFactory, UploadDataModel, IUploadData } from './UploadData';
-import { userFactory, UserModel, IUser } from './User';
+import { userFactory, UserModel, IUser, UserRole } from './User';
 import { winterFactory, WinterModel, IWinter } from './Winter';
 import { yearFactory, YearModel, IYear } from './Year';
 
@@ -160,6 +160,7 @@ export {
   ISummer,
   IUploadData,
   IUser,
+  UserRole,
   IWinter,
   IYear,
   db,

@@ -1,10 +1,4 @@
-import { IUser } from '../../db/models';
-
-enum Role {
-  'USER',
-  'ADMIN',
-  'SUPER_ADMIN',
-}
+import { IUser, UserRole } from '../../db/models';
 
 interface IToken {
   accessToken: string;
@@ -14,7 +8,7 @@ interface IToken {
   createdAt: number;
   user: {
     email: string;
-    role: Role;
+    role: UserRole;
   };
 }
 

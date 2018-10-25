@@ -1,9 +1,9 @@
-import { sign } from 'jsonwebtoken';
 import * as uuidv4 from 'uuid/v4';
+import { sign } from 'jsonwebtoken';
+import { hash, compare } from 'bcrypt';
 
 import { User } from '../../db/models';
 import { IToken, IUser } from './models';
-import { genSalt, hash, compare } from 'bcrypt';
 
 export class userServices {
   User = User;
