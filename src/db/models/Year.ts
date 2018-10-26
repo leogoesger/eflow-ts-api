@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IYear {
-  id: number;
+  id?: number;
   year: number[];
   allYears: number[];
   gaugeId: number;
@@ -32,6 +32,7 @@ const yearFactory = (sequalize: Sequelize.Sequelize) => {
     },
     gaugeId: {
       allowNull: false,
+      unique: true,
       type: Sequelize.INTEGER,
     },
   };

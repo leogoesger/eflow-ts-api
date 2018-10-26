@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IFall {
-  id: number;
+  id?: number;
   timing: number[];
   magnitude: number[];
   timingWet: number[];
@@ -42,6 +42,7 @@ const fallFactory = (sequalize: Sequelize.Sequelize) => {
     },
     gaugeId: {
       allowNull: false,
+      unique: true,
       type: Sequelize.INTEGER,
     },
   };

@@ -1,11 +1,11 @@
 'use strict';
 import { QueryInterface } from 'sequelize';
 
-import { annualFlow } from '../seederData';
+import { annualFlows } from '../seederData';
 
 module.exports = {
   up: (queryInterface: QueryInterface, _: any) => {
-    return queryInterface.bulkInsert('AnnualFlows', annualFlow);
+    return queryInterface.bulkInsert('AnnualFlows', annualFlows);
   },
   down: (queryInterface: QueryInterface, _: any) => {
     return queryInterface.bulkDelete('AnnualFlows', {});

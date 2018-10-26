@@ -1,11 +1,17 @@
-import * as csv from 'csvtojson';
-import axios from 'axios';
 import { Request, Response } from 'express';
 import { from, of } from 'rxjs';
 import { map, mergeMap, concatMap, catchError, delay } from 'rxjs/operators';
 
 import { AnnualFlow, IAnnualFlow } from '../../db/models';
-import { gauges } from '../../static/allGauges';
+import { gauges } from '../../static';
+import {
+  readCSVFile,
+  readStringToArrays,
+  transposeArray,
+  IReadStringToArrayPL,
+  ITransposeArrayPL,
+  IArrayPL,
+} from './helpers';
 
 interface IObj {
   [index: string]: any;
@@ -13,21 +19,6 @@ interface IObj {
 interface IReport {
   data: IObj;
   meta: { gaugeCount: number; rowCount: number };
-}
-
-interface IReadStringToArrayPL {
-  stringData: string;
-  gaugeId: number;
-}
-
-interface ITransposeArrayPL {
-  arrayData: string[][];
-  gaugeId: number;
-}
-
-interface IAnnualFlowArrayPL {
-  arrayData: number[][];
-  gaugeId: number;
 }
 
 interface ISub {
@@ -61,10 +52,10 @@ export const uploadAnnualFlow = async (_: Request, res: Response) => {
 
   const src$ = from(gauges).pipe(
     concatMap(x => of(x).pipe(delay(300))),
-    mergeMap(gauge => readCSVFile(gauge.id)),
+    mergeMap(gauge => readCSVFile(gauge.id, 'annual_flow_matrix')),
     mergeMap((d: IReadStringToArrayPL) => readStringToArrays(d)),
     map((d: ITransposeArrayPL) => transposeArray(d)),
-    map((d: IAnnualFlowArrayPL) => createAnnualFlowArray(d)),
+    map((d: IArrayPL) => createAnnualFlowArray(d)),
     catchError(error => of(`Bad Promise: ${error}`))
   );
   src$.subscribe(
@@ -73,6 +64,7 @@ export const uploadAnnualFlow = async (_: Request, res: Response) => {
       report.meta.gaugeCount += 1;
       report.meta.rowCount += annualFlowArray.length;
       result = result.concat(annualFlowArray);
+
       console.log(report.meta);
     },
     (error: any) => res.status(400).send(error),
@@ -80,41 +72,7 @@ export const uploadAnnualFlow = async (_: Request, res: Response) => {
   );
 };
 
-const readCSVFile = async (gaugeId: number): Promise<IReadStringToArrayPL> => {
-  const { data } = await axios.get(
-    `${process.env.S3_BUCKET}/annual_flow_matrix/${gaugeId}.csv`
-  );
-  return { stringData: data, gaugeId };
-};
-
-const readStringToArrays = async ({
-  stringData,
-  gaugeId,
-}: IReadStringToArrayPL): Promise<ITransposeArrayPL> => {
-  const arrayData = await csv({
-    noheader: true,
-    output: 'csv',
-  }).fromString(stringData);
-
-  return { arrayData, gaugeId };
-};
-
-const transposeArray = ({
-  arrayData,
-  gaugeId,
-}: ITransposeArrayPL): IAnnualFlowArrayPL => {
-  return {
-    arrayData: arrayData[0].map((_, i) =>
-      arrayData.map(row => (isNaN(Number(row[i])) ? null : Number(row[i])))
-    ),
-    gaugeId,
-  };
-};
-
-const createAnnualFlowArray = ({
-  arrayData,
-  gaugeId,
-}: IAnnualFlowArrayPL): ISub => {
+const createAnnualFlowArray = ({ arrayData, gaugeId }: IArrayPL): ISub => {
   const annualFlowArray: IAnnualFlow[] = arrayData.map((ary: number[]) => ({
     year: ary[0],
     flowData: ary.slice(1),

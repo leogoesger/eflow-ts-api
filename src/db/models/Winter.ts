@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IWinter {
-  id: number;
+  id?: number;
   timing2: number[];
   timing5: number[];
   timing10: number[];
@@ -122,6 +122,7 @@ const winterFactory = (sequalize: Sequelize.Sequelize) => {
     },
     gaugeId: {
       allowNull: false,
+      unique: true,
       type: Sequelize.INTEGER,
     },
   };

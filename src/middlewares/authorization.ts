@@ -20,11 +20,16 @@ export const authorization = (role: 'USER' | 'ADMIN' | 'SUPER_ADMIN') => async (
 ) => {
   const token = req.get('auth_token');
   if (!token) return res.status(401).send({ msg: 'No token was found' });
-  const user = await User.findByToken(token);
 
-  if (user && compareRole(user.role, role)) {
-    next();
-  } else {
-    return res.status(401).send({ message: `Must have role: ${role}` });
+  try {
+    const user = await User.findByToken(token);
+
+    if (user && compareRole(user.role, role)) {
+      next();
+    } else {
+      return res.status(401).send({ msg: `Must have role: ${role}` });
+    }
+  } catch (error) {
+    res.status(400).send({ msg: 'Could not valid JWT' });
   }
 };

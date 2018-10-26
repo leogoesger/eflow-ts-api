@@ -1,6 +1,6 @@
 import { IAnnualFlow } from '../models/';
 
-export const annualFlow: IAnnualFlow[] = [
+export const annualFlows: IAnnualFlow[] = [
   {
     id: 1,
     year: 1991,

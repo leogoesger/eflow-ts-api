@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface ISummer {
-  id: number;
+  id?: number;
   timing: number[];
   magnitude10: number[];
   magnitude50: number[];
@@ -52,6 +52,7 @@ const summerFactory = (sequalize: Sequelize.Sequelize) => {
     },
     gaugeId: {
       allowNull: false,
+      unique: true,
       type: Sequelize.INTEGER,
     },
   };
