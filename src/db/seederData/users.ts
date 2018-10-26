@@ -29,7 +29,7 @@ export const users: IUser[] = [
     firstName: 'Test2',
     lastName: 'Q',
     email: 'test2@test.com',
-    password: 'test2',
+    password: hashSync('test', 10),
     institution: 'Null Island',
     role: UserRole.USER,
     updatedAt: '2017-11-19T17:25:28.445Z',

@@ -2,11 +2,15 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IGeoClass {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   description: string;
   archetypes: string;
   medianAttributes: string;
+  updatedAt?: string;
+  createdAt?: string;
+  geoRegionId: number;
+  hydroClassId: number;
 }
 
 type GeoClassInstance = Sequelize.Instance<IGeoClass> & IGeoClass;
@@ -36,6 +40,14 @@ const geoClassFactory = (sequalize: Sequelize.Sequelize) => {
     medianAttributes: {
       type: Sequelize.JSON,
       allowNull: true,
+    },
+    geoRegionId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+    },
+    hydroClassId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const GeoClass = sequalize.define<GeoClassInstance, IGeoClass>(

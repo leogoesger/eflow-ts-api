@@ -2,12 +2,15 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IGeoSite {
-  id: number;
-  name: string;
-  identity: string;
+  id?: number;
+  name?: string;
+  identity: number | string;
   description: string;
   geometry: string;
   imageUrl: string;
+  updatedAt?: string;
+  createdAt?: string;
+  geoClassId: number;
 }
 
 type GeoSiteInstance = Sequelize.Instance<IGeoSite> & IGeoSite;
@@ -41,6 +44,10 @@ const geoSiteFactory = (sequalize: Sequelize.Sequelize) => {
     imageUrl: {
       type: Sequelize.TEXT,
       allowNull: true,
+    },
+    geoClassId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const GeoSite = sequalize.define<GeoSiteInstance, IGeoSite>(

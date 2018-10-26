@@ -30,6 +30,13 @@ interface ITables {
   [index: string]: Model<any, any>;
 }
 
+interface IReport {
+  [index: string]: {
+    gauges: number[];
+    count: number;
+  };
+}
+
 /**
  * Load csv for Metric Result from AWS via rxjs 
  *   
@@ -102,12 +109,6 @@ const createDbObjects = (
  * Upload to database and generate report
  */
 
-interface IReport {
-  [index: string]: {
-    gauges: number[];
-    count: number;
-  };
-}
 const uploadDB = async (dbObjects: any, tables: ITables) => {
   const promises = Object.keys(tables).map(key =>
     tables[key].bulkCreate(dbObjects[key])

@@ -2,10 +2,12 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IGeoRegion {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   description: string;
   abbreviation: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type GeoRegionInstance = Sequelize.Instance<IGeoRegion> & IGeoRegion;

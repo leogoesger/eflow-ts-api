@@ -25,7 +25,7 @@ import { paperFactory, PaperModel, IPaper } from './Paper';
 import { releaseFactory, ReleaseModel, IRelease } from './Release';
 import { springFactory, SpringModel, ISpring } from './Spring';
 import { summerFactory, SummerModel, ISummer } from './Summer';
-import { uploadDataFactory, UploadDataModel, IUploadData } from './UploadData';
+import { tsUploadFactory, TsUploadModel, ITsUpload } from './TsUpload';
 import { userFactory, UserModel, IUser, UserRole } from './User';
 import { winterFactory, WinterModel, IWinter } from './Winter';
 import { yearFactory, YearModel, IYear } from './Year';
@@ -57,7 +57,7 @@ export interface IDB {
   Release: ReleaseModel;
   Spring: SpringModel;
   Summer: SummerModel;
-  UploadData: UploadDataModel;
+  UploadData: TsUploadModel;
   User: UserModel;
   Winter: WinterModel;
   Year: YearModel;
@@ -83,7 +83,7 @@ const db: IDB = {
   Release: releaseFactory(sequelize),
   Spring: springFactory(sequelize),
   Summer: summerFactory(sequelize),
-  UploadData: uploadDataFactory(sequelize),
+  UploadData: tsUploadFactory(sequelize),
   User: userFactory(sequelize),
   Winter: winterFactory(sequelize),
   Year: yearFactory(sequelize),
@@ -158,7 +158,7 @@ export {
   IRelease,
   ISpring,
   ISummer,
-  IUploadData,
+  ITsUpload,
   IUser,
   UserRole,
   IWinter,

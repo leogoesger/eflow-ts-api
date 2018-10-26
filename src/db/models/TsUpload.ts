@@ -1,9 +1,12 @@
 import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
-export interface IUploadData {
+export interface ITsUpload {
   id: number;
   name: string;
+  succeed: boolean;
+  dates: string[];
+  flows: number[];
   startDate: string;
   yearRanges: string;
   flowMatrix: string;
@@ -14,14 +17,16 @@ export interface IUploadData {
   summer: string;
   spring: string;
   fallWinter: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
-type UploadDataInstance = Sequelize.Instance<IUploadData> & IUploadData;
+type TsUploadInstance = Sequelize.Instance<ITsUpload> & ITsUpload;
 
-type UploadDataModel = Sequelize.Model<UploadDataInstance, IUploadData>;
+type TsUploadModel = Sequelize.Model<TsUploadInstance, ITsUpload>;
 
-const uploadDataFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IUploadData> = {
+const tsUploadFactory = (sequalize: Sequelize.Sequelize) => {
+  const attributes: SequelizeAttributes<ITsUpload> = {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -30,6 +35,18 @@ const uploadDataFactory = (sequalize: Sequelize.Sequelize) => {
     },
     name: {
       type: Sequelize.TEXT,
+      allowNull: false,
+    },
+    succeed: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
+    dates: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+      allowNull: false,
+    },
+    flows: {
+      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
       allowNull: false,
     },
     startDate: {
@@ -73,17 +90,17 @@ const uploadDataFactory = (sequalize: Sequelize.Sequelize) => {
       allowNull: false,
     },
   };
-  const UploadData = sequalize.define<UploadDataInstance, IUploadData>(
-    'UploadData',
+  const TsUpload = sequalize.define<TsUploadInstance, ITsUpload>(
+    'TsUpload',
     attributes
   );
-  UploadData.associate = models => {
-    UploadData.belongsTo(models.User, {
+  TsUpload.associate = models => {
+    TsUpload.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
     });
   };
-  return UploadData;
+  return TsUpload;
 };
 
-export { uploadDataFactory, UploadDataModel };
+export { tsUploadFactory, TsUploadModel };

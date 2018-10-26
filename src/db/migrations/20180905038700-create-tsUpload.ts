@@ -3,7 +3,7 @@ import { QueryInterface } from 'sequelize';
 
 module.exports = {
   up: (queryInterface: QueryInterface) => {
-    return queryInterface.createTable('UploadData', {
+    return queryInterface.createTable('TsUploads', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,6 +12,18 @@ module.exports = {
       },
       name: {
         type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      succeed: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      dates: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+      },
+      flows: {
+        type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
         allowNull: false,
       },
       startDate: {
@@ -73,6 +85,6 @@ module.exports = {
     });
   },
   down: (queryInterface: QueryInterface) => {
-    return queryInterface.dropTable('UploadData');
+    return queryInterface.dropTable('TsUploads');
   },
 };
