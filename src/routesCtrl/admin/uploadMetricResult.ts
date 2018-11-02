@@ -89,7 +89,7 @@ export const uploadMetricResult = async (req: Request, res: Response) => {
 };
 
 const createDbObjects = (
-  { arrayData, gaugeId }: ITransposeArrayPL,
+  { arrayData, id }: ITransposeArrayPL,
   tables: ITables
 ): IDbObjects => {
   const dbObj: { [index: string]: any } = {};
@@ -99,10 +99,10 @@ const createDbObjects = (
     const seasonName = metricReference[row[0]][0];
     const columnName = metricReference[row[0]][1];
     dbObj[seasonName][columnName] = row.slice(1);
-    dbObj[seasonName].gaugeId = gaugeId;
+    dbObj[seasonName].gaugeId = id;
   });
 
-  return { dbObj, gaugeId };
+  return { dbObj, gaugeId: <number>id };
 };
 
 /**

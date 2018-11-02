@@ -4,23 +4,23 @@ import { Model } from 'sequelize';
 
 export interface IReadStringToArrayPL {
   stringData: string;
-  gaugeId: number;
+  id: number | string;
 }
 
 export interface ITransposeArrayPL {
   arrayData: string[][];
-  gaugeId: number;
+  id: number | string;
 }
 
 export interface IArrayPL {
   arrayData: number[][];
-  gaugeId: number;
+  id: number | string;
 }
 
 /**
  * Read CSV file from aws
  *
- * @param gaugeId   gauge Id
+ * @param id   gauge Id
  * @param dir       aws directory object name
  * @param ext       file extension after gauge id if any
  *
@@ -28,38 +28,38 @@ export interface IArrayPL {
  */
 
 export const readCSVFile = async (
-  gaugeId: number,
+  id: number | string,
   dir: string,
   ext?: string
 ): Promise<IReadStringToArrayPL> => {
   const url = ext
-    ? `${process.env.S3_BUCKET}/${dir}/${gaugeId}${ext}.csv`
-    : `${process.env.S3_BUCKET}/${dir}/${gaugeId}.csv`;
+    ? `${process.env.S3_BUCKET}/${dir}/${id}${ext}.csv`
+    : `${process.env.S3_BUCKET}/${dir}/${id}.csv`;
   const { data } = await axios.get(url);
-  return { stringData: data, gaugeId };
+  return { stringData: data, id };
 };
 
 export const readStringToArrays = async ({
   stringData,
-  gaugeId,
+  id,
 }: IReadStringToArrayPL): Promise<ITransposeArrayPL> => {
   const arrayData = await csv({
     noheader: true,
     output: 'csv',
   }).fromString(stringData);
 
-  return { arrayData, gaugeId };
+  return { arrayData, id };
 };
 
 export const transposeArray = ({
   arrayData,
-  gaugeId,
+  id,
 }: ITransposeArrayPL): IArrayPL => {
   return {
     arrayData: arrayData[0].map((_, i) =>
       arrayData.map(row => (isNaN(Number(row[i])) ? null : Number(row[i])))
     ),
-    gaugeId,
+    id,
   };
 };
 

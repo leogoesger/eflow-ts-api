@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
-enum Percentilles {
+export enum Percentilles {
   'TEN',
   'TWENTYFIVE',
   'FIFTY',
@@ -11,18 +11,18 @@ enum Percentilles {
   'MAX',
 }
 
-enum Types {
+export enum Types {
   'GAUGE',
   'CLASS',
 }
 
 export interface IHydrograph {
-  id: number;
+  id?: number;
   data: number[];
-  percentille: Percentilles;
-  type: Types;
-  classId: number;
-  gaugeId: number;
+  percentille: string;
+  type: string;
+  classId?: number;
+  gaugeId?: number;
   updatedAt?: string;
   createdAt?: string;
 }

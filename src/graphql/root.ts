@@ -3,6 +3,7 @@ import { gaugeQueries, gaugeMutations, gaugeTypes } from './gauge';
 import { allYearQueries, allYearTypes } from './allYear';
 import { userQueries, userMutations, userTypes } from './user';
 import { annualFlowQueries, annualFlowTypes } from './annualFlow';
+import { hydrographTypes } from './hydrograph';
 
 export const rootQuery = `
   directive @isAuthenticated on FIELD | FIELD_DEFINITION
@@ -24,6 +25,7 @@ const typeDefs = [
   allYearTypes,
   userTypes,
   annualFlowTypes,
+  hydrographTypes,
 ];
 const Query = {
   ...classificationQueries,

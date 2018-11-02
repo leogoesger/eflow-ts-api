@@ -46,6 +46,8 @@ export const gaugeTypes = `
         Peak_Fre_50: [Float]
         createdAt: String
         updatedAt: String
+
+        hydrographs: [Hydrograph]
     }
 
     input UpdateGaugePL {

@@ -222,7 +222,53 @@ const gaugeFactory = (sequalize: Sequelize.Sequelize) => {
       foreignKey: 'classId',
       as: 'classes',
     });
+    Gauge.hasMany(models.AllYear, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'allYears',
+    });
+    Gauge.hasMany(models.AnnualFlow, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'annualFlows',
+    });
+    Gauge.hasMany(models.Fall, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'falls',
+    });
+    Gauge.hasMany(models.FallWinter, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'fallsWinters',
+    });
+    Gauge.hasMany(models.Hydrograph, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'hydrographs',
+    });
+    Gauge.hasMany(models.Spring, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'springs',
+    });
+    Gauge.hasMany(models.Summer, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'summers',
+    });
+    Gauge.hasMany(models.Winter, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'winters',
+    });
+    Gauge.hasMany(models.Year, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'years',
+    });
   };
+
   return Gauge;
 };
 

@@ -203,6 +203,7 @@ const classificationFactory = (sequalize: Sequelize.Sequelize) => {
   Classification.associate = models => {
     Classification.hasMany(models.Gauge, {
       foreignKey: 'classId',
+      onDelete: 'cascade',
       as: 'gauges',
     });
   };

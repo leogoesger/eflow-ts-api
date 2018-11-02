@@ -39,6 +39,8 @@ export const classificationTypes = `
         Peak_Fre_50: [Float]
         createdAt: String
         updatedAt: String
+
+        gauges: [Gauge]
     }
 
     extend type Query {

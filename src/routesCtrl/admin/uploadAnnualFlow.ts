@@ -72,12 +72,12 @@ export const uploadAnnualFlow = async (_: Request, res: Response) => {
   );
 };
 
-const createAnnualFlowArray = ({ arrayData, gaugeId }: IArrayPL): ISub => {
+const createAnnualFlowArray = ({ arrayData, id }: IArrayPL): ISub => {
   const annualFlowArray: IAnnualFlow[] = arrayData.map((ary: number[]) => ({
     year: ary[0],
     flowData: ary.slice(1),
-    gaugeId,
+    gaugeId: <number>id,
   }));
 
-  return { annualFlowArray, gaugeId };
+  return { annualFlowArray, gaugeId: <number>id };
 };

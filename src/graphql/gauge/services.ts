@@ -1,4 +1,4 @@
-import { Gauge, IGauge } from '../../db/models';
+import { Gauge, IGauge, Hydrograph } from '../../db/models';
 
 export class gaugeServices {
   Gauge = Gauge;
@@ -8,11 +8,17 @@ export class gaugeServices {
   }
 
   public getGauge(id: number) {
-    return this.Gauge.findById(id);
+    return this.Gauge.findById(id, {
+      include: [{ model: Hydrograph, as: 'hydrographs' }],
+    });
   }
 
   public async updateGauge(d: IGauge) {
     const gauge = await this.Gauge.findById(d.id);
     return gauge.updateAttributes(d);
+  }
+
+  public async deleteGauge(id: number) {
+    return this.Gauge.findById(id).then(d => d.destroy());
   }
 }
