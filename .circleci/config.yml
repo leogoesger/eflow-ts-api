@@ -35,8 +35,8 @@ jobs:
       - run:
           name: Set up DB
           command: yarn run stage:prepare
-        environment:
-          DATABASE_URL: 'postgres://ubuntu@localhost:5432/eflow_staging'
+        # environment:
+        #   DATABASE_URL: 'postgres://ubuntu@localhost:5432/eflow_staging'
       # - run: yarn test
 
   deploy-job:
