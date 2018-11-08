@@ -1,4 +1,3 @@
-'use strict';
 import { QueryInterface } from 'sequelize';
 
 import { fallWinters } from '../seederData';

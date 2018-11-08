@@ -1,23 +1,25 @@
 import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
-enum Types {
-  'HYDROLOGY',
-  'MORPHOLOGY',
-  'ECOLOGY',
-  'GENERAL',
+export enum PaperTypes {
+  HYDROLOGY = 'HYDROLOGY',
+  MORPHOLOGY = 'MORPHOLOGY',
+  ECOLOGY = 'ECOLOGY',
+  GENERAL = 'GENERAL',
 }
 
 export interface IPaper {
-  id: number;
+  id?: number;
   title: string;
   description: string;
-  type: Types;
+  type: PaperTypes;
   authors: string[];
-  journal: string;
+  journal?: string;
   publishedDate: string;
   paperUrl: string;
-  imgUrl: string;
+  imgUrl?: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type PaperInstance = Sequelize.Instance<IPaper> & IPaper;

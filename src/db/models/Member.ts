@@ -2,20 +2,22 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IMember {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   title: string;
   image: string;
   location: string;
-  website: string;
-  linkedin: string;
-  twitter: string;
-  github: string;
-  youtube: string;
-  googleScholar: string;
-  researchGate: string;
+  website?: string;
+  linkedin?: string;
+  twitter?: string;
+  github?: string;
+  youtube?: string;
+  googleScholar?: string;
+  researchGate?: string;
   email: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 type MemberInstance = Sequelize.Instance<IMember> & IMember;

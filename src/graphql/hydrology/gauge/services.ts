@@ -1,4 +1,4 @@
-import { Gauge, IGauge, Hydrograph } from '../../db/models';
+import { Gauge, IGauge, Hydrograph } from '../../../db/models';
 
 export class gaugeServices {
   Gauge = Gauge;

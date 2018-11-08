@@ -42,6 +42,10 @@ export const uploadGaugeHydrograph = async (_: Request, res: Response) => {
     catchError(error => of(`Bad Promise: ${error}`))
   );
 
+  // const src2$ = from(gauges).pipe(
+  //   map((gauge: any) => of(`plot_data_${gauge.id}`).pipe()),
+  // );
+
   src$.subscribe(
     updateObj,
     (error: any) => res.status(400).send(error),

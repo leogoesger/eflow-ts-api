@@ -2,7 +2,6 @@ import { IAnnualFlow } from '../models/';
 
 export const annualFlows: IAnnualFlow[] = [
   {
-    id: 1,
     year: 1991,
     flowData: [1.1, 2.2, 3.3],
     gaugeId: 10295500,

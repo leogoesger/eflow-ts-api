@@ -1,12 +1,5 @@
 import { IFallWinter } from '../models';
 
-export interface IFallWinter {
-  id: number;
-  magWet: number[];
-  gaugeId: number;
-  updatedAt?: string;
-  createdAt?: string;
-}
 export const fallWinters: IFallWinter[] = [
   {
     magWet: [1991, 1992],

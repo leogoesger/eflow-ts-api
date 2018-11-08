@@ -12,6 +12,8 @@ import { summers } from './summers';
 import { users } from './users';
 import { winters } from './winters';
 import { years } from './years';
+import { members } from './members';
+import { papers } from './papers';
 
 export {
   allYears,
@@ -28,4 +30,6 @@ export {
   users,
   winters,
   years,
+  members,
+  papers,
 };

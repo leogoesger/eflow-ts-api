@@ -1,4 +1,4 @@
-import { IGeoSite } from '../models/';
+import { IGeoSite } from '../models';
 
 export const geoSites: IGeoSite[] = [
   {

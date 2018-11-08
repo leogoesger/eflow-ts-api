@@ -1,12 +1,11 @@
 import { QueryInterface } from 'sequelize';
-
-import { years } from '../seederData';
+import { members } from '../seederData';
 
 module.exports = {
   up: (queryInterface: QueryInterface, _: any) => {
-    return queryInterface.bulkInsert('Years', years);
+    return queryInterface.bulkInsert('Members', members);
   },
   down: (queryInterface: QueryInterface, _: any) => {
-    return queryInterface.bulkDelete('Years', {});
+    return queryInterface.bulkDelete('Members', {});
   },
 };

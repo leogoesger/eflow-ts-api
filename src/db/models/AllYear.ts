@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface IAllYear {
-  id: number;
+  id?: number;
   average: number[];
   standardDeviation: number[];
   coeffientVariance: number[];

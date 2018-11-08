@@ -1,39 +1,45 @@
-import { classificationQueries, classificationTypes } from './classification';
-import { gaugeQueries, gaugeMutations, gaugeTypes } from './gauge';
-import { allYearQueries, allYearTypes } from './allYear';
+import {
+  classificationQueries,
+  classificationTypes,
+} from './hydrology/classification';
+import { gaugeQueries, gaugeMutations, gaugeTypes } from './hydrology/gauge';
+import { allYearQueries, allYearTypes } from './hydrology/allYear';
 import { userQueries, userMutations, userTypes } from './user';
-import { annualFlowQueries, annualFlowTypes } from './annualFlow';
-import { hydrographTypes } from './hydrograph';
-
-export const rootQuery = `
-  directive @isAuthenticated on FIELD | FIELD_DEFINITION
-  directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
-
-  input validatePL {
-    gaugeNum: Int
-    yearNum: Int
-  }
-  
-  type Query 
-  type Mutation
-`;
+import { annualFlowQueries, annualFlowTypes } from './hydrology/annualFlow';
+import { hydrographTypes, hydrographQueries } from './hydrology/hydrograph';
+import { memberTypes, memberQueries, memberMutations } from './member';
+import { paperTypes, paperQueries, paperMutations } from './paper';
+import { memberPaperTypes, memberPaperMutations } from './memberPaper';
 
 const typeDefs = [
-  rootQuery,
   classificationTypes,
   gaugeTypes,
   allYearTypes,
   userTypes,
   annualFlowTypes,
   hydrographTypes,
+  memberTypes,
+  paperTypes,
+  memberPaperTypes,
 ];
+
 const Query = {
   ...classificationQueries,
   ...gaugeQueries,
   ...allYearQueries,
   ...userQueries,
   ...annualFlowQueries,
+  ...hydrographQueries,
+  ...memberQueries,
+  ...paperQueries,
 };
-const Mutation = { ...gaugeMutations, ...userMutations };
+
+const Mutation = {
+  ...gaugeMutations,
+  ...userMutations,
+  ...memberMutations,
+  ...paperMutations,
+  ...memberPaperMutations,
+};
 
 export { typeDefs, Query, Mutation };
