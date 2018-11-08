@@ -34,12 +34,12 @@ jobs:
 
       - run:
           name: Set up DB
-          command: yarn run stage:prepare
+          command: npm run stage:prepare
         # environment:
         #   DATABASE_URL: 'postgres://ubuntu@localhost:5432/eflow_staging'
       # - run: yarn test
 
-  deploy-job:
+  deploy-staging:
     docker:
       - image: circleci/node:10.8.0-browsers
     working_directory: ~/repo
