@@ -72,6 +72,7 @@ jobs:
             sshpass -p $LEO_EFLOW_SSH_PASS ssh -tt -o StrictHostKeyChecking=no leoqiu@eflows.ucdavis.edu <<EOF 
               mkdir -p test3/public
               mkdir -p test4/public
+              exit
             EOF
 
 workflows:
