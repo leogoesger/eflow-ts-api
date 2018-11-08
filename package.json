@@ -12,7 +12,7 @@
     "seed:up": "npm run tsc && sequelize db:seed:all",
     "seed:down": "npm run tsc && sequelize db:seed:undo:all",
     "dev:prepare": "rimraf ./build && npm run build && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all",
-    "stage:prepare": "NODE_ENV=stage rimraf ./build && npm run build && NODE_ENV=stage sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all"
+    "stage:prepare": "rimraf ./build && npm run build && NODE_ENV=stage sequelize db:migrate:undo:all && NODE_ENV=stage sequelize db:migrate && NODE_ENV=stage sequelize db:seed:undo:all && NODE_ENV=stage sequelize db:seed:all"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
