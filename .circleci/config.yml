@@ -70,6 +70,8 @@ jobs:
           name: Rebuild and Start
           command: |
             sshpass -p $LEO_EFLOW_SSH_PASS ssh -tt -o StrictHostKeyChecking=no leoqiu@eflows.ucdavis.edu <<EOF 
+              rm -rf test3
+              rm -rf test4
               mkdir -p test3/public
               mkdir -p test4/public
               exit
