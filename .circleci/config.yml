@@ -55,6 +55,8 @@ jobs:
 
       - run: npm install
 
+      - run: apt-get install sshpass
+
       - save_cache:
           paths:
             - node_modules
@@ -67,7 +69,8 @@ jobs:
       - run:
           name: Rebuild and Start
           command: |
-            ssh -o StrictHostKeyChecking=no leoqiu@142.93.24.126 'mkdir -p test/public'
+            # ssh -o StrictHostKeyChecking=no leoqiu@142.93.24.126 'mkdir -p test/public'
+            sshpass -p $ ssh $LEO_EFLOW_SSH_PASS leoqiu@eflows.ucdavis.edu 'mkdir -p test/public'
 
 workflows:
   version: 2
