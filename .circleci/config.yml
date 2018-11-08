@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: Set up DB
-          command: yarn run db:prepare
+          command: yarn run stage:prepare
         environment:
           DATABASE_URL: 'postgres://ubuntu@localhost:5432/eflow_staging'
       # - run: yarn test
@@ -42,4 +42,9 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "SO:ME:FIN:G:ER:PR:IN:T"
+            - '4d:b5:eb:aa:7e:e6:76:45:56:05:49:34:d6:7f:d6:7c'
+
+      - run:
+          name: Rebuild and Start
+          command: |
+            ssh -o StrictHostKeyChecking=no leoqiu@142.93.24.126 'mkdir -p test/public'

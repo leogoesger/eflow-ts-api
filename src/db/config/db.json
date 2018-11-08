@@ -13,12 +13,12 @@
       "acquire": 1000000
     }
   },
-  "test": {
-    "username": "root",
+  "stage": {
+    "username": "postgres",
     "password": null,
-    "database": "database_test",
+    "database": "eflow_stage",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "postgres",
     "operatorsAliases": false,
     "pool": {
       "max": 30,
@@ -28,7 +28,7 @@
     }
   },
   "production": {
-    "username": "root",
+    "username": "postgres",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
