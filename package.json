@@ -7,12 +7,12 @@
     "build": "tsc",
     "start": "nodemon --require ts-node/register ./src/index.ts",
     "serve": "node ./build/index.js",
-    "migrate:up": "yarn tsc && sequelize db:migrate",
-    "migrate:down": "yarn tsc && sequelize db:migrate:undo:all",
-    "seed:up": "yarn tsc && sequelize db:seed:all",
-    "seed:down": "yarn tsc && sequelize db:seed:undo:all",
-    "dev:prepare": "rimraf ./build && yarn build && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all",
-    "stage:prepare": "NODE_ENV=production rimraf ./build && yarn build && NODE_ENV=production sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all"
+    "migrate:up": "npm run tsc && sequelize db:migrate",
+    "migrate:down": "npm run tsc && sequelize db:migrate:undo:all",
+    "seed:up": "npm run tsc && sequelize db:seed:all",
+    "seed:down": "npm run tsc && sequelize db:seed:undo:all",
+    "dev:prepare": "rimraf ./build && npm run build && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all",
+    "stage:prepare": "NODE_ENV=stage rimraf ./build && npm run build && NODE_ENV=stage sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
