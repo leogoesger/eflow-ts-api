@@ -69,8 +69,10 @@ jobs:
       - run:
           name: Rebuild and Start
           command: |
-            # ssh -o StrictHostKeyChecking=no leoqiu@142.93.24.126 'mkdir -p test/public'
-            sshpass -p $LEO_EFLOW_SSH_PASS ssh -o StrictHostKeyChecking=no leoqiu@eflows.ucdavis.edu 'mkdir -p test/public'
+            sshpass -p $LEO_EFLOW_SSH_PASS ssh -o StrictHostKeyChecking=no leoqiu@eflows.ucdavis.edu << EOF 
+                'mkdir -p test/public';
+                'mkdir -p test2/public';
+              EOF
 
 workflows:
   version: 2
