@@ -12,4 +12,9 @@ interface IToken {
   };
 }
 
-export { IToken, IUser };
+interface ILoginPL {
+  email: string;
+  password: string;
+}
+
+export { IToken, IUser, UserRole, ILoginPL };

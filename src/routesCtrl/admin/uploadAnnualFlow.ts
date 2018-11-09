@@ -29,7 +29,7 @@ interface ISub {
 /**
  * Load csv for Annual Flow Matrix from AWS via rxjs 
  *   
- * Four piping functions:
+ * Four pipeing functions:
  *   1. read csv from aws for each gauge which consists of many years of flow data
      2. read string to array with csvtojson
      3. transpose the array, so each array inside starts with year, and then continue with flow data

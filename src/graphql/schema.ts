@@ -16,7 +16,7 @@ const rootQuery = `
   type Mutation
 `;
 
-export default makeExecutableSchema({
+export const schema = makeExecutableSchema({
   typeDefs: [rootQuery, ...typeDefs],
   resolvers: {
     Query,

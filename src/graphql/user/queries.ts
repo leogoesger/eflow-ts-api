@@ -1,8 +1,9 @@
 import { userServices } from './services';
-import { IUser } from './models';
+import { ILoginPL } from './models';
 
 const service = new userServices();
 
 export const userQueries = {
-  login: (_: any, { userInfo }: { userInfo: IUser }) => service.login(userInfo),
+  login: (_: any, { userInfo }: { userInfo: ILoginPL }) =>
+    service.login(userInfo),
 };

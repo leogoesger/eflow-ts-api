@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import * as logger from 'morgan';
 import * as cors from 'cors';
 
-import schema from './graphql/schema';
+import { schema } from './graphql/schema';
 import * as expressGraphQL from 'express-graphql';
 
 import { router } from './routesCtrl';
@@ -23,4 +23,4 @@ app.use(
   })
 );
 
-export default app;
+export { app };

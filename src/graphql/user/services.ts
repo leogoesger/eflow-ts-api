@@ -3,7 +3,7 @@ import { sign } from 'jsonwebtoken';
 import { hash, compare } from 'bcrypt';
 
 import { User } from '../../db/models';
-import { IToken, IUser } from './models';
+import { IToken, IUser, ILoginPL } from './models';
 
 export class userServices {
   User = User;
@@ -35,7 +35,7 @@ export class userServices {
     return token;
   }
 
-  public async login(userInput: IUser): Promise<IToken> {
+  public async login(userInput: ILoginPL): Promise<IToken> {
     const user = await this.User.findOne({ where: { email: userInput.email } });
 
     if (!user) {

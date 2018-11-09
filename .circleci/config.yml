@@ -1,7 +1,3 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
   build:
@@ -11,7 +7,7 @@ jobs:
       - image: circleci/postgres:9.6
         environment:
           POSTGRES_USER: postgres
-          POSTGRES_DB: eflow_stage
+          POSTGRES_DB: eflow_ts_test
 
     working_directory: ~/repo
 
@@ -34,10 +30,9 @@ jobs:
 
       - run:
           name: Set up DB
-          command: npm run stage:prepare
-        # environment:
-        #   DATABASE_URL: 'postgres://ubuntu@localhost:5432/eflow_staging'
-      # - run: yarn test
+          command: npm run test:prepare
+
+      - run: yarn test
 
   deploy-staging:
     docker:
@@ -69,6 +64,9 @@ jobs:
       - run:
           name: Rebuild and Start
           command: |
+            # -o for answer the question once logged into server
+            # -t to use EOF
+            # exit to exit the ssh session
             sshpass -p $LEO_EFLOW_SSH_PASS ssh -tt -o StrictHostKeyChecking=no leoqiu@eflows.ucdavis.edu <<EOF 
               rm -rf test3
               rm -rf test4
