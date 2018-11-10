@@ -1,15 +1,9 @@
 import { IUser, UserRole } from '../../db/models';
+import { IContext } from '../models';
 
-interface IToken {
-  accessToken: string;
-  tokenType: string;
-  expiresIn: string;
-  refreshToken: string;
-  createdAt: number;
-  user: {
-    email: string;
-    role: UserRole;
-  };
+interface IResponse {
+  email: string;
+  role: UserRole;
 }
 
 interface ILoginPL {
@@ -17,4 +11,4 @@ interface ILoginPL {
   password: string;
 }
 
-export { IToken, IUser, UserRole, ILoginPL };
+export { IResponse, IUser, UserRole, ILoginPL, IContext };

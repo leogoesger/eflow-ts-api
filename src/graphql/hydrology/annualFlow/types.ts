@@ -9,7 +9,7 @@ export const annualFlowTypes = `
     }
 
     extend type Query {
-        getAnnualFlow(id: Int): AnnualFlow @isAuthenticated
-        validateAnnualFlow(validatePL: validatePL!): Boolean @hasRole(role: "ADMIN")
+        getAnnualFlow(id: Int): AnnualFlow
+        validateAnnualFlow(validatePL: validatePL!): Boolean
     }
 `;

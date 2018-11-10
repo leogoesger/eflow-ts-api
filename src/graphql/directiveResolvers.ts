@@ -1,25 +1,33 @@
 import { User } from '../db/models';
 import { compareRole } from '../utils/helpers';
-
-interface IContext {
-  headers: {
-    auth_token?: string;
-  };
-}
+import { IContext } from './models';
 
 const directiveResolvers = {
-  isAuthenticated: async (next: () => void, _: any, __: any, ctx: IContext) => {
-    if (ctx.headers && ctx.headers['auth_token']) {
-      const user = await User.findByToken(ctx.headers['auth_token']);
+  isAuthenticated: async (
+    next: () => void,
+    _: any,
+    __: any,
+    { req }: IContext
+  ) => {
+    const { accessToken, refreshToken } = req.cookies;
+    if (accessToken) {
+      const user = await User.findByToken(accessToken);
       if (user) return next();
       throw new Error(`Must be logged in to view this field`);
     }
     throw new Error(`Must be logged in to view this field`);
   },
 
-  hasRole: async (next: () => void, _: any, { role }: any, ctx: IContext) => {
-    if (ctx.headers && ctx.headers['auth_token']) {
-      const user = await User.findByToken(ctx.headers['auth_token']);
+  hasRole: async (
+    next: () => void,
+    _: any,
+    { role }: any,
+    { req }: IContext
+  ) => {
+    const { accessToken, refreshToken } = req.cookies;
+
+    if (accessToken) {
+      const user = await User.findByToken(accessToken);
       if (compareRole(user.role, role)) return next();
       throw new Error(`Must have role: ${role}`);
     }

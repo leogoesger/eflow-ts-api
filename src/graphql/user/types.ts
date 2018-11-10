@@ -1,14 +1,5 @@
 export const userTypes = `
-    type token {
-      accessToken: String
-      tokenType: String
-      expiresIn: String
-      refreshToken: String
-      createdAt: String
-      user: tokenUser
-    }
-
-    type tokenUser {
+    type response {
       email: String
       role: String
     }
@@ -23,10 +14,10 @@ export const userTypes = `
     }
 
     extend type Query {
-      login(userInfo: userInfo): token
+      login(userInfo: userInfo): response
     }
 
     extend type Mutation {
-      register(userInfo: userInfo): token
+      register(userInfo: userInfo): response
     }
 `;

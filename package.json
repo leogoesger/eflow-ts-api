@@ -1,5 +1,5 @@
 {
-  "name": "gutsy-node-api",
+  "name": "eflow-ts-api",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -44,11 +44,13 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
+    "@types/cookie-parser": "^1.4.1",
     "@types/csvtojson": "^1.1.5",
     "@types/request": "^2.47.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "csvtojson": "^2.0.8",
     "dotenv": "^6.0.0",

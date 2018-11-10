@@ -18,11 +18,10 @@ export const authorization = (role: 'USER' | 'ADMIN' | 'SUPER_ADMIN') => async (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.get('auth_token');
-  if (!token) return res.status(401).send({ msg: 'No token was found' });
-
+  const { accessToken, refreshToken } = req.cookies;
+  if (!accessToken) return res.status(401).send({ msg: 'No token was found' });
   try {
-    const user = await User.findByToken(token);
+    const user = await User.findByToken(accessToken);
 
     if (user && compareRole(user.role, role)) {
       next();

@@ -41,13 +41,13 @@ export const paperTypes = `
   }
 
   extend type Query {
-    getPaper(id: Int): Paper
+    getPaper(id: Int): Paper @isAuthenticated
     getPapers: [Paper]
   }
 
   extend type Mutation {
-    createPaper(createPaperPL: CreatePaperPL): Paper,
-    updatePaper(updatePaperPL: UpdatePaperPL): Paper,
-    deletePaper(id: Int!): [Boolean],
+    createPaper(createPaperPL: CreatePaperPL): Paper @hasRole(role: "ADMIN")
+    updatePaper(updatePaperPL: UpdatePaperPL): Paper @hasRole(role: "ADMIN")
+    deletePaper(id: Int!): [Boolean] @hasRole(role: "ADMIN")
   }
 `;
