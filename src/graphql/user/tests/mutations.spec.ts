@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { userMutations } from '../mutations';
-import { IUser, UserRole, ILoginPL } from '../models';
+import { IUser, UserRole } from '../models';
 
 describe('user mutations', () => {
   it('should register new user', async () => {
@@ -12,9 +12,15 @@ describe('user mutations', () => {
       email: 'test@gmail.com',
       password: 'test_password',
     };
-    const res = await userMutations.register(null, { userInfo });
-    expect(Boolean(res.user)).to.be.true;
-    expect(res.user.email).to.equal(userInfo.email);
-    expect(res.user.role).to.equal(userInfo.role);
+
+    const mock: any = {
+      res: {
+        cookie: (): any => null,
+      },
+      req: (): any => null,
+    };
+    const regUser = await userMutations.register(null, { userInfo }, mock);
+    expect(Boolean(regUser.email)).to.be.true;
+    expect(regUser.role).to.equal(userInfo.role);
   });
 });

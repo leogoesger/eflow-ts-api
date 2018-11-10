@@ -8,9 +8,15 @@ describe('user queries', () => {
       email: 'test@gmail.com',
       password: 'test_password',
     };
-    const res = await userQueries.login(null, { userInfo });
-    expect(Boolean(res.user)).to.be.true;
-    expect(Boolean(res.accessToken)).to.be.true;
-    expect(res.user.email).to.equal(userInfo.email);
+    const mock: any = {
+      res: {
+        cookie: (): any => null,
+      },
+      req: (): any => null,
+    };
+    const res = await userQueries.login(null, { userInfo }, mock);
+    expect(Boolean(res.email)).to.be.true;
+    expect(Boolean(res.role)).to.be.true;
+    expect(res.email).to.equal(userInfo.email);
   });
 });
