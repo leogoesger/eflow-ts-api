@@ -10,8 +10,15 @@ export class tsUploadServices {
   TsUpload = TsUpload;
   flaskServerUrl = process.env.EFLOW_FLASK_URL;
 
+  _isInvalidInput(pl: UploadTimeSeriesPL) {
+    const { dates, flows, label, startDate } = pl;
+    return (
+      !dates || !flows || !startDate || dates.length !== flows.length || !label
+    );
+  }
+
   public async uploadTimeSeries(pl: UploadTimeSeriesPL, req: RequestWithUser) {
-    if (!pl.dates || !pl.flows || !pl.startDate) {
+    if (this._isInvalidInput(pl)) {
       throw 'dates, flows and startDate must be provided';
     }
     try {
@@ -40,6 +47,8 @@ export class tsUploadServices {
         ...pl,
         succeed: false,
         userId: req.user.id,
+      }).catch(e => {
+        throw `Database Error ${e.toString()}`;
       });
 
       throw 'Data could not be processed';

@@ -16,7 +16,7 @@ describe('user typeDefs', () => {
   }
   `;
 
-  it('should include login in query', async () => {
+  it('should contain all loginUser query fields', async () => {
     const res = await graphql(schema, query);
     expect(Boolean(res.data.login.email)).to.be.true;
     expect(Boolean(res.data.login.role)).to.be.true;
@@ -31,7 +31,7 @@ describe('user typeDefs', () => {
   }
   `;
 
-  it('should include register in mutation', async () => {
+  it('should contain all registerUser mutation fields', async () => {
     const res = await graphql(schema, mutation);
     expect(Boolean(res.data.register.email)).to.be.true;
     expect(Boolean(res.data.register.role)).to.be.true;
