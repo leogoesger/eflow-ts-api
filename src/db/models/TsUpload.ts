@@ -2,21 +2,22 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../types';
 
 export interface ITsUpload {
-  id: number;
+  id?: number;
   name: string;
   succeed: boolean;
   dates: string[];
   flows: number[];
   startDate: string;
-  yearRanges: string;
-  flowMatrix: string;
-  DRH: string;
-  allYear: string;
-  winter: string;
-  fall: string;
-  summer: string;
-  spring: string;
-  fallWinter: string;
+  yearRanges?: string;
+  flowMatrix?: string;
+  DRH?: string;
+  allYear?: string;
+  winter?: string;
+  fall?: string;
+  summer?: string;
+  spring?: string;
+  fallWinter?: string;
+  userId?: number;
   updatedAt?: string;
   createdAt?: string;
 }
@@ -88,6 +89,10 @@ const tsUploadFactory = (sequalize: Sequelize.Sequelize) => {
     fallWinter: {
       type: Sequelize.JSONB,
       allowNull: false,
+    },
+    userId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   };
   const TsUpload = sequalize.define<TsUploadInstance, ITsUpload>(

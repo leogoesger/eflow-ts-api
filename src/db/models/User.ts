@@ -70,9 +70,9 @@ const userFactory = (sequalize: Sequelize.Sequelize) => {
     attributes
   ) as UserModel;
   User.associate = models => {
-    User.hasMany(models.UploadData, {
+    User.hasMany(models.TsUpload, {
       foreignKey: 'userId',
-      as: 'uploadData',
+      as: 'tsUploads',
     });
   };
 
@@ -81,7 +81,10 @@ const userFactory = (sequalize: Sequelize.Sequelize) => {
 
     try {
       decoded = verify(token, process.env.EFLOW_JWT_SECRET) as any;
-      return User.find({ where: { email: decoded.email } });
+      return User.find({
+        where: { email: decoded.email },
+        attributes: ['id', 'email'],
+      });
     } catch (error) {
       throw error;
     }

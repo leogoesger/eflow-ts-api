@@ -57,7 +57,7 @@ export interface IDB {
   Release: ReleaseModel;
   Spring: SpringModel;
   Summer: SummerModel;
-  UploadData: TsUploadModel;
+  TsUpload: TsUploadModel;
   User: UserModel;
   Winter: WinterModel;
   Year: YearModel;
@@ -83,7 +83,7 @@ const db: IDB = {
   Release: releaseFactory(sequelize),
   Spring: springFactory(sequelize),
   Summer: summerFactory(sequelize),
-  UploadData: tsUploadFactory(sequelize),
+  TsUpload: tsUploadFactory(sequelize),
   User: userFactory(sequelize),
   Winter: winterFactory(sequelize),
   Year: yearFactory(sequelize),
@@ -115,7 +115,7 @@ const {
   Release,
   Spring,
   Summer,
-  UploadData,
+  TsUpload,
   User,
   Winter,
   Year,
@@ -138,7 +138,7 @@ export {
   Release,
   Spring,
   Summer,
-  UploadData,
+  TsUpload,
   User,
   Winter,
   Year,

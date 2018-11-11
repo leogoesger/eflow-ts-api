@@ -92,7 +92,7 @@ export const gaugeTypes = `
 
     extend type Query {
         getGauge(id: Int): Gauge
-        getGauges: [Gauge]
+        getGauges(pagePL: PagePL): [Gauge]
     }
 
     extend type Mutation {

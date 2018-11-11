@@ -1,10 +1,14 @@
-import { Gauge, IGauge, Hydrograph } from '../../../db/models';
+import { IPagePL, Gauge, IGauge, Hydrograph } from './models';
 
 export class gaugeServices {
   Gauge = Gauge;
 
-  public getGauges() {
-    return this.Gauge.findAll();
+  public getGauges(pagePL: IPagePL) {
+    if (!pagePL) {
+      return this.Gauge.findAll();
+    }
+    const { limit, offset } = pagePL;
+    return this.Gauge.findAll({ offset, limit });
   }
 
   public getGauge(id: number) {

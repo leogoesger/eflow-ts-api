@@ -11,6 +11,11 @@ const rootQuery = `
     gaugeNum: Int
     yearNum: Int
   }
+
+  input PagePL {
+    offset: Int
+    limit: Int
+  }
   
   type Query 
   type Mutation

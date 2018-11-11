@@ -10,6 +10,7 @@ import { hydrographTypes, hydrographQueries } from './hydrology/hydrograph';
 import { memberTypes, memberQueries, memberMutations } from './member';
 import { paperTypes, paperQueries, paperMutations } from './paper';
 import { memberPaperTypes, memberPaperMutations } from './memberPaper';
+import { tsUploadMutations, tsUploadTypes } from './tsUpload';
 
 const typeDefs = [
   classificationTypes,
@@ -21,6 +22,7 @@ const typeDefs = [
   memberTypes,
   paperTypes,
   memberPaperTypes,
+  tsUploadTypes,
 ];
 
 const Query = {
@@ -40,6 +42,7 @@ const Mutation = {
   ...memberMutations,
   ...paperMutations,
   ...memberPaperMutations,
+  ...tsUploadMutations,
 };
 
 export { typeDefs, Query, Mutation };
