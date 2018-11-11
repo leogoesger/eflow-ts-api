@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
 
 export interface RequestWithUser extends Request {
-  user: {
-    id: number;
-    name: string;
-  };
+  user: any;
 }
 export interface IContext {
   req: RequestWithUser;

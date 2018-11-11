@@ -15,14 +15,16 @@ export class tsUploadServices {
       throw 'dates, flows and startDate must be provided';
     }
     try {
-      const axiosRes = await axios.post(this.flaskServerUrl, pl);
-      const tsCal: TSCalcResponse = JSON.parse(axiosRes.data.body);
+      const axiosRes = await axios.post(`${this.flaskServerUrl}/api`, {
+        ...pl,
+        start_date: pl.startDate,
+      });
+      const tsCal: TSCalcResponse = JSON.parse(axiosRes.data);
 
-      this.TsUpload.create({
+      return this.TsUpload.create({
         ...pl,
         succeed: true,
         userId: req.user.id,
-        name: req.user.name,
         flowMatrix: tsCal.flow_matrix,
         DRH: tsCal.DRH,
         allYear: tsCal.all_year,
@@ -33,14 +35,14 @@ export class tsUploadServices {
         fallWinter: tsCal.fall_winter,
         yearRanges: tsCal.year_ranges,
       });
-    } catch (error) {
+    } catch {
       this.TsUpload.create({
         ...pl,
         succeed: false,
         userId: req.user.id,
-        name: req.user.name,
       });
-      throw error;
+
+      throw 'Data could not be processed';
     }
   }
 }

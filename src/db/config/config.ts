@@ -11,6 +11,7 @@ export const config: IConfig = {
     host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,
+    logging: false,
     pool: {
       max: 30,
       min: 0,
@@ -25,6 +26,7 @@ export const config: IConfig = {
     host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,
+    logging: false,
     pool: {
       max: 30,
       min: 0,
@@ -54,6 +56,7 @@ export const config: IConfig = {
     host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,
+    logging: false,
     pool: {
       max: 30,
       min: 0,

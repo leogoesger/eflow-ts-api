@@ -3,7 +3,7 @@ import { SequelizeAttributes } from '../types';
 
 export interface ITsUpload {
   id?: number;
-  name: string;
+  label: string;
   succeed: boolean;
   dates: string[];
   flows: number[];
@@ -34,7 +34,7 @@ const tsUploadFactory = (sequalize: Sequelize.Sequelize) => {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    name: {
+    label: {
       type: Sequelize.TEXT,
       allowNull: false,
     },
@@ -56,39 +56,39 @@ const tsUploadFactory = (sequalize: Sequelize.Sequelize) => {
     },
     yearRanges: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     flowMatrix: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     DRH: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     allYear: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     winter: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     fall: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     summer: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     spring: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     fallWinter: {
       type: Sequelize.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     userId: {
       allowNull: false,

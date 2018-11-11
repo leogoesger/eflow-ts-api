@@ -12,7 +12,7 @@ const directiveResolvers = {
     const { accessToken, refreshToken } = req.cookies;
     if (accessToken) {
       const user = await User.findByToken(accessToken);
-      req.user = { id: user.id, name: user.firstName + user.lastName };
+      req.user = user;
       if (user) return next();
       throw new Error(`Must be logged in to view this field`);
     }
@@ -29,7 +29,7 @@ const directiveResolvers = {
 
     if (accessToken) {
       const user = await User.findByToken(accessToken);
-      req.user = { id: user.id, name: user.firstName + user.lastName };
+      req.user = user;
       if (compareRole(user.role, role)) return next();
       throw new Error(`Must have role: ${role}`);
     }

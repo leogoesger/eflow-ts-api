@@ -10,7 +10,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
+      label: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
@@ -32,39 +32,39 @@ module.exports = {
       },
       flowMatrix: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       yearRanges: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       DRH: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       allYear: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       winter: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       fall: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       summer: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       spring: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       fallWinter: {
         type: Sequelize.JSONB,
-        allowNull: false,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -75,6 +75,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
