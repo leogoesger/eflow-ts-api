@@ -4,8 +4,7 @@ export const userTypes = `
       role: String
     }
 
-    input userInfo {
-      id: Int
+    input UserInfo {
       email: String
       password: String
       firstName: String
@@ -13,11 +12,26 @@ export const userTypes = `
       institution: String
     }
 
+    enum UserRole {
+      USER
+      ADMIN
+      SUPER_ADMIN
+    }
+
+    input AdminUserInfo {
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      role: UserRole
+    }
+
     extend type Query {
-      login(userInfo: userInfo): response
+      login(userInfo: UserInfo): response
     }
 
     extend type Mutation {
-      register(userInfo: userInfo): response
+      createUser(userInfo: UserInfo): response
+      createAdmin(adminUserInfo: AdminUserInfo): response @hasRole(role: "SUPER_ADMIN")
     }
 `;

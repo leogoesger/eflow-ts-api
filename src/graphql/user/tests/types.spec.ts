@@ -8,7 +8,7 @@ describe('user typeDefs', () => {
   addMockFunction();
 
   const query = `
-  query loginUser($input: userInfo){
+  query loginUser($input: UserInfo){
     login(userInfo: $input){
       email
       role
@@ -22,18 +22,33 @@ describe('user typeDefs', () => {
     expect(Boolean(res.data.login.role)).to.be.true;
   });
 
-  const mutation = `
-  mutation registerUser($input: userInfo){
-    register(userInfo: $input){
+  const createUserMutation = `
+  mutation createUser($input: UserInfo){
+    createUser(userInfo: $input){
       email
       role
     }
   }
   `;
 
-  it('should contain all registerUser mutation fields', async () => {
-    const res = await graphql(schema, mutation);
-    expect(Boolean(res.data.register.email)).to.be.true;
-    expect(Boolean(res.data.register.role)).to.be.true;
+  it('should contain all createUser mutation fields', async () => {
+    const res = await graphql(schema, createUserMutation);
+    expect(Boolean(res.data.createUser.email)).to.be.true;
+    expect(Boolean(res.data.createUser.role)).to.be.true;
+  });
+
+  const createAdminMutation = `
+  mutation createAdmin($input: AdminUserInfo){
+    createAdmin(adminUserInfo: $input){
+      email
+      role
+    }
+  }
+  `;
+
+  it('should contain all createAdmin mutation fields', async () => {
+    const res = await graphql(schema, createAdminMutation);
+    expect(Boolean(res.data.createAdmin.email)).to.be.true;
+    expect(Boolean(res.data.createAdmin.role)).to.be.true;
   });
 });

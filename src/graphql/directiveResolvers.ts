@@ -31,9 +31,9 @@ const directiveResolvers = {
       const user = await User.findByToken(accessToken);
       req.user = user;
       if (compareRole(user.role, role)) return next();
-      throw new Error(`Must have role: ${role}`);
+      throw new Error(`Must have role: ${role}, but you have ${user.role}`);
     }
-    throw new Error(`Must have role: ${role}`);
+    throw new Error(`Must have access token`);
   },
 };
 

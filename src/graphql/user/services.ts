@@ -9,7 +9,7 @@ import { IResponse, IUser, ILoginPL } from './models';
 export class userServices {
   User = User;
 
-  public async register(d: IUser, res: Response): Promise<IResponse> {
+  public async createUser(d: IUser, res: Response): Promise<IResponse> {
     // bcrypt password using salt
 
     const passHash = await hash(d.password, 10);

@@ -83,7 +83,7 @@ const userFactory = (sequalize: Sequelize.Sequelize) => {
       decoded = verify(token, process.env.EFLOW_JWT_SECRET) as any;
       return User.find({
         where: { email: decoded.email },
-        attributes: ['id', 'email'],
+        attributes: ['id', 'email', 'role'],
       });
     } catch (error) {
       throw error;

@@ -4,10 +4,14 @@ import { IUser, IContext } from './models';
 const service = new userServices();
 
 interface IData {
-  userInfo: IUser;
+  userInfo?: IUser;
+  adminUserInfo?: IUser;
 }
 
 export const userMutations = {
-  register: (_: any, { userInfo }: IData, { res }: IContext) =>
-    service.register(userInfo, res),
+  createUser: (_: any, { userInfo }: IData, { res }: IContext) =>
+    service.createUser(userInfo, res),
+
+  createAdmin: (_: any, { adminUserInfo }: IData, { res }: IContext) =>
+    service.createUser(adminUserInfo, res),
 };
