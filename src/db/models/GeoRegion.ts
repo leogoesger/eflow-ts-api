@@ -40,9 +40,10 @@ const geoRegionFactory = (sequalize: Sequelize.Sequelize) => {
     attributes
   );
 
-  GeoRegion.associate = models => {
+  GeoRegion.associate = (models) => {
     GeoRegion.hasMany(models.GeoClass, {
       foreignKey: 'geoRegionId',
+      onDelete: 'cascade',
       as: 'geoClasses',
     });
   };

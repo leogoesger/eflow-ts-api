@@ -217,7 +217,7 @@ const gaugeFactory = (sequalize: Sequelize.Sequelize) => {
     },
   };
   const Gauge = sequalize.define<GaugeInstance, IGauge>('Gauge', attributes);
-  Gauge.associate = models => {
+  Gauge.associate = (models) => {
     Gauge.belongsTo(models.Classification, {
       foreignKey: 'classId',
       as: 'classes',
@@ -266,6 +266,11 @@ const gaugeFactory = (sequalize: Sequelize.Sequelize) => {
       foreignKey: 'gaugeId',
       onDelete: 'cascade',
       as: 'years',
+    });
+    Gauge.hasMany(models.Condition, {
+      foreignKey: 'gaugeId',
+      onDelete: 'cascade',
+      as: 'conditions',
     });
   };
 

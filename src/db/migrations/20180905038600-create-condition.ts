@@ -15,9 +15,7 @@ module.exports = {
           Sequelize.ENUM(
             'DRY',
             'WET',
-            'NORMAL',
-            'MODERATE WET',
-            'MODERATE DRY',
+            'MODERATE',
             'NOT AVAILABLE'
           )
         ),

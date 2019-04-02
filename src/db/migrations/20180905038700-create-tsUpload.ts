@@ -10,13 +10,26 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      label: {
+      name: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      succeed: {
+      riverName: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      location: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      params:{
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      failed: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
       },
       dates: {
         type: Sequelize.ARRAY(Sequelize.STRING),

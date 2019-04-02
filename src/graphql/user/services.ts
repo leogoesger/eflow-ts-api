@@ -20,6 +20,7 @@ export class userServices {
   }
 
   public async login(userInput: ILoginPL, res: Response): Promise<IResponse> {
+    console.log(userInput);
     const user = await this.User.findOne({ where: { email: userInput.email } });
 
     if (!user) {
@@ -56,5 +57,6 @@ const returnAndSignCookies = (user: any, res: Response) => {
     maxAge: Number(expiresIn),
     httpOnly: true,
   });
+  console.log(response)
   return response;
 };

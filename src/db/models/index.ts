@@ -29,6 +29,8 @@ import { tsUploadFactory, TsUploadModel, ITsUpload } from './TsUpload';
 import { userFactory, UserModel, IUser, UserRole } from './User';
 import { winterFactory, WinterModel, IWinter } from './Winter';
 import { yearFactory, YearModel, IYear } from './Year';
+import { conditionFactory, ConditionModel, ICondition } from './Condition';
+import { predictionFactory, PredictionModel, IPrediction } from './Prediction';
 
 const env = process.env.NODE_ENV || 'development';
 const configEnv = config[env] as any;
@@ -61,6 +63,8 @@ export interface IDB {
   User: UserModel;
   Winter: WinterModel;
   Year: YearModel;
+  Condition: ConditionModel;
+  Prediction: PredictionModel;
 
   Sequelize: Sequelize.SequelizeStatic;
   sequelize: Sequelize.Sequelize;
@@ -87,6 +91,8 @@ const db: IDB = {
   User: userFactory(sequelize),
   Winter: winterFactory(sequelize),
   Year: yearFactory(sequelize),
+  Condition: conditionFactory(sequelize),
+  Prediction: predictionFactory(sequelize),
 
   Sequelize,
   sequelize,
@@ -119,6 +125,8 @@ const {
   User,
   Winter,
   Year,
+  Condition,
+  Prediction,
 } = db;
 
 export {
@@ -142,6 +150,8 @@ export {
   User,
   Winter,
   Year,
+  Condition,
+  Prediction,
   IAllYear,
   IAnnualFlow,
   IClassification,
@@ -163,5 +173,7 @@ export {
   UserRole,
   IWinter,
   IYear,
+  ICondition,
+  IPrediction,
   db,
 };

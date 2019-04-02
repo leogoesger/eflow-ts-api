@@ -5,7 +5,7 @@ export interface IGeoSite {
   id?: number;
   name?: string;
   identity: number | string;
-  description: string;
+  description?: string;
   geometry: string;
   imageUrl: string;
   updatedAt?: string;

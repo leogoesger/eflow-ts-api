@@ -200,11 +200,17 @@ const classificationFactory = (sequalize: Sequelize.Sequelize) => {
     IClassification
   >('Classification', attributes);
 
-  Classification.associate = models => {
+  Classification.associate = (models) => {
     Classification.hasMany(models.Gauge, {
       foreignKey: 'classId',
       onDelete: 'cascade',
       as: 'gauges',
+    });
+    //added missing association
+    Classification.hasMany(models.Hydrograph, {
+      foreignKey: 'classId',
+      onDelete: 'cascade',
+      as: 'hydrographs',
     });
   };
   return Classification;

@@ -2,10 +2,13 @@ export const tsUploadTypes = `
 
   type TsUpload {
     id: ID
-    label: String
-    succeed: Boolean
+    name: String
+    failed: Boolean
+    riverName: String
+    location: String
     dates: [String]
     flows: [Float]
+    params: String
     startDate: String
     yearRanges: [Int]
     flowMatrix: [[Float]]
@@ -82,7 +85,7 @@ export const tsUploadTypes = `
     dates: [String]!
     flows: [Float]!
     startDate: String!
-    label: String!
+    name: String!
   }
 
   extend type Mutation {
