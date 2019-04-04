@@ -6,14 +6,16 @@ import {
   TSCalcResponse,
 } from './models';
 
+import {params} from '../../static/params';
+
 export class tsUploadServices {
   TsUpload = TsUpload;
   flaskServerUrl = process.env.EFLOW_FLASK_URL;
 
   _isInvalidInput(pl: UploadTimeSeriesPL) {
-    const { dates, flows, label, startDate } = pl;
+    const { dates, flows, name, startDate } = pl;
     return (
-      !dates || !flows || !startDate || dates.length !== flows.length || !label
+      !dates || !flows || !startDate || dates.length !== flows.length || !name
     );
   }
 
@@ -21,16 +23,25 @@ export class tsUploadServices {
     if (this._isInvalidInput(pl)) {
       throw 'dates, flows and startDate must be provided';
     }
+
+    pl.params = pl.params ? pl.params : params;
+
+    const {dates, flows, name, startDate } = pl;
+
     try {
       const axiosRes = await axios.post(`${this.flaskServerUrl}/api`, {
         ...pl,
         start_date: pl.startDate,
       });
       const tsCal: TSCalcResponse = JSON.parse(axiosRes.data);
-
+      
       return this.TsUpload.create({
-        ...pl,
-        succeed: true,
+        name,
+        dates,
+        flows,
+        startDate,
+        params: JSON.stringify(params),
+        failed: false,
         userId: req.user.id,
         flowMatrix: tsCal.flow_matrix,
         DRH: tsCal.DRH,
@@ -42,15 +53,19 @@ export class tsUploadServices {
         fallWinter: tsCal.fall_winter,
         yearRanges: tsCal.year_ranges,
       });
-    } catch {
+    } catch (err) {
       this.TsUpload.create({
-        ...pl,
-        succeed: false,
+        name,
+        dates, 
+        flows, 
+        startDate,
+        params: JSON.stringify(params),
+        failed: true,
         userId: req.user.id,
       }).catch(e => {
         throw `Database Error ${e.toString()}`;
       });
-
+      console.log(err);
       throw 'Data could not be processed';
     }
   }

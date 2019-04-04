@@ -42,9 +42,9 @@ export const readCSVFile = async (
 export const readStringToArrays = async ({
   stringData,
   id,
-}: IReadStringToArrayPL): Promise<ITransposeArrayPL> => {
+}: IReadStringToArrayPL, noheader=true): Promise<ITransposeArrayPL> => {
   const arrayData = await csv({
-    noheader: true,
+    noheader,
     output: 'csv',
   }).fromString(stringData);
 

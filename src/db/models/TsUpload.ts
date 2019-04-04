@@ -3,8 +3,11 @@ import { SequelizeAttributes } from '../types';
 
 export interface ITsUpload {
   id?: number;
-  label: string;
-  succeed: boolean;
+  name: string;
+  riverName?: string;
+  location?: string;
+  params?:string;
+  failed: boolean;
   dates: string[];
   flows: number[];
   startDate: string;
@@ -34,13 +37,26 @@ const tsUploadFactory = (sequalize: Sequelize.Sequelize) => {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    label: {
+    name: {
       type: Sequelize.TEXT,
       allowNull: false,
     },
-    succeed: {
+    params:{
+      type: Sequelize.TEXT,
+      allowNull: true,
+    },
+    riverName: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+    },
+    location: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+    },
+    failed: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
+      defaultValue: true,
     },
     dates: {
       type: Sequelize.ARRAY(Sequelize.STRING),
@@ -103,6 +119,10 @@ const tsUploadFactory = (sequalize: Sequelize.Sequelize) => {
     TsUpload.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
+    });
+    TsUpload.hasMany(models.Prediction, {
+      foreignKey: 'uploadDataId',
+      as: 'predictions',
     });
   };
   return TsUpload;

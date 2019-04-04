@@ -5,12 +5,13 @@ export interface IGeoClass {
   id?: number;
   name?: string;
   description: string;
+  defaultImageUrl: string;
   archetypes: string;
   medianAttributes: string;
   updatedAt?: string;
   createdAt?: string;
   geoRegionId: number;
-  hydroClassId: number;
+  // hydroClassId: number;
 }
 
 type GeoClassInstance = Sequelize.Instance<IGeoClass> & IGeoClass;
@@ -33,6 +34,10 @@ const geoClassFactory = (sequalize: Sequelize.Sequelize) => {
       type: Sequelize.TEXT,
       allowNull: true,
     },
+    defaultImageUrl: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+    },
     archetypes: {
       type: Sequelize.JSON,
       allowNull: true,
@@ -45,27 +50,28 @@ const geoClassFactory = (sequalize: Sequelize.Sequelize) => {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
-    hydroClassId: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-    },
+    // hydroClassId: {
+    //   allowNull: false,
+    //   type: Sequelize.INTEGER,
+    // },
   };
   const GeoClass = sequalize.define<GeoClassInstance, IGeoClass>(
     'GeoClass',
     attributes
   );
 
-  GeoClass.associate = models => {
+  GeoClass.associate = (models) => {
     GeoClass.belongsTo(models.GeoRegion, {
       foreignKey: 'geoRegionId',
       as: 'geoRegion',
     });
-    GeoClass.belongsTo(models.Classification, {
-      foreignKey: 'hydroClassId',
-      as: 'hydroClasses',
-    });
+    // GeoClass.belongsTo(models.Classification, {
+    //   foreignKey: 'hydroClassId',
+    //   as: 'hydroClasses',
+    // });
     GeoClass.hasMany(models.GeoSite, {
       foreignKey: 'geoClassId',
+      onDelete: 'cascade',
       as: 'geoSites',
     });
   };

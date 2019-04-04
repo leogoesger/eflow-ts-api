@@ -13,11 +13,13 @@ describe('tsUpload typeDefs', () => {
         dates: ["hello"]
         flows: [1.2]
         startDate: "10/20"
-        label: "Hello World"
+        name: "Hello World"
       }) {
         id
-        label
-        succeed
+        name
+        riverName
+        location
+        failed
         dates
         flows
         startDate

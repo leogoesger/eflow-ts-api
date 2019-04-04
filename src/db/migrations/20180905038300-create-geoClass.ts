@@ -14,6 +14,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      defaultImageUrl:{type: Sequelize.TEXT, allowNull: true},
       description: {
         type: Sequelize.TEXT,
         allowNull: true,

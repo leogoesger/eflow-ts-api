@@ -12,7 +12,7 @@ describe('user mutations', () => {
       dates: ['10/01'],
       flows: [1.2],
       startDate: '10/01',
-      label: 'Hello world',
+      name: 'Hello world',
     };
 
     const user = await User.create({

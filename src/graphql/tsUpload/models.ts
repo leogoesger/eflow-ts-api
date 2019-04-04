@@ -5,7 +5,8 @@ interface UploadTimeSeriesPL {
   dates: string[];
   flows: number[];
   startDate: string;
-  label: string;
+  name: string;
+  params?: object;
 }
 
 interface TSCalcResponse {
