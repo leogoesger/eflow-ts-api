@@ -1,124 +1,64 @@
-import { Request, Response } from 'express';
-import { from, of } from 'rxjs';
-import { map, mergeMap, concatMap, catchError, delay } from 'rxjs/operators';
-
-import { Condition, ICondition } from '../../db/models';
-import { gauges } from '../../static';
+import { Request, Response } from "express";
+import { from, of } from "rxjs";
+import { catchError, concatMap, delay, map, mergeMap } from "rxjs/operators";
+import { Condition, ICondition } from "../../db/models";
+import { gauges } from "../../static";
 import {
-  readCSVFile,
-  readStringToArrays,
-  transposeArray,
   IReadStringToArrayPL,
   ITransposeArrayPL,
-  IArrayPL,
-} from './helpers';
+  readCSVFile,
+  readStringToArrays
+} from "./helpers";
 
-interface IObj {
-  [index: string]: any;
-}
 interface IReport {
-  data: IObj;
   meta: { gaugeCount: number; rowCount: number };
 }
 
-interface ISub {
-  annualFlowArray: IAnnualFlow[];
-  gaugeId: number;
-}
-
 /**
- * Load csv for Annual Flow Matrix from AWS via rxjs 
- *   
- * Four pipeing functions:
- *   1. read csv from aws for each gauge which consists of many years of flow data
-     2. read string to array with csvtojson
-     3. transpose the array, so each array inside starts with year, and then continue with flow data
-     4. catch error
- * 
- * Subscribe takes three functions:
- *   1. onNext(): convert transposed array to array of objects for each gauge, and store that in `result`. `report`
-     is just an object keeping track of all the meta data
-     2. onError(): error handler
-     3. onComplete: sequelize bulkCreate with result array of AnnualFlows
+ * Load csv for Annual Conditions from AWS
  */
 
 export const uploadCondition = async (_: Request, res: Response) => {
   await Condition.destroy({ where: {} });
   const report: IReport = {
-    data: {},
-    meta: { gaugeCount: 0, rowCount: 0 },
+    meta: { gaugeCount: 0, rowCount: 0 }
   };
+
+  await Condition.destroy({ where: {} });
+
   let result: ICondition[] = [];
 
   const src$ = from(gauges).pipe(
     concatMap(x => of(x).pipe(delay(300))),
-    mergeMap(gauge => readCSVFile(gauge.id, 'annual_flow_matrix')),
-    mergeMap((d: IReadStringToArrayPL) => readStringToArrays(d)),
-    map((d: ITransposeArrayPL) => transposeArray(d)),
-    map((d: IArrayPL) => createConditionArray(d)),
+    mergeMap(gauge => readCSVFile(gauge.id, "annual_conditions")),
+    mergeMap((d: IReadStringToArrayPL) => readStringToArrays(d, false)),
+    map((d: ITransposeArrayPL) => createAnnualConditionArray(d)),
     catchError(error => of(`Bad Promise: ${error}`))
   );
-  src$.subscribe(
-    ({ ConditionArray, gaugeId }: ISub) => {
-      report.data[gaugeId] = ConditionArray.length;
-      report.meta.gaugeCount += 1;
-      report.meta.rowCount += ConditionArray.length;
-      result = result.concat(ConditionArray);
 
-      console.log(report.meta);
+  src$.subscribe(
+    ({ conditions, gaugeId }: ICondition) => {
+      report.meta.gaugeCount += 1;
+      report.meta.rowCount += 1;
+      result.push({ conditions, gaugeId });
     },
     (error: any) => res.status(400).send(error),
-    () => Condition.bulkCreate(result).then(d => res.status(200).send(report))
+    () => Condition.bulkCreate(result).then(_ => res.status(200).send(report))
   );
 };
 
-const createConditionArray = ({ arrayData, id }: IArrayPL): ISub => {
-  const ConditionArray: ICondition[] = arrayData.map((ary: number[]) => ({
-    year: ary[0],
-    flowData: ary.slice(1),
-    gaugeId: <number>id,
-  }));
+const createAnnualConditionArray = ({
+  arrayData,
+  id
+}: ITransposeArrayPL): ICondition => {
+  const conditions: string[] = [];
+  arrayData.forEach((csvRow: string[]) => {
+    if (csvRow[1] === "nan") {
+      conditions.push("NOT AVAILABLE");
+    } else {
+      conditions.push(csvRow[1].toUpperCase());
+    }
+  });
 
-  return { ConditionArray, gaugeId: <number>id };
+  return { conditions, gaugeId: <number>id };
 };
-
-
-/*
-async uploadAnnualCondition(req, res) {
-    const url = `${process.env.S3_BUCKET}annual_conditions/`;
-    const promises = [];
-    await Condition.destroy({where: {}});
-
-    const files = gaugeReference.map(d => `${url}${d.id}.csv`);
-
-    files.forEach(file => {
-      const annual_conditions = {
-        gaugeId: file.split('/')[5].split('.')[0],
-        conditions: [],
-      };
-
-      csv({
-        noheader: false,
-      })
-        .fromStream(request.get(file))
-        .on('csv', csvRow => {
-          if (csvRow[1] === 'nan') {
-            annual_conditions.conditions.push('NOT AVAILABLE');
-          } else {
-            annual_conditions.conditions.push(csvRow[1].toUpperCase());
-          }
-        })
-        .on('done', () => {
-          promises.push(Condition.create(annual_conditions));
-        });
-    });
-
-    Promise.all(promises)
-      .then(() => res.status(200).send({message: 'success'}))
-      .catch(e => res.status(404).send({message: e.toString()}));
-  },
-
-
-
-
-*/

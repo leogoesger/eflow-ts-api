@@ -10,7 +10,7 @@ export enum Conditions {
 
 export interface ICondition {
   id?: number;
-  conditions: string;
+  conditions: string[];
   gaugeId: number;
   updatedAt?: string;
   createdAt?: string;
