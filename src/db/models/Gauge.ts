@@ -241,7 +241,7 @@ const gaugeFactory = (sequalize: Sequelize.Sequelize) => {
     Gauge.hasMany(models.FallWinter, {
       foreignKey: "gaugeId",
       onDelete: "cascade",
-      as: "fallsWinters"
+      as: "fallWinters"
     });
     Gauge.hasMany(models.Hydrograph, {
       foreignKey: "gaugeId",
