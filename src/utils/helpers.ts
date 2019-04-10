@@ -52,7 +52,13 @@ export function getCalenderDate(offsetJulianDate: number) {
 }
 
 export class ClassBoxPlot {
-  constructor(rawData, metricName, category) {
+  rawData: any;
+  metricName: string;
+  filteredData: any;
+  quantileData: any[];
+  category: any;
+
+  constructor(rawData: any, metricName: string, category: any) {
     this.rawData = rawData;
     this.metricName = metricName;
     this.filteredData = null;
@@ -63,14 +69,14 @@ export class ClassBoxPlot {
   }
 
   getFilteredData() {
-    this.filteredData = this.rawData.map(data =>
+    this.filteredData = this.rawData.map((data: any) =>
       removeNaN(data[this.metricName])
     );
   }
 
   getQuantiles() {
-    this.filteredData.forEach(data => {
-      data.forEach(d => this.quantileData.push(d));
+    this.filteredData.forEach((data: any) => {
+      data.forEach((d: any) => this.quantileData.push(d));
     });
     this.quantileData = sortBy(this.quantileData);
   }
@@ -115,7 +121,7 @@ export const nonDimValues = async (req: Request, metrics: any) => {
     avgFlow = await AllYear.findAll({
       attributes: ["average"],
       where: {
-        "$gauge.classId$": req.body.classId
+        ["$gauge.classId$" as any]: req.body.classId
       },
       include: [
         {
@@ -134,7 +140,7 @@ export const nonDimValues = async (req: Request, metrics: any) => {
       avgFlow,
       d => d.gaugeId === Number(metric.gauge.id)
     );
-    averageArray.average.forEach((v, i) => {
+    averageArray.average.forEach((v: any, i: number) => {
       if (!isNaN(Number(v)) && !isNaN(Number(metric[req.body.metric][i]))) {
         nonDimArray[nonDimArray.length - 1][req.body.metric].push(
           Number(metric[req.body.metric][i]) / Number(v)
@@ -197,7 +203,7 @@ export const gaugeNonDimValues = async (req: Request, metric: any) => {
         gaugeId: req.body.gaugeId
       }
     });
-  metric[0][req.body.metric].forEach((v, i) => {
+  metric[0][req.body.metric].forEach((v: any, i: number) => {
     if (!isNaN(Number(v)) && !isNaN(Number(avgFlow[0].average[i]))) {
       nonDimArray.push(Number(v) / Number(avgFlow[0].average[i]));
     }
