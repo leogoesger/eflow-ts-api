@@ -3,7 +3,7 @@ import { createServer } from 'http';
 
 import { app } from './app';
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 (async () => {
   createServer(app).listen(port, () =>
