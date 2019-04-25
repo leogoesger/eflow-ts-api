@@ -7,6 +7,6 @@ import { authorization } from '../middlewares';
 const router = Router();
 
 router.use('/ts-api/ping', ping);
-router.use('/ts-api/admin/', authorization('ADMIN'), admin);
+router.use('/ts-api/admin/', admin);
 
 export { router };
