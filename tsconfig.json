@@ -5,15 +5,17 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "noImplicitAny": true,
+    "rootDir": ".",
     "outDir": "./build/",
     "preserveConstEnums": true,
     "removeComments": true,
     // "sourceMap": true,
+    // "sourceRoot": ".",
     "skipLibCheck": true,
     "allowJs": true,
     "target": "es2016",
     "lib": ["dom", "es7", "es2017", "esnext.asynciterable"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts", "testHelpers.ts"]
 }

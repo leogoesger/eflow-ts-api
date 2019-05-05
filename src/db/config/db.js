@@ -1,9 +1,4 @@
-import { Op } from 'sequelize';
-
-interface IConfig {
-  [index: string]: any;
-}
-export const config: IConfig = {
+module.exports = {
   development: {
     username: 'postgres',
     password: null,
