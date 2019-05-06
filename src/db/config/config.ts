@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+// import { Op } from 'sequelize';
 
 interface IConfig {
   [index: string]: any;
@@ -18,7 +18,6 @@ export const config: IConfig = {
       idle: 1000000,
       acquire: 1000000,
     },
-    operatorsAliases: Op,
   },
   test: {
     username: 'postgres',
@@ -28,7 +27,6 @@ export const config: IConfig = {
     post: 5432,
     dialect: 'postgres',
     logging: false,
-    operatorsAliases: Op,
   },
   production: {
     username: 'production',
@@ -44,6 +42,5 @@ export const config: IConfig = {
       idle: 1000000,
       acquire: 1000000,
     },
-    operatorsAliases: Op,
   },
 };

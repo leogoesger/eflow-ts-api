@@ -95,7 +95,6 @@ const db: IDB = {
   Condition: conditionFactory(sequelize),
   Prediction: predictionFactory(sequelize),
 
-  Sequelize,
   sequelize,
 };
 

@@ -6,8 +6,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch & nodemon build",
-    "start": "nodemon --require ts-node/register ./src/index.ts",
-    "serve": "node ./build/index.js",
+    "start": "npm run redis:flush && nodemon --require ts-node/register ./src/index.ts",
+    "serve": "node ./build/src/index.js",
+    "redis:flush": "redis-cli flushall",
     "migrate:up": "npm run build && sequelize db:migrate",
     "migrate:down": "npm run build && sequelize db:migrate:undo:all",
     "seed:up": "npm run build && sequelize db:seed:all",
@@ -27,7 +28,6 @@
     "pm2:stop": "pm2 stop eflow-ts-api"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/bcrypt": "^3.0.0",
     "@types/body-parser": "^1.17.0",
     "@types/chai": "^4.1.7",
@@ -46,10 +46,10 @@
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.2.0",
     "mocha": "^5.2.0",
-    "nodemon": "^1.19.0",
+    "nodemon": "^1.18.3",
     "pm2": "^3.5.0",
     "rimraf": "^2.6.2",
-    "ts-node": "^7.0.0",
+    "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.14.0",
     "typescript": "^3.4.4"

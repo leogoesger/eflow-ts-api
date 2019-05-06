@@ -1,6 +1,9 @@
 import { Model, BuildOptions, DataTypes } from 'sequelize';
 import { IDB } from './';
 
+// import * as Promise from 'bluebird';
+// global.Promise = Promise;
+
 export interface IAllYear {
   id?: number;
   average: number[];
@@ -52,7 +55,6 @@ const allYearFactory = sequalize => {
       type: DataTypes.INTEGER,
     },
   });
-
   AllYear.associate = (models: IDB) => {
     AllYear.belongsTo(models.Gauge, {
       foreignKey: 'gaugeId',
