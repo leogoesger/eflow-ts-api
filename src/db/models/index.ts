@@ -36,11 +36,10 @@ const env = process.env.NODE_ENV || 'development';
 const configEnv = config[env] as any;
 
 // tslint:disable-next-line:no-console
-console.log(configEnv.database, configEnv.username, config.password);
 const sequelize = new Sequelize(
   configEnv.database,
   configEnv.username,
-  config.password,
+  configEnv.password,
   configEnv
 );
 
