@@ -1,10 +1,10 @@
-import * as Sequelize from 'sequelize';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 import { verify } from 'jsonwebtoken';
 
 import * as Promise from 'bluebird';
 global.Promise = Promise;
-
-import { SequelizeAttributes } from '../types';
 
 export enum UserRole {
   USER = 'USER',
@@ -24,51 +24,60 @@ export interface IUser {
   createdAt?: string;
 }
 
-type UserInstance = Sequelize.Instance<IUser> & IUser;
-
-interface UserModel extends Sequelize.Model<UserInstance, IUser> {
-  findByToken: (d: string) => Promise<IUser>;
+interface IUserExtend extends Model {
+  id?: number;
+  role: UserRole;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  institution?: string;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
-const userFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IUser> = {
+type UserModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IUserExtend) & {
+    findByToken: (d: any) => any;
+  } & {
+    associate: (model: IDB) => any;
+  };
+
+const userFactory = sequalize => {
+  const User = <UserModel>sequalize.define('User', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     role: {
-      type: Sequelize.ENUM,
+      type: DataTypes.ENUM,
       values: ['USER', 'ADMIN', 'SUPER_ADMIN'],
       defaultValue: 'USER',
     },
     firstName: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     lastName: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     email: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
       unique: true,
     },
     password: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     institution: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-  };
-  const User = sequalize.define<UserInstance, IUser>(
-    'User',
-    attributes
-  ) as UserModel;
+  });
   User.associate = models => {
     User.hasMany(models.TsUpload, {
       foreignKey: 'userId',
@@ -81,7 +90,7 @@ const userFactory = (sequalize: Sequelize.Sequelize) => {
 
     try {
       decoded = verify(token, process.env.EFLOW_JWT_SECRET) as any;
-      return User.find({
+      return User.findOne({
         where: { email: decoded.email },
         attributes: ['id', 'email', 'role'],
       });

@@ -1,6 +1,6 @@
-import { memberServices } from './services';
+import { MemberServices } from './services';
 
-const service = new memberServices();
+const service = new MemberServices();
 
 export const memberQueries = {
   getMembers: () => service.getMembers(),

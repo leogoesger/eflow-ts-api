@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import * as d3 from "d3";
-import { sortBy, find } from "lodash";
-import { AllYear, Gauge } from "../db/models";
+import { Request, Response } from 'express';
+import * as d3 from 'd3';
+import { sortBy, find } from 'lodash';
+import { AllYear, Gauge } from '../db/models';
 
 export const removeNaN = (array: any[]) => {
   const filteredArray = array.filter(ele => !isNaN(Number(ele)));
@@ -18,10 +18,10 @@ export const round = (number: number, precision: number) => {
     if (reverseShift) {
       cPercision = -cPercision;
     }
-    const numArray = String(number2).split("e");
+    const numArray = String(number2).split('e');
     return Number(
       numArray[0] +
-        "e" +
+        'e' +
         (numArray[1] ? Number(numArray[1]) + cPercision : cPercision)
     );
   };
@@ -87,7 +87,7 @@ export class ClassBoxPlot {
 
   boxPlotData() {
     const boxPlotData = {
-      type: "Class",
+      type: 'Class',
       metricName: `${this.category.toLowerCase()}${this.metricName[0].toUpperCase()}${this.metricName.slice(
         1
       )}`,
@@ -100,7 +100,7 @@ export class ClassBoxPlot {
           : round(d3.quantile(this.quantileData, 0.5), 4),
         round(d3.quantile(this.quantileData, 0.75), 4) === 0
           ? 0.01
-          : round(d3.quantile(this.quantileData, 0.75), 4)
+          : round(d3.quantile(this.quantileData, 0.75), 4),
       ],
       whiskers: [
         round(d3.quantile(this.quantileData, 0.1), 4) === 0
@@ -108,8 +108,8 @@ export class ClassBoxPlot {
           : round(d3.quantile(this.quantileData, 0.1), 4),
         round(d3.quantile(this.quantileData, 0.9), 4) === 0
           ? 0.01
-          : round(d3.quantile(this.quantileData, 0.9), 4)
-      ]
+          : round(d3.quantile(this.quantileData, 0.9), 4),
+      ],
     };
 
     return boxPlotData;
@@ -119,22 +119,22 @@ export class ClassBoxPlot {
 export const nonDimValues = async (req: Request, metrics: any) => {
   const nonDimArray: any[] = [],
     avgFlow = await AllYear.findAll({
-      attributes: ["average"],
+      attributes: ['average'],
       where: {
-        ["$gauge.classId$" as any]: req.body.classId
+        ['$gauge.classId$' as any]: req.body.classId,
       },
       include: [
         {
           model: Gauge,
-          as: "gauge",
-          attributes: ["id"]
-        }
-      ]
+          as: 'gauge',
+          attributes: ['id'],
+        },
+      ],
     });
 
   metrics.forEach((metric: any) => {
-    //This will output the datastructure similar to sequelize
-    //which will be input into class method
+    // This will output the datastructure similar to sequelize
+    // which will be input into class method
     nonDimArray.push({ [req.body.metric]: [] });
     const averageArray = find(
       avgFlow,
@@ -168,7 +168,7 @@ export const getGaugeBoxPlotObject = (
     return false;
   });
   const boxPlotAttributes = {
-    type: "Gauge",
+    type: 'Gauge',
     metricName: `${category.toLowerCase()}${metricName[0].toUpperCase()}${metricName.slice(
       1
     )}`,
@@ -181,7 +181,7 @@ export const getGaugeBoxPlotObject = (
         : round(d3.quantile(filteredMetricArray, 0.5), 4),
       round(d3.quantile(filteredMetricArray, 0.75), 4) === 0
         ? 0.0001
-        : round(d3.quantile(filteredMetricArray, 0.75), 4)
+        : round(d3.quantile(filteredMetricArray, 0.75), 4),
     ],
     whiskers: [
       round(d3.quantile(filteredMetricArray, 0.1), 4) === 0
@@ -189,8 +189,8 @@ export const getGaugeBoxPlotObject = (
         : round(d3.quantile(filteredMetricArray, 0.1), 4),
       round(d3.quantile(filteredMetricArray, 0.9), 4) === 0
         ? 0.0001
-        : round(d3.quantile(filteredMetricArray, 0.9), 4)
-    ]
+        : round(d3.quantile(filteredMetricArray, 0.9), 4),
+    ],
   };
   return boxPlotAttributes;
 };
@@ -198,10 +198,10 @@ export const getGaugeBoxPlotObject = (
 export const gaugeNonDimValues = async (req: Request, metric: any) => {
   const nonDimArray: number[] = [],
     avgFlow = await AllYear.findAll({
-      attributes: ["average"],
+      attributes: ['average'],
       where: {
-        gaugeId: req.body.gaugeId
-      }
+        gaugeId: req.body.gaugeId,
+      },
     });
   metric[0][req.body.metric].forEach((v: any, i: number) => {
     if (!isNaN(Number(v)) && !isNaN(Number(avgFlow[0].average[i]))) {
@@ -214,7 +214,7 @@ export const gaugeNonDimValues = async (req: Request, metric: any) => {
 enum RoleEnum {
   USER = 0,
   ADMIN = 1,
-  SUPER_ADMIN = 2
+  SUPER_ADMIN = 2,
 }
 
 /**
@@ -225,8 +225,8 @@ enum RoleEnum {
  */
 
 export const compareRole = (
-  role1: "USER" | "ADMIN" | "SUPER_ADMIN",
-  role2: "USER" | "ADMIN" | "SUPER_ADMIN"
+  role1: 'USER' | 'ADMIN' | 'SUPER_ADMIN',
+  role2: 'USER' | 'ADMIN' | 'SUPER_ADMIN'
 ) => {
   return RoleEnum[role1] >= RoleEnum[role2];
 };

@@ -1,5 +1,5 @@
 import { classificationQueries } from './queries';
-import { classificationServices } from './services';
+import { ClassificationServices } from './services';
 import { classificationTypes } from './types';
 
-export { classificationQueries, classificationServices, classificationTypes };
+export { classificationQueries, ClassificationServices, classificationTypes };

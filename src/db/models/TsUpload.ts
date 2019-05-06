@@ -1,12 +1,13 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface ITsUpload {
   id?: number;
   name: string;
   riverName?: string;
   location?: string;
-  params?:string;
+  params?: string;
   failed: boolean;
   dates: string[];
   flows: number[];
@@ -25,96 +26,117 @@ export interface ITsUpload {
   createdAt?: string;
 }
 
-type TsUploadInstance = Sequelize.Instance<ITsUpload> & ITsUpload;
+interface ITsUploadExtend extends Model {
+  id?: number;
+  name: string;
+  riverName?: string;
+  location?: string;
+  params?: string;
+  failed: boolean;
+  dates: string[];
+  flows: number[];
+  startDate: string;
+  yearRanges?: string;
+  flowMatrix?: string;
+  DRH?: string;
+  allYear?: string;
+  winter?: string;
+  fall?: string;
+  summer?: string;
+  spring?: string;
+  fallWinter?: string;
+  userId?: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type TsUploadModel = Sequelize.Model<TsUploadInstance, ITsUpload>;
+type TsUploadModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => ITsUploadExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const tsUploadFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<ITsUpload> = {
+const tsUploadFactory = sequalize => {
+  const TsUpload = <TsUploadModel>sequalize.define('TsUpload', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     name: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
-    params:{
-      type: Sequelize.TEXT,
+    params: {
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     riverName: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     location: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     failed: {
-      type: Sequelize.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
     },
     dates: {
-      type: Sequelize.ARRAY(Sequelize.STRING),
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
     flows: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: false,
     },
     startDate: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     yearRanges: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     flowMatrix: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     DRH: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     allYear: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     winter: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     fall: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     summer: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     spring: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     fallWinter: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     userId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const TsUpload = sequalize.define<TsUploadInstance, ITsUpload>(
-    'TsUpload',
-    attributes
-  );
+  });
   TsUpload.associate = models => {
     TsUpload.belongsTo(models.User, {
       foreignKey: 'userId',

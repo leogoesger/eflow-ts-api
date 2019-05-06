@@ -1,6 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
 
+import { IDB } from './';
 export interface IGeoRegion {
   id?: number;
   name?: string;
@@ -10,37 +10,43 @@ export interface IGeoRegion {
   createdAt?: string;
 }
 
-type GeoRegionInstance = Sequelize.Instance<IGeoRegion> & IGeoRegion;
+interface IGeoRegionExtend extends Model {
+  id?: number;
+  name?: string;
+  description: string;
+  abbreviation: string;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type GeoRegionModel = Sequelize.Model<GeoRegionInstance, IGeoRegion>;
+type GeoRegionModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IGeoRegionExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const geoRegionFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IGeoRegion> = {
+const geoRegionFactory = sequalize => {
+  const GeoRegion = <GeoRegionModel>sequalize.define('GeoRegion', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     name: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     description: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     abbreviation: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-  };
-  const GeoRegion = sequalize.define<GeoRegionInstance, IGeoRegion>(
-    'GeoRegion',
-    attributes
-  );
+  });
 
-  GeoRegion.associate = (models) => {
+  GeoRegion.associate = models => {
     GeoRegion.hasMany(models.GeoClass, {
       foreignKey: 'geoRegionId',
       onDelete: 'cascade',

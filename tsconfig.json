@@ -4,7 +4,7 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "rootDir": ".",
     "outDir": "./build/",
     "preserveConstEnums": true,
@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "target": "es2016",
-    "lib": ["dom", "es7", "es2017", "esnext.asynciterable"]
+    "lib": ["es2015", "dom", "es7", "es2017", "esnext.asynciterable"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "testHelpers.ts"]

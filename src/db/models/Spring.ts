@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface ISpring {
   id?: number;
@@ -12,44 +13,52 @@ export interface ISpring {
   createdAt?: string;
 }
 
-type SpringInstance = Sequelize.Instance<ISpring> & ISpring;
+interface ISpringExtend extends Model {
+  id?: number;
+  timing: number[];
+  magnitude: number[];
+  rateOfChange: number[];
+  duration: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type SpringModel = Sequelize.Model<SpringInstance, ISpring>;
+type SpringModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => ISpringExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const springFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<ISpring> = {
+const springFactory = sequalize => {
+  const Spring = <SpringModel>sequalize.define('Spring', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     timing: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     magnitude: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     rateOfChange: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     duration: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     gaugeId: {
       allowNull: false,
       unique: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const Spring = sequalize.define<SpringInstance, ISpring>(
-    'Spring',
-    attributes
-  );
+  });
   Spring.associate = models => {
     Spring.belongsTo(models.Gauge, {
       foreignKey: 'gaugeId',

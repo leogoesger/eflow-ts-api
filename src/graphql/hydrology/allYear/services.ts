@@ -5,16 +5,16 @@ export interface IValidatePayload {
   yearNum: number;
 }
 
-export class allYearServices {
+export class AllYearServices {
   AllYear = AllYear;
 
   public getAllYear(id: number) {
-    return this.AllYear.find({
+    return this.AllYear.findOne({
       where: { gaugeId: id },
     });
   }
 
-  public async validate(d: IValidatePayload): Promise<Boolean> {
+  public async validate(d: IValidatePayload): Promise<boolean> {
     const allYears = await AllYear.findAll();
     const nonValid = allYears.some(item => {
       return (

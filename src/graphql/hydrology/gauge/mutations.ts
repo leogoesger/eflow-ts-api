@@ -1,7 +1,7 @@
-import { gaugeServices } from './services';
+import { GaugeServices } from './services';
 import { IGauge } from '../../../db/models';
 
-const service = new gaugeServices();
+const service = new GaugeServices();
 
 export const gaugeMutations = {
   updateGauge: (_: any, { updateGaugePL }: { updateGaugePL: IGauge }) => {

@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export enum PaperTypes {
   HYDROLOGY = 'HYDROLOGY',
@@ -22,52 +23,66 @@ export interface IPaper {
   createdAt?: string;
 }
 
-type PaperInstance = Sequelize.Instance<IPaper> & IPaper;
+interface IPaperExtend extends Model {
+  id?: number;
+  title: string;
+  description: string;
+  type: PaperTypes;
+  authors: string[];
+  journal?: string;
+  publishedDate: string;
+  paperUrl: string;
+  imgUrl?: string;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type PaperModel = Sequelize.Model<PaperInstance, IPaper>;
+type PaperModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IPaperExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const paperFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IPaper> = {
+const paperFactory = sequalize => {
+  const Paper = <PaperModel>sequalize.define('Paper', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     title: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     description: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     type: {
-      type: Sequelize.ENUM,
+      type: DataTypes.ENUM,
       values: ['HYDROLOGY', 'MORPHOLOGY', 'ECOLOGY', 'GENERAL'],
     },
     authors: {
-      type: Sequelize.ARRAY(Sequelize.TEXT), // eslint-disable-line
+      type: DataTypes.ARRAY(DataTypes.TEXT), // eslint-disable-line
       allowNull: true,
     },
     journal: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     publishedDate: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     paperUrl: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     imgUrl: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-  };
-  const Paper = sequalize.define<PaperInstance, IPaper>('Paper', attributes);
+  });
 
   Paper.associate = models => {
     Paper.belongsToMany(models.Member, {

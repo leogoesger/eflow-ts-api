@@ -1,7 +1,7 @@
-import { paperServices } from './services';
+import { PaperServices } from './services';
 import { IPaper } from '../../db/models';
 
-const service = new paperServices();
+const service = new PaperServices();
 
 export const paperMutations = {
   updatePaper: (_: any, { updatePaperPL }: { updatePaperPL: IPaper }) =>

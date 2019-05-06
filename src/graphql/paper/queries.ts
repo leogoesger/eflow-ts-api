@@ -1,6 +1,6 @@
-import { paperServices } from './services';
+import { PaperServices } from './services';
 
-const service = new paperServices();
+const service = new PaperServices();
 
 export const paperQueries = {
   getPapers: () => service.getPapers(),

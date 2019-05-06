@@ -1,5 +1,5 @@
 import { hydrographTypes } from './types';
-import { hydrographServices } from './services';
+import { HydrographServices } from './services';
 import { hydrographQueries } from './queries';
 
-export { hydrographTypes, hydrographServices, hydrographQueries };
+export { hydrographTypes, HydrographServices, hydrographQueries };

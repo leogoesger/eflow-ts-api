@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { db, IDB } from './';
 
 export enum Conditions {
   'DRY',
@@ -16,34 +17,40 @@ export interface ICondition {
   createdAt?: string;
 }
 
-type ConditionInstance = Sequelize.Instance<ICondition> & ICondition;
-type ConditionModel = Sequelize.Model<ConditionInstance, ICondition>;
+export interface IConditionExtend extends Model {
+  id?: number;
+  conditions: string[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-const conditionFactory = (sequelize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<ICondition> = {
+type ConditionModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IConditionExtend) & {
+    associate: (model: IDB) => any;
+  };
+
+const conditionFactory = sequelize => {
+  const Condition = <ConditionModel>sequelize.define('Condition', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     conditions: {
-      type: Sequelize.ARRAY(
-        Sequelize.ENUM('DRY', 'WET', 'MODERATE', 'NOT AVAILABLE')
+      type: DataTypes.ARRAY(
+        DataTypes.ENUM('DRY', 'WET', 'MODERATE', 'NOT AVAILABLE')
       ),
       allowNull: true,
     },
     gaugeId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const Condition = sequelize.define<ConditionInstance, ICondition>(
-    'Condition',
-    attributes
-  );
+  });
 
-  Condition.associate = (models) => {
+  Condition.associate = models => {
     Condition.belongsTo(models.Gauge, {
       foreignKey: 'gaugeId',
       as: 'gauge',

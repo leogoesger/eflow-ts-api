@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface IMember {
   id?: number;
@@ -20,75 +21,91 @@ export interface IMember {
   createdAt?: string;
 }
 
-type MemberInstance = Sequelize.Instance<IMember> & IMember;
+interface IMemberExtend extends Model {
+  id?: number;
+  name: string;
+  description: string;
+  title: string;
+  image: string;
+  location: string;
+  website?: string;
+  linkedin?: string;
+  twitter?: string;
+  github?: string;
+  youtube?: string;
+  googleScholar?: string;
+  researchGate?: string;
+  email: string;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type MemberModel = Sequelize.Model<MemberInstance, IMember>;
+type MemberModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IMemberExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const memberFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IMember> = {
+const memberFactory = sequalize => {
+  const Member = <MemberModel>sequalize.define('Member', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     name: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     title: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     description: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     image: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     location: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     website: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     linkedin: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     twitter: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     github: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     youtube: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     googleScholar: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     researchGate: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     email: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
-  };
-  const Member = sequalize.define<MemberInstance, IMember>(
-    'Member',
-    attributes
-  );
+  });
 
   Member.associate = models => {
     Member.belongsToMany(models.Paper, {

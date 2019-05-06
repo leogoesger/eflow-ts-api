@@ -37,28 +37,15 @@ interface IReport {
   };
 }
 
-/**
- * Load csv for Metric Result from AWS via rxjs 
- *   
- * 1. First clear out the databse 
-   2. Read CSV from aws
-   3. Convert string to arrays
- *
- * Subscribe take three functions: onNext, onError, onComplete.
- * 
- * `onNext` takes each emitted value and store it into a global object
- * 
- * `onComplete` takes the final object to `bulkCreate`
- */
 export const uploadMetricResult = async (req: Request, res: Response) => {
   const tables = {
-    Year: Year,
-    AllYear: AllYear,
-    Spring: Spring,
-    Summer: Summer,
-    Fall: Fall,
-    FallWinter: FallWinter,
-    Winter: Winter,
+    Year,
+    AllYear,
+    Spring,
+    Summer,
+    Fall,
+    FallWinter,
+    Winter,
   } as any;
 
   const dbObjects: { [index: string]: any[] } = {};
@@ -111,9 +98,9 @@ const createDbObjects = (
 
 const uploadDB = async (dbObjects: any, tables: ITables) => {
   const promises = Object.keys(tables).map(key =>
-    tables[key].bulkCreate(dbObjects[key])
+    (tables[key] as any).bulkCreate(dbObjects[key])
   );
-  return Promise.all<{ gaugeId: number }[]>(promises).then(d => {
+  return Promise.all<Array<{ gaugeId: number }>>(promises).then(d => {
     const report = {} as IReport;
     Object.keys(tables).forEach(
       (tbl: string, idx: number) =>

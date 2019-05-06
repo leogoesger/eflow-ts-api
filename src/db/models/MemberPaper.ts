@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface IMemberPaper {
   id: number;
@@ -7,25 +8,28 @@ export interface IMemberPaper {
   paperId: number;
 }
 
-type MemberPaperInstance = Sequelize.Instance<IMemberPaper> & IMemberPaper;
+interface IMemberPaperExtend extends Model {
+  id: number;
+  memberId: number;
+  paperId: number;
+}
 
-type MemberPaperModel = Sequelize.Model<MemberPaperInstance, IMemberPaper>;
+type MemberPaperModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IMemberPaperExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const memberPaperFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IMemberPaper> = {
+const memberPaperFactory = sequalize => {
+  const MemberPaper = <MemberPaperModel>sequalize.define('MemberPaper', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-    memberId: Sequelize.INTEGER,
-    paperId: Sequelize.INTEGER,
-  };
-  const MemberPaper = sequalize.define<MemberPaperInstance, IMemberPaper>(
-    'MemberPaper',
-    attributes
-  );
+    memberId: DataTypes.INTEGER,
+    paperId: DataTypes.INTEGER,
+  });
 
   return MemberPaper;
 };

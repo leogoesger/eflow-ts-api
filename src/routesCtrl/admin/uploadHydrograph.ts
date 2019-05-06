@@ -18,7 +18,7 @@ const NUM_CLASSES = 9;
 export const uploadClassHydrograph = async (_: Request, res: Response) => {
   await Hydrograph.destroy({ where: { type: 'CLASS' } });
 
-  const classes = [...Array(NUM_CLASSES)].map((_, i) => `Class_${i + 1}`);
+  const classes = [...Array(NUM_CLASSES)].map((__, i) => `Class_${i + 1}`);
   const src$ = from(classes).pipe(
     mergeMap(cls => readCSVFile(cls, 'DRH_Class', '_aggregate')),
     mergeMap((d: IReadStringToArrayPL) => readStringToArrays(d)),

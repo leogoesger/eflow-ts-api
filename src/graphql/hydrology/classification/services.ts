@@ -1,6 +1,6 @@
 import { Classification, Gauge } from '../../../db/models';
 
-export class classificationServices {
+export class ClassificationServices {
   Classification = Classification;
 
   public getClassifications() {
@@ -8,7 +8,7 @@ export class classificationServices {
   }
 
   public getClassification(id: number) {
-    return this.Classification.findById(id, {
+    return this.Classification.findByPk(id, {
       include: [{ model: Gauge, as: 'gauges' }],
     });
   }

@@ -1,6 +1,6 @@
 import { Hydrograph } from '../../../db/models';
 
-export class hydrographServices {
+export class HydrographServices {
   Hydrograph = Hydrograph;
 
   public getHydrograph(id: number, type: 'GAUGE' | 'CLASS') {

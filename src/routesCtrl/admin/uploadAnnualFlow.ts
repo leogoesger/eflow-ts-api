@@ -26,22 +26,6 @@ interface ISub {
   gaugeId: number;
 }
 
-/**
- * Load csv for Annual Flow Matrix from AWS via rxjs 
- *   
- * Four pipeing functions:
- *   1. read csv from aws for each gauge which consists of many years of flow data
-     2. read string to array with csvtojson
-     3. transpose the array, so each array inside starts with year, and then continue with flow data
-     4. catch error
- * 
- * Subscribe takes three functions:
- *   1. onNext(): convert transposed array to array of objects for each gauge, and store that in `result`. `report`
-     is just an object keeping track of all the meta data
-     2. onError(): error handler
-     3. onComplete: sequelize bulkCreate with result array of AnnualFlows
- */
-
 export const uploadAnnualFlow = async (_: Request, res: Response) => {
   await AnnualFlow.destroy({ where: {} });
   const report: IReport = {

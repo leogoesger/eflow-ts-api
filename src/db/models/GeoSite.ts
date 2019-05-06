@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface IGeoSite {
   id?: number;
@@ -13,47 +14,56 @@ export interface IGeoSite {
   geoClassId: number;
 }
 
-type GeoSiteInstance = Sequelize.Instance<IGeoSite> & IGeoSite;
+interface IGeoSiteExtend extends Model {
+  id?: number;
+  name?: string;
+  identity: number | string;
+  description?: string;
+  geometry: string;
+  imageUrl: string;
+  updatedAt?: string;
+  createdAt?: string;
+  geoClassId: number;
+}
 
-type GeoSiteModel = Sequelize.Model<GeoSiteInstance, IGeoSite>;
+type GeoSiteModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IGeoSiteExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const geoSiteFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IGeoSite> = {
+const geoSiteFactory = sequalize => {
+  const GeoSite = <GeoSiteModel>sequalize.define('GeoSite', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     name: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     identity: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     description: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     geometry: {
-      type: Sequelize.JSONB,
+      type: DataTypes.JSONB,
       allowNull: true,
     },
     imageUrl: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     geoClassId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const GeoSite = sequalize.define<GeoSiteInstance, IGeoSite>(
-    'GeoSite',
-    attributes
-  );
+  });
 
   GeoSite.associate = models => {
     GeoSite.belongsTo(models.GeoClass, {

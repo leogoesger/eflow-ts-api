@@ -1,5 +1,5 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+import { IDB } from './';
 
 export interface IAnnualFlow {
   id?: number;
@@ -10,37 +10,43 @@ export interface IAnnualFlow {
   createdAt?: string;
 }
 
-type AnnualFlowInstance = Sequelize.Instance<IAnnualFlow> & IAnnualFlow;
+export interface IAnnualFlowExtend extends Model {
+  id?: number;
+  year: number;
+  flowData: number[] | string;
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type AnnualFlowModel = Sequelize.Model<AnnualFlowInstance, IAnnualFlow>;
+type AnnualFlowModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IAnnualFlowExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const annualFlowFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IAnnualFlow> = {
+const annualFlowFactory = sequalize => {
+  const AnnualFlow = <AnnualFlowModel>sequalize.define('AnnualFlow', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     year: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     flowData: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: false,
     },
     gaugeId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const AnnualFlow = sequalize.define<AnnualFlowInstance, IAnnualFlow>(
-    'AnnualFlow',
-    attributes
-  );
+  });
 
-  AnnualFlow.associate = models => {
+  AnnualFlow.associate = (models: IDB) => {
     AnnualFlow.belongsTo(models.Gauge, {
       foreignKey: 'gaugeId',
       as: 'gauge',

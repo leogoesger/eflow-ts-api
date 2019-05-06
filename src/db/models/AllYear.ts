@@ -1,5 +1,5 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+import { IDB } from './';
 
 export interface IAllYear {
   id?: number;
@@ -11,42 +11,49 @@ export interface IAllYear {
   createdAt?: string;
 }
 
-type AllYearInstance = Sequelize.Instance<IAllYear> & IAllYear;
+interface IAllYearExtend extends Model {
+  id?: number;
+  average: number[];
+  standardDeviation: number[];
+  coeffientVariance: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type AllYearModel = Sequelize.Model<AllYearInstance, IAllYear>;
+type AllYearModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IAllYearExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const allYearFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IAllYear> = {
+const allYearFactory = sequalize => {
+  const AllYear = <AllYearModel>sequalize.define('AllYear', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     average: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     standardDeviation: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     coeffientVariance: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     gaugeId: {
       allowNull: false,
       unique: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const AllYear = sequalize.define<AllYearInstance, IAllYear>(
-    'AllYear',
-    attributes
-  );
+  });
 
-  AllYear.associate = models => {
+  AllYear.associate = (models: IDB) => {
     AllYear.belongsTo(models.Gauge, {
       foreignKey: 'gaugeId',
       as: 'gauge',

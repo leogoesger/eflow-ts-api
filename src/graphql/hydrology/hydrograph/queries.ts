@@ -1,6 +1,6 @@
-import { hydrographServices } from './services';
+import { HydrographServices } from './services';
 
-const service = new hydrographServices();
+const service = new HydrographServices();
 
 export interface IGetHydrographPL {
   id: number;

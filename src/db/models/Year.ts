@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface IYear {
   id?: number;
@@ -10,33 +11,44 @@ export interface IYear {
   createdAt?: string;
 }
 
-type YearInstance = Sequelize.Instance<IYear> & IYear;
+interface IYearExtend extends Model {
+  id?: number;
+  year: number[];
+  allYears: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type YearModel = Sequelize.Model<YearInstance, IYear>;
+type YearModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IYearExtend) & {
+    findByToken: (d: any) => any;
+  } & {
+    associate: (model: IDB) => any;
+  };
 
-const yearFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IYear> = {
+const yearFactory = sequalize => {
+  const Year = <YearModel>sequalize.define('Year', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     year: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: true,
     },
     allYears: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: true,
     },
     gaugeId: {
       allowNull: false,
       unique: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const Year = sequalize.define<YearInstance, IYear>('Year', attributes);
+  });
   Year.associate = models => {
     Year.belongsTo(models.Gauge, {
       foreignKey: 'gaugeId',

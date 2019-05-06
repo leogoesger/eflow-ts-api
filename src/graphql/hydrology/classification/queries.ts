@@ -1,6 +1,6 @@
-import { classificationServices } from './services';
+import { ClassificationServices } from './services';
 
-const service = new classificationServices();
+const service = new ClassificationServices();
 
 export const classificationQueries = {
   getClassifications: () => service.getClassifications(),

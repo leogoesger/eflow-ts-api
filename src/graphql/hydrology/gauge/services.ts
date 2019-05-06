@@ -1,6 +1,6 @@
 import { IPagePL, Gauge, IGauge, Hydrograph } from './models';
 
-export class gaugeServices {
+export class GaugeServices {
   Gauge = Gauge;
 
   public getGauges(pagePL: IPagePL) {
@@ -12,17 +12,17 @@ export class gaugeServices {
   }
 
   public getGauge(id: number) {
-    return this.Gauge.findById(id, {
+    return this.Gauge.findByPk(id, {
       include: [{ model: Hydrograph, as: 'hydrographs' }],
     });
   }
 
   public async updateGauge(d: IGauge) {
-    const gauge = await this.Gauge.findById(d.id);
+    const gauge = await this.Gauge.findByPk(d.id);
     return gauge.updateAttributes(d);
   }
 
   public async deleteGauge(id: number) {
-    return this.Gauge.findById(id).then(d => d.destroy());
+    return this.Gauge.findByPk(id).then(d => d.destroy());
   }
 }

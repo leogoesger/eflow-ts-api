@@ -1,6 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
 
+import { IDB } from './';
 export enum Percentilles {
   'TEN',
   'TWENTYFIVE',
@@ -27,24 +27,36 @@ export interface IHydrograph {
   createdAt?: string;
 }
 
-type HydrographInstance = Sequelize.Instance<IHydrograph> & IHydrograph;
+interface IHydrographExtend extends Model {
+  id?: number;
+  data: number[];
+  percentille: string;
+  type: string;
+  classId?: number;
+  gaugeId?: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type HydrographModel = Sequelize.Model<HydrographInstance, IHydrograph>;
+type HydrographModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IHydrographExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const hydrographFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IHydrograph> = {
+const hydrographFactory = sequalize => {
+  const Hydrograph = <HydrographModel>sequalize.define('Hydrograph', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     data: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)), // eslint-disable-line
       allowNull: true,
     },
     percentille: {
-      type: Sequelize.ENUM,
+      type: DataTypes.ENUM,
       values: [
         'TEN',
         'TWENTYFIVE',
@@ -56,22 +68,18 @@ const hydrographFactory = (sequalize: Sequelize.Sequelize) => {
       ],
     },
     type: {
-      type: Sequelize.ENUM,
+      type: DataTypes.ENUM,
       values: ['GAUGE', 'CLASS'],
     },
     gaugeId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     classId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const Hydrograph = sequalize.define<HydrographInstance, IHydrograph>(
-    'Hydrograph',
-    attributes
-  );
+  });
 
   Hydrograph.associate = models => {
     Hydrograph.belongsTo(models.Gauge, {

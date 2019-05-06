@@ -1,4 +1,4 @@
-import * as Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize';
 import { config } from '../config/config';
 
 import { allYearFactory, AllYearModel, IAllYear } from './AllYear';
@@ -35,6 +35,8 @@ import { predictionFactory, PredictionModel, IPrediction } from './Prediction';
 const env = process.env.NODE_ENV || 'development';
 const configEnv = config[env] as any;
 
+// tslint:disable-next-line:no-console
+console.log(configEnv.database, configEnv.username, config.password);
 const sequelize = new Sequelize(
   configEnv.database,
   configEnv.username,
@@ -66,8 +68,7 @@ export interface IDB {
   Condition: ConditionModel;
   Prediction: PredictionModel;
 
-  Sequelize: Sequelize.SequelizeStatic;
-  sequelize: Sequelize.Sequelize;
+  [index: string]: any;
 }
 
 const db: IDB = {

@@ -1,7 +1,7 @@
-import { userServices } from './services';
+import { UserServices } from './services';
 import { IUser, IContext } from './models';
 
-const service = new userServices();
+const service = new UserServices();
 
 interface IData {
   userInfo?: IUser;

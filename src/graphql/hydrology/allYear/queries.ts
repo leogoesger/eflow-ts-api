@@ -1,6 +1,6 @@
-import { allYearServices, IValidatePayload } from './services';
+import { AllYearServices, IValidatePayload } from './services';
 
-const service = new allYearServices();
+const service = new AllYearServices();
 
 export const allYearQueries = {
   getAllYear: (_: any, { id }: { id: number }) => service.getAllYear(id),

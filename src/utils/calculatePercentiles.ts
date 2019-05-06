@@ -1,7 +1,7 @@
-import * as d3 from "d3";
-import { from, of } from "rxjs";
-import { map, catchError, concatMap } from "rxjs/operators";
-import { Request, Response } from "express";
+import * as d3 from 'd3';
+import { from, of } from 'rxjs';
+import { map, catchError, concatMap } from 'rxjs/operators';
+import { Request, Response } from 'express';
 import {
   AllYear,
   Classification,
@@ -10,11 +10,11 @@ import {
   Gauge,
   Spring,
   Summer,
-  Winter
-} from "../db/models";
-import { metricReferenceAs } from "../static/metricReference";
-import { getCalenderDate, getJulianOffsetDate, removeNaN } from "./helpers";
-import { classes } from "../static/allClasses";
+  Winter,
+} from '../db/models';
+import { metricReferenceAs } from '../static/metricReference';
+import { getCalenderDate, getJulianOffsetDate, removeNaN } from './helpers';
+import { classes } from '../static/allClasses';
 
 interface IReport {
   classes?: number[];
@@ -24,39 +24,39 @@ interface IReport {
 
 const attributes: any = {
   winters: [
-    "timing2",
-    "timing5",
-    "timing10",
-    "timing20",
-    "timing50",
-    "duration2",
-    "duration5",
-    "duration10",
-    "duration20",
-    "duration50",
-    "frequency2",
-    "frequency5",
-    "frequency10",
-    "frequency20",
-    "frequency50",
-    "magnitude2",
-    "magnitude5",
-    "magnitude10",
-    "magnitude20",
-    "magnitude50"
+    'timing2',
+    'timing5',
+    'timing10',
+    'timing20',
+    'timing50',
+    'duration2',
+    'duration5',
+    'duration10',
+    'duration20',
+    'duration50',
+    'frequency2',
+    'frequency5',
+    'frequency10',
+    'frequency20',
+    'frequency50',
+    'magnitude2',
+    'magnitude5',
+    'magnitude10',
+    'magnitude20',
+    'magnitude50',
   ],
   summers: [
-    "timing",
-    "magnitude10",
-    "magnitude50",
-    "durationFlush",
-    "durationWet",
-    "noFlowCount"
+    'timing',
+    'magnitude10',
+    'magnitude50',
+    'durationFlush',
+    'durationWet',
+    'noFlowCount',
   ],
-  allYears: ["average", "standardDeviation", "coeffientVariance"],
-  falls: ["timing", "magnitude", "timingWet", "duration"],
-  springs: ["timing", "magnitude", "rateOfChange", "duration"],
-  fallWinters: ["magWet"]
+  allYears: ['average', 'standardDeviation', 'coeffientVariance'],
+  falls: ['timing', 'magnitude', 'timingWet', 'duration'],
+  springs: ['timing', 'magnitude', 'rateOfChange', 'duration'],
+  fallWinters: ['magWet'],
 };
 
 interface IClsPercentilePromise {
@@ -70,7 +70,7 @@ export const calculatePercentileClourse = async (
 ) => {
   const report: IReport = {
     classes: [],
-    meta: { gaugeCount: 0, rowCount: 0 }
+    meta: { gaugeCount: 0, rowCount: 0 },
   };
 
   const src$ = from(classes).pipe(
@@ -89,9 +89,9 @@ export const calculatePercentileClourse = async (
         classes.filter(cls => cls.id === classId)[0].gaugeCount;
       report.meta.rowCount++;
 
-      const updateClass = await Classification.findById(classId);
+      const updateClass = await Classification.findByPk(classId);
       await updateClass.update(combinedPercentile, {
-        fields: Object.keys(combinedPercentile)
+        fields: Object.keys(combinedPercentile),
       });
     },
     (err: any) =>
@@ -112,35 +112,35 @@ const calculatePercentile = async (
     include: [
       {
         model: AllYear,
-        as: "allYears",
-        attributes: attributes.allYears
+        as: 'allYears',
+        attributes: attributes.allYears,
       },
       {
         model: Fall,
-        as: "falls",
-        attributes: attributes.falls
+        as: 'falls',
+        attributes: attributes.falls,
       },
       {
         model: Spring,
-        as: "springs",
-        attributes: attributes.springs
+        as: 'springs',
+        attributes: attributes.springs,
       },
       {
         model: Summer,
-        as: "summers",
-        attributes: attributes.summers
+        as: 'summers',
+        attributes: attributes.summers,
       },
       {
         model: Winter,
-        as: "winters",
-        attributes: attributes.winters
+        as: 'winters',
+        attributes: attributes.winters,
       },
       {
         model: FallWinter,
-        as: "fallWinters",
-        attributes: attributes.fallWinters
-      }
-    ]
+        as: 'fallWinters',
+        attributes: attributes.fallWinters,
+      },
+    ],
   });
 
   const combined: any = {};
@@ -150,8 +150,8 @@ const calculatePercentile = async (
       if (gauge[reference.as][0]) {
         let data = [];
         if (
-          reference.name.includes("Timing") &&
-          !reference.name.includes("summer")
+          reference.name.includes('Timing') &&
+          !reference.name.includes('summer')
         ) {
           data = gauge[reference.as][0][reference.columnName].map((d: any) =>
             getJulianOffsetDate(Number(d))
@@ -173,14 +173,14 @@ const combineMetrics = (classId: number, combined: any): any => {
     combinedPercentile[key] = [
       d3.quantile(sortedData, 0.1),
       d3.quantile(sortedData, 0.5),
-      d3.quantile(sortedData, 0.9)
+      d3.quantile(sortedData, 0.9),
     ];
   });
 
   metricReferenceAs.forEach(reference => {
     if (
-      reference.name.includes("Timing") &&
-      !reference.name.includes("summer")
+      reference.name.includes('Timing') &&
+      !reference.name.includes('summer')
     ) {
       combinedPercentile[reference.short] = combinedPercentile[
         reference.short
@@ -195,42 +195,42 @@ export const updateGaugePercentiles = async (req: Request, res: Response) => {
   const report: IReport = {
     classes: [],
     gauges: [],
-    meta: { gaugeCount: 0, rowCount: 0 }
+    meta: { gaugeCount: 0, rowCount: 0 },
   };
   const gauges = await Gauge.findAll({
     where: { classId: req.params.id },
     include: [
       {
         model: AllYear,
-        as: "allYears",
-        attributes: attributes.allYears
+        as: 'allYears',
+        attributes: attributes.allYears,
       },
       {
         model: Fall,
-        as: "falls",
-        attributes: attributes.falls
+        as: 'falls',
+        attributes: attributes.falls,
       },
       {
         model: Spring,
-        as: "springs",
-        attributes: attributes.springs
+        as: 'springs',
+        attributes: attributes.springs,
       },
       {
         model: Summer,
-        as: "summers",
-        attributes: attributes.summers
+        as: 'summers',
+        attributes: attributes.summers,
       },
       {
         model: Winter,
-        as: "winters",
-        attributes: attributes.winters
+        as: 'winters',
+        attributes: attributes.winters,
       },
       {
         model: FallWinter,
-        as: "fallWinters",
-        attributes: attributes.fallWinters
-      }
-    ]
+        as: 'fallWinters',
+        attributes: attributes.fallWinters,
+      },
+    ],
   });
 
   const src$ = from(gauges).pipe(
@@ -268,8 +268,8 @@ const calcGaugePercentile = (gauge: any): any => {
   metricReferenceAs.forEach(reference => {
     let data;
     if (
-      reference.name.includes("Timing") &&
-      !reference.name.includes("summer")
+      reference.name.includes('Timing') &&
+      !reference.name.includes('summer')
     ) {
       data = gauge[reference.as][0][reference.columnName].map((d: any) =>
         getJulianOffsetDate(Number(d))
@@ -283,14 +283,14 @@ const calcGaugePercentile = (gauge: any): any => {
     metrics[reference.short] = [
       d3.quantile(sortedData, 0.1) || null,
       d3.quantile(sortedData, 0.5) || null,
-      d3.quantile(sortedData, 0.9) || null
+      d3.quantile(sortedData, 0.9) || null,
     ];
   });
 
   metricReferenceAs.forEach(reference => {
     if (
-      reference.name.includes("Timing") &&
-      !reference.name.includes("summer")
+      reference.name.includes('Timing') &&
+      !reference.name.includes('summer')
     ) {
       metrics[reference.short] = metrics[reference.short].map((d: any) =>
         getCalenderDate(Number(d))

@@ -1,6 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
 
+import { IDB } from './';
 export interface IFallWinter {
   id?: number;
   magWet: number[];
@@ -9,32 +9,37 @@ export interface IFallWinter {
   createdAt?: string;
 }
 
-type FallWinterInstance = Sequelize.Instance<IFallWinter> & IFallWinter;
+interface IFallWinterExtend extends Model {
+  id?: number;
+  magWet: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type FallWinterModel = Sequelize.Model<FallWinterInstance, IFallWinter>;
+type FallWinterModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IFallWinterExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const fallWinterFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IFallWinter> = {
+const fallWinterFactory = sequalize => {
+  const FallWinter = <FallWinterModel>sequalize.define('FallWinter', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     magWet: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     gaugeId: {
       allowNull: false,
       unique: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const FallWinter = sequalize.define<FallWinterInstance, IFallWinter>(
-    'FallWinter',
-    attributes
-  );
+  });
 
   FallWinter.associate = models => {
     FallWinter.belongsTo(models.Gauge, {

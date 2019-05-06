@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface ISummer {
   id?: number;
@@ -14,52 +15,62 @@ export interface ISummer {
   createdAt?: string;
 }
 
-type SummerInstance = Sequelize.Instance<ISummer> & ISummer;
+interface ISummerExtend extends Model {
+  id?: number;
+  timing: number[];
+  magnitude10: number[];
+  magnitude50: number[];
+  durationFlush: number[];
+  durationWet: number[];
+  noFlowCount: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type SummerModel = Sequelize.Model<SummerInstance, ISummer>;
+type SummerModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => ISummerExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const summerFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<ISummer> = {
+const summerFactory = sequalize => {
+  const Summer = <SummerModel>sequalize.define('Summer', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     timing: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     magnitude10: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     magnitude50: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     durationFlush: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     durationWet: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     noFlowCount: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     gaugeId: {
       allowNull: false,
       unique: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const Summer = sequalize.define<SummerInstance, ISummer>(
-    'Summer',
-    attributes
-  );
+  });
   Summer.associate = models => {
     Summer.belongsTo(models.Gauge, {
       foreignKey: 'gaugeId',

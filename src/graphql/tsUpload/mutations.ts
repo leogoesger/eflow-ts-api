@@ -1,7 +1,7 @@
-import { tsUploadServices } from './services';
+import { TsUploadServices } from './services';
 import { UploadTimeSeriesPL, IContext } from './models';
 
-const service = new tsUploadServices();
+const service = new TsUploadServices();
 
 export const tsUploadMutations = {
   /**

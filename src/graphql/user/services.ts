@@ -6,7 +6,7 @@ import { hash, compare } from 'bcrypt';
 import { User } from '../../db/models';
 import { IResponse, IUser, ILoginPL } from './models';
 
-export class userServices {
+export class UserServices {
   User = User;
 
   public async createUser(d: IUser, res: Response): Promise<IResponse> {
@@ -24,14 +24,14 @@ export class userServices {
     const user = await this.User.findOne({ where: { email: userInput.email } });
 
     if (!user) {
-      throw 'No user found';
+      throw new Error('No user found');
     }
     const isValidPass = await compare(userInput.password, user.password);
 
     if (isValidPass === true) {
       return returnAndSignCookies(user, res);
     } else {
-      throw 'User info does not match';
+      throw new Error('User info does not match');
     }
   }
 }
@@ -57,6 +57,6 @@ const returnAndSignCookies = (user: any, res: Response) => {
     maxAge: Number(expiresIn),
     httpOnly: true,
   });
-  console.log(response)
+  console.log(response);
   return response;
 };

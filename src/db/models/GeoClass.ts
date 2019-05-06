@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface IGeoClass {
   id?: number;
@@ -14,53 +15,63 @@ export interface IGeoClass {
   // hydroClassId: number;
 }
 
-type GeoClassInstance = Sequelize.Instance<IGeoClass> & IGeoClass;
+interface IGeoClassExtend extends Model {
+  id?: number;
+  name?: string;
+  description: string;
+  defaultImageUrl: string;
+  archetypes: string;
+  medianAttributes: string;
+  updatedAt?: string;
+  createdAt?: string;
+  geoRegionId: number;
+  // hydroClassId: number;
+}
 
-type GeoClassModel = Sequelize.Model<GeoClassInstance, IGeoClass>;
+type GeoClassModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IGeoClassExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const geoClassFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IGeoClass> = {
+const geoClassFactory = sequalize => {
+  const GeoClass = <GeoClassModel>sequalize.define('GeoClass', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     name: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     description: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     defaultImageUrl: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     archetypes: {
-      type: Sequelize.JSON,
+      type: DataTypes.JSON,
       allowNull: true,
     },
     medianAttributes: {
-      type: Sequelize.JSON,
+      type: DataTypes.JSON,
       allowNull: true,
     },
     geoRegionId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     // hydroClassId: {
     //   allowNull: false,
-    //   type: Sequelize.INTEGER,
+    //   type: DataTypes.INTEGER,
     // },
-  };
-  const GeoClass = sequalize.define<GeoClassInstance, IGeoClass>(
-    'GeoClass',
-    attributes
-  );
+  });
 
-  GeoClass.associate = (models) => {
+  GeoClass.associate = models => {
     GeoClass.belongsTo(models.GeoRegion, {
       foreignKey: 'geoRegionId',
       as: 'geoRegion',

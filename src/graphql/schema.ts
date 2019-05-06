@@ -16,8 +16,8 @@ const rootQuery = `
     offset: Int
     limit: Int
   }
-  
-  type Query 
+
+  type Query
   type Mutation
 `;
 

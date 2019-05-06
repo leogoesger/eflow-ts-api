@@ -1,7 +1,7 @@
-import { memberPaperServices } from './services';
+import { MemberPaperServices } from './services';
 import { IMemberPaper } from '../../db/models';
 
-const service = new memberPaperServices();
+const service = new MemberPaperServices();
 
 export const memberPaperMutations = {
   updateMemberPaper: (

@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { IDB } from './';
 
 export interface IRelease {
   id: number;
@@ -9,39 +10,44 @@ export interface IRelease {
   tasks: string[];
 }
 
-type ReleaseInstance = Sequelize.Instance<IRelease> & IRelease;
+interface IReleaseExtend extends Model {
+  id: number;
+  title: string;
+  version: string;
+  date: string;
+  tasks: string[];
+}
 
-type ReleaseModel = Sequelize.Model<ReleaseInstance, IRelease>;
+type ReleaseModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IReleaseExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const releaseFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IRelease> = {
+const releaseFactory = sequalize => {
+  const Release = <ReleaseModel>sequalize.define('Release', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     title: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     version: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     date: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     tasks: {
-      type: Sequelize.ARRAY(Sequelize.TEXT),
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true,
     },
-  };
-  const Release = sequalize.define<ReleaseInstance, IRelease>(
-    'Release',
-    attributes
-  );
+  });
 
   return Release;
 };

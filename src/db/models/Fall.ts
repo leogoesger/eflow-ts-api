@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../types';
+import { Model, BuildOptions, DataTypes } from 'sequelize';
+
+import { db, IDB } from './';
 
 export interface IFall {
   id?: number;
@@ -12,41 +13,52 @@ export interface IFall {
   createdAt?: string;
 }
 
-type FallInstance = Sequelize.Instance<IFall> & IFall;
+export interface IFallExtend extends Model {
+  id?: number;
+  timing: number[];
+  magnitude: number[];
+  timingWet: number[];
+  duration: number[];
+  gaugeId: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
 
-type FallModel = Sequelize.Model<FallInstance, IFall>;
+type FallModel = typeof Model &
+  (new (values?: object, options?: BuildOptions) => IFallExtend) & {
+    associate: (model: IDB) => any;
+  };
 
-const fallFactory = (sequalize: Sequelize.Sequelize) => {
-  const attributes: SequelizeAttributes<IFall> = {
+const fallFactory = sequalize => {
+  const Fall = <FallModel>sequalize.define('Fall', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     timing: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     magnitude: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     timingWet: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     duration: {
-      type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)),
+      type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
       allowNull: true,
     },
     gaugeId: {
       allowNull: false,
       unique: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
-  };
-  const Fall = sequalize.define<FallInstance, IFall>('Fall', attributes);
+  });
 
   Fall.associate = models => {
     Fall.belongsTo(models.Gauge, {

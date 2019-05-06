@@ -1,7 +1,7 @@
-import { gaugeServices } from './services';
+import { GaugeServices } from './services';
 import { IPagePL } from '../../models';
 
-const service = new gaugeServices();
+const service = new GaugeServices();
 
 export const gaugeQueries = {
   getGauges: (_: any, { pagePL }: { pagePL: IPagePL }) =>

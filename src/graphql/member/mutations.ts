@@ -1,7 +1,7 @@
-import { memberServices } from './services';
+import { MemberServices } from './services';
 import { IMember } from '../../db/models';
 
-const service = new memberServices();
+const service = new MemberServices();
 
 export const memberMutations = {
   updateMember: (_: any, { updateMemberPL }: { updateMemberPL: IMember }) =>

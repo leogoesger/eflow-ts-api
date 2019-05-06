@@ -1,6 +1,6 @@
-import { annualFlowServices, IValidatePayload } from './services';
+import { AnnualFlowServices, IValidatePayload } from './services';
 
-const service = new annualFlowServices();
+const service = new AnnualFlowServices();
 
 export const annualFlowQueries = {
   getAnnualFlow: (_: any, { id }: { id: number }) => service.getAnnualFlow(id),

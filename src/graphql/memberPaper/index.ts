@@ -1,5 +1,5 @@
 import { memberPaperMutations } from './mutations';
-import { memberPaperServices } from './services';
+import { MemberPaperServices } from './services';
 import { memberPaperTypes } from './types';
 
-export { memberPaperMutations, memberPaperServices, memberPaperTypes };
+export { memberPaperMutations, MemberPaperServices, memberPaperTypes };

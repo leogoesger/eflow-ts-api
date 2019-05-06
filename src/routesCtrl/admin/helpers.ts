@@ -39,10 +39,10 @@ export const readCSVFile = async (
   return { stringData: data, id };
 };
 
-export const readStringToArrays = async ({
-  stringData,
-  id,
-}: IReadStringToArrayPL, noheader=true): Promise<ITransposeArrayPL> => {
+export const readStringToArrays = async (
+  { stringData, id }: IReadStringToArrayPL,
+  noheader = true
+): Promise<ITransposeArrayPL> => {
   const arrayData = await csv({
     noheader,
     output: 'csv',
@@ -68,5 +68,5 @@ export const transposeArray = ({
  *
  * @param models array of Sequelize Model
  */
-export const clearDB = (models: Model<any, any>[]) =>
-  Promise.all([models.map(model => model.destroy({ where: {} }))]);
+export const clearDB = (models: Array<Model<any, any>>) =>
+  Promise.all([models.map(model => model.destroy({}))]);

@@ -1,6 +1,6 @@
 import { Member, Paper, IMember } from '../../db/models';
 
-export class memberServices {
+export class MemberServices {
   Member = Member;
 
   public getMembers() {
@@ -19,11 +19,11 @@ export class memberServices {
   }
 
   public async updateMember(d: IMember) {
-    const member = await this.Member.findById(d.id);
-    return member.updateAttributes(d);
+    const member = await this.Member.findByPk(d.id);
+    return member.update(d);
   }
 
   public async deleteMember(id: number) {
-    return this.Member.findById(id).then(d => d.destroy());
+    return this.Member.findByPk(id).then(d => d.destroy());
   }
 }
