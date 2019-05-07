@@ -1,6 +1,6 @@
-import * as csv from 'csvtojson';
-import axios from 'axios';
-import { Model } from 'sequelize';
+import * as csv from "csvtojson";
+import axios from "axios";
+import { Model } from "sequelize";
 
 export interface IReadStringToArrayPL {
   stringData: string;
@@ -45,7 +45,7 @@ export const readStringToArrays = async (
 ): Promise<ITransposeArrayPL> => {
   const arrayData = await csv({
     noheader,
-    output: 'csv',
+    output: "csv"
   }).fromString(stringData);
 
   return { arrayData, id };
@@ -53,13 +53,13 @@ export const readStringToArrays = async (
 
 export const transposeArray = ({
   arrayData,
-  id,
+  id
 }: ITransposeArrayPL): IArrayPL => {
   return {
     arrayData: arrayData[0].map((_, i) =>
       arrayData.map(row => (isNaN(Number(row[i])) ? null : Number(row[i])))
     ),
-    id,
+    id
   };
 };
 
@@ -68,5 +68,14 @@ export const transposeArray = ({
  *
  * @param models array of Sequelize Model
  */
-export const clearDB = (models: Array<Model<any, any>>) =>
-  Promise.all([models.map(model => model.destroy({}))]);
+export const clearDB = (models: Array<Model<any, any>>) => {
+  console.log(models);
+  const promises = [];
+
+  models.forEach(model => {
+    // @ts-ignore
+    promises.push(model.destroy({ where: {} }));
+  });
+
+  Promise.all(promises);
+};
