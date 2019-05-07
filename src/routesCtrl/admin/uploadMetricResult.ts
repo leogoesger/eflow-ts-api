@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
-import { from, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-import { Model } from 'sequelize';
+import { Request, Response } from "express";
+import { from, of } from "rxjs";
+import { map, mergeMap, catchError } from "rxjs/operators";
+import { Model } from "sequelize";
 
-import { gauges, metricReference } from '../../static';
+import { gauges, metricReference } from "../../static";
 import {
   readCSVFile,
   readStringToArrays,
   IReadStringToArrayPL,
   ITransposeArrayPL,
-  clearDB,
-} from './helpers';
+  clearDB
+} from "./helpers";
 import {
   Year,
   AllYear,
@@ -18,8 +18,8 @@ import {
   Winter,
   Summer,
   Spring,
-  FallWinter,
-} from '../../db/models';
+  FallWinter
+} from "../../db/models";
 
 interface IDbObjects {
   dbObj: { [index: string]: any };
@@ -45,7 +45,7 @@ export const uploadMetricResult = async (req: Request, res: Response) => {
     Summer,
     Fall,
     FallWinter,
-    Winter,
+    Winter
   } as any;
 
   const dbObjects: { [index: string]: any[] } = {};
@@ -55,7 +55,7 @@ export const uploadMetricResult = async (req: Request, res: Response) => {
 
   const src$ = from(gauges).pipe(
     mergeMap(gauge =>
-      readCSVFile(gauge.id, 'annual_flow_result', '_annual_result_matrix')
+      readCSVFile(gauge.id, "annual_flow_result", "_annual_result_matrix")
     ),
     mergeMap((d: IReadStringToArrayPL) => readStringToArrays(d)),
     map((d: ITransposeArrayPL) => createDbObjects(d, tables)),
@@ -65,7 +65,7 @@ export const uploadMetricResult = async (req: Request, res: Response) => {
   src$.subscribe(
     ({ dbObj, gaugeId }: IDbObjects) => {
       Object.keys(dbObj).forEach(key => dbObjects[key].push(dbObj[key]));
-      console.log(gaugeId);
+      // console.log(gaugeId);
     },
     (error: any) => res.status(400).send(error),
     () =>
@@ -106,7 +106,7 @@ const uploadDB = async (dbObjects: any, tables: ITables) => {
       (tbl: string, idx: number) =>
         (report[tbl] = {
           gauges: d[idx].map(i => i.gaugeId),
-          count: d[idx].length,
+          count: d[idx].length
         })
     );
     return report;
