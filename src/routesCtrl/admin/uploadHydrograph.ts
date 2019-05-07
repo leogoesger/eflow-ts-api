@@ -64,7 +64,7 @@ const updateObj = ({ arrayData, id }: ITransposeArrayPL) => {
         ? null
         : Number(id.toString().split("_")[2]),
       percentille: Percentilles[i],
-      type: "CLASS"
+      type: id.toString().includes("Class") ? "CLASS" : "GAUGE"
     }))
   );
 
