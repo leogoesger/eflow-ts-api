@@ -1,26 +1,26 @@
-import { Request, Response } from 'express';
-import { from, of } from 'rxjs';
-import { mergeMap, catchError, map } from 'rxjs/operators';
+import { Request, Response } from "express";
+import { from, of } from "rxjs";
+import { mergeMap, catchError, map } from "rxjs/operators";
 
-import { Hydrograph, IHydrograph } from '../../db/models';
-import { Percentilles } from '../../db/models/Hydrograph';
-import { gauges } from '../../static';
+import { Hydrograph, IHydrograph } from "../../db/models";
+import { Percentilles } from "../../db/models/Hydrograph";
+import { gauges } from "../../static";
 import {
   readCSVFile,
   readStringToArrays,
   IReadStringToArrayPL,
-  ITransposeArrayPL,
-} from './helpers';
+  ITransposeArrayPL
+} from "./helpers";
 
 const dbObjs: IHydrograph[] = [];
 const NUM_CLASSES = 9;
 
 export const uploadClassHydrograph = async (_: Request, res: Response) => {
-  await Hydrograph.destroy({ where: { type: 'CLASS' } });
+  await Hydrograph.destroy({ where: { type: "CLASS" } });
 
   const classes = [...Array(NUM_CLASSES)].map((__, i) => `Class_${i + 1}`);
   const src$ = from(classes).pipe(
-    mergeMap(cls => readCSVFile(cls, 'DRH_Class', '_aggregate')),
+    mergeMap(cls => readCSVFile(cls, "DRH_Class", "_aggregate")),
     mergeMap((d: IReadStringToArrayPL) => readStringToArrays(d)),
     catchError(error => of(`Bad Promise: ${error}`))
   );
@@ -33,11 +33,11 @@ export const uploadClassHydrograph = async (_: Request, res: Response) => {
 };
 
 export const uploadGaugeHydrograph = async (_: Request, res: Response) => {
-  await Hydrograph.destroy({ where: { type: 'GAUGE' } });
+  await Hydrograph.destroy({ where: { type: "GAUGE" } });
 
   const src$ = from(gauges).pipe(
     map((gauge: any) => `plot_data_${gauge.id}`),
-    mergeMap(gauge => readCSVFile(gauge, 'DRH_Gauge')),
+    mergeMap(gauge => readCSVFile(gauge, "DRH_Gauge")),
     mergeMap((d: IReadStringToArrayPL) => readStringToArrays(d)),
     catchError(error => of(`Bad Promise: ${error}`))
   );
@@ -57,18 +57,18 @@ const updateObj = ({ arrayData, id }: ITransposeArrayPL) => {
   dbObjs.push(
     ...arrayData.map((ary, i) => ({
       data: ary.map(d => Number(d)),
-      classId: id.toString().includes('Class')
-        ? Number(id.toString().split('_')[1])
+      classId: id.toString().includes("Class")
+        ? Number(id.toString().split("_")[1])
         : null,
-      gaugeId: id.toString().includes('Class')
+      gaugeId: id.toString().includes("Class")
         ? null
-        : Number(id.toString().split('_')[2]),
+        : Number(id.toString().split("_")[2]),
       percentille: Percentilles[i],
-      type: 'CLASS',
+      type: "CLASS"
     }))
   );
 
-  console.log(id);
+  // console.log(id);
 };
 
 const uploadDB = (res: Response) => {

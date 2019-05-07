@@ -69,7 +69,6 @@ export const transposeArray = ({
  * @param models array of Sequelize Model
  */
 export const clearDB = (models: Array<Model<any, any>>) => {
-  console.log(models);
   const promises = [];
 
   models.forEach(model => {
