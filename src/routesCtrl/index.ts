@@ -1,12 +1,12 @@
-import { Router } from 'express';
+import { Router } from "express";
 
-import { ping } from './ping';
-import { admin } from './admin/adminRoutes';
-import { authorization } from '../middlewares';
+import { ping } from "./ping";
+import { admin } from "./admin/adminRoutes";
+import { authorization } from "../middlewares";
 
 const router = Router();
 
-router.use('/ts-api/ping', ping);
-router.use('/ts-api/admin/', admin);
+router.use("/api/ping", ping);
+router.use("/api/admin/", admin);
 
 export { router };
