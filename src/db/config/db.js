@@ -12,8 +12,7 @@ module.exports = {
       min: 0,
       idle: 1000000,
       acquire: 1000000
-    },
-    operatorsAliases: true
+    }
   },
   test: {
     username: "postgres",
@@ -22,8 +21,7 @@ module.exports = {
     host: "127.0.0.1",
     post: 5432,
     dialect: "postgres",
-    logging: false,
-    operatorsAliases: true
+    logging: false
   },
   production: {
     username: "production",
@@ -38,7 +36,6 @@ module.exports = {
       min: 0,
       idle: 1000000,
       acquire: 1000000
-    },
-    operatorsAliases: true
+    }
   }
 };
