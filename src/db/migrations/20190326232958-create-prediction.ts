@@ -1,76 +1,75 @@
-import * as Sequelize from 'sequelize';
-import { QueryInterface } from 'sequelize';
-
+import * as Sequelize from "sequelize";
+import { QueryInterface } from "sequelize";
 
 module.exports = {
   up: (queryInterface: QueryInterface) => {
-    return queryInterface.createTable('Predictions', {
+    return queryInterface.createTable("Predictions", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       prediction: {
         type: Sequelize.TEXT,
-        allowNull: true,
+        allowNull: true
       },
       one: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       two: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       three: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       four: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       five: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       six: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       seven: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       eight: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       nine: {
         type: Sequelize.ARRAY(Sequelize.DECIMAL(10, 2)), // eslint-disable-line
-        allowNull: true,
+        allowNull: true
       },
       createdAt: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: false
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       tsUploadId: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
+        onDelete: "CASCADE",
         references: {
-          model: 'TsUploads',
-          key: 'id',
-        },
-      },
+          model: "TsUploads",
+          key: "id"
+        }
+      }
     });
   },
 
   down: (queryInterface: QueryInterface) => {
-    return queryInterface.dropTable('Prediction');
-  },
+    return queryInterface.dropTable("Predictions");
+  }
 };

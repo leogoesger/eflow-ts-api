@@ -1,5 +1,5 @@
 export const metricReference: { [index: string]: string[] } = {
-  Year: ["Year", "allYears"],
+  Year: ["Year", "year"],
   Avg: ["AllYear", "average"],
   Std: ["AllYear", "standardDeviation"],
   CV: ["AllYear", "coeffientVariance"],
