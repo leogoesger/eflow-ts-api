@@ -15,7 +15,7 @@ export interface IPagePL {
 
 export interface IGaugeInfo {
   gaugeId: number;
-  year: number;
+  year?: number;
 }
 
 export interface IHydroInfo {
