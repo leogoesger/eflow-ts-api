@@ -1,4 +1,4 @@
-import { IPagePL } from '../../models';
-import { Gauge, IGauge, Hydrograph } from '../../../db/models';
+import { IPagePL, IGaugeInfo } from "../../models";
+import { Gauge, IGauge, Hydrograph } from "../../../db/models";
 
-export { IPagePL, Gauge, IGauge, Hydrograph };
+export { IPagePL, IGaugeInfo, Gauge, IGauge, Hydrograph };

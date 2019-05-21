@@ -48,8 +48,6 @@ export const uploadAnnualFlow = async (_: Request, res: Response) => {
       report.meta.gaugeCount += 1;
       report.meta.rowCount += annualFlowArray.length;
       result = result.concat(annualFlowArray);
-
-      // console.log(report.meta);
     },
     (error: any) => res.status(400).send(error),
     () => AnnualFlow.bulkCreate(result).then(d => res.status(200).send(report))

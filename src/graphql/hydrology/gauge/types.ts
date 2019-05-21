@@ -47,7 +47,7 @@ export const gaugeTypes = `
         createdAt: String
         updatedAt: String
 
-        hydrographs: [Hydrograph]
+        hydrographs: Hydrograph
     }
 
     input UpdateGaugePL {
@@ -91,7 +91,7 @@ export const gaugeTypes = `
     }
 
     extend type Query {
-        getGauge(id: Int): Gauge
+        getGauge(gaugeInfo: IGaugeInfo): Gauge
         getGauges(pagePL: PagePL): [Gauge]
     }
 

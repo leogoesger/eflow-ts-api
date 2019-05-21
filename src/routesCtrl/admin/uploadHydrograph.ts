@@ -67,8 +67,6 @@ const updateObj = ({ arrayData, id }: ITransposeArrayPL) => {
       type: id.toString().includes("Class") ? "CLASS" : "GAUGE"
     }))
   );
-
-  // console.log(id);
 };
 
 const uploadDB = (res: Response) => {

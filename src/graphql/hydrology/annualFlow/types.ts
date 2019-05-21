@@ -1,15 +1,12 @@
 export const annualFlowTypes = `
     type AnnualFlow {
-        id: ID
-        year: Int
-        flowData: [Float]
-        createdAt: String
-        updatedAt: String
         gaugeId: Int
+        flowData: [String]
+        year: Int
     }
 
     extend type Query {
-        getAnnualFlow(id: Int): AnnualFlow
+        getAnnualFlow(gaugeInfo: IGaugeInfo): AnnualFlow
         validateAnnualFlow(validatePL: validatePL!): Boolean
     }
 `;
