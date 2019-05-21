@@ -12,6 +12,7 @@ import { paperTypes, paperQueries, paperMutations } from "./paper";
 import { memberPaperTypes, memberPaperMutations } from "./memberPaper";
 import { tsUploadMutations, tsUploadTypes } from "./tsUpload";
 import { summerQueries, summerTypes } from "./hydrology/summer";
+import { springQueries, springTypes } from "./hydrology/spring";
 
 const typeDefs = [
   classificationTypes,
@@ -24,7 +25,8 @@ const typeDefs = [
   paperTypes,
   memberPaperTypes,
   tsUploadTypes,
-  summerTypes
+  summerTypes,
+  springTypes
 ];
 
 const Query = {
@@ -36,7 +38,8 @@ const Query = {
   ...hydrographQueries,
   ...memberQueries,
   ...paperQueries,
-  ...summerQueries
+  ...summerQueries,
+  ...springQueries
 };
 
 const Mutation = {

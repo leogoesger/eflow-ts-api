@@ -15,7 +15,6 @@ describe("summer queries", () => {
     expect(Boolean(res.magnitude50)).to.be.true;
     expect(Boolean(res.durationWet)).to.be.true;
     expect(Boolean(res.durationFlush)).to.be.true;
-    expect(Boolean(res.magnitude10)).to.be.true;
     expect(Boolean(res.noFlowCount)).to.be.true;
     expect(Boolean(res.gaugeId)).to.be.true;
   });
