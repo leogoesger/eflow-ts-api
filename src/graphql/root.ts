@@ -1,16 +1,17 @@
 import {
   classificationQueries,
-  classificationTypes,
-} from './hydrology/classification';
-import { gaugeQueries, gaugeMutations, gaugeTypes } from './hydrology/gauge';
-import { allYearQueries, allYearTypes } from './hydrology/allYear';
-import { userQueries, userMutations, userTypes } from './user';
-import { annualFlowQueries, annualFlowTypes } from './hydrology/annualFlow';
-import { hydrographTypes, hydrographQueries } from './hydrology/hydrograph';
-import { memberTypes, memberQueries, memberMutations } from './member';
-import { paperTypes, paperQueries, paperMutations } from './paper';
-import { memberPaperTypes, memberPaperMutations } from './memberPaper';
-import { tsUploadMutations, tsUploadTypes } from './tsUpload';
+  classificationTypes
+} from "./hydrology/classification";
+import { gaugeQueries, gaugeMutations, gaugeTypes } from "./hydrology/gauge";
+import { allYearQueries, allYearTypes } from "./hydrology/allYear";
+import { userQueries, userMutations, userTypes } from "./user";
+import { annualFlowQueries, annualFlowTypes } from "./hydrology/annualFlow";
+import { hydrographTypes, hydrographQueries } from "./hydrology/hydrograph";
+import { memberTypes, memberQueries, memberMutations } from "./member";
+import { paperTypes, paperQueries, paperMutations } from "./paper";
+import { memberPaperTypes, memberPaperMutations } from "./memberPaper";
+import { tsUploadMutations, tsUploadTypes } from "./tsUpload";
+import { summerQueries, summerTypes } from "./hydrology/summer";
 
 const typeDefs = [
   classificationTypes,
@@ -23,6 +24,7 @@ const typeDefs = [
   paperTypes,
   memberPaperTypes,
   tsUploadTypes,
+  summerTypes
 ];
 
 const Query = {
@@ -34,6 +36,7 @@ const Query = {
   ...hydrographQueries,
   ...memberQueries,
   ...paperQueries,
+  ...summerQueries
 };
 
 const Mutation = {
@@ -42,7 +45,7 @@ const Mutation = {
   ...memberMutations,
   ...paperMutations,
   ...memberPaperMutations,
-  ...tsUploadMutations,
+  ...tsUploadMutations
 };
 
 export { typeDefs, Query, Mutation };
