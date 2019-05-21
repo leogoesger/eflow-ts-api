@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
 export interface RequestWithUser extends Request {
   user: any;
@@ -11,4 +11,14 @@ export interface IContext {
 export interface IPagePL {
   offset: number;
   limit: number;
+}
+
+export interface IGaugeInfo {
+  gaugeId: number;
+  year?: number;
+}
+
+export interface IHydroInfo {
+  id: number;
+  type: "CLASS" | "GAUGE";
 }

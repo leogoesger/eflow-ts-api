@@ -1,10 +1,10 @@
-import { Response } from 'express';
-import * as uuidv4 from 'uuid/v4';
-import { sign } from 'jsonwebtoken';
-import { hash, compare } from 'bcrypt';
+import { Response } from "express";
+import * as uuidv4 from "uuid/v4";
+import { sign } from "jsonwebtoken";
+import { hash, compare } from "bcrypt";
 
-import { User } from '../../db/models';
-import { IResponse, IUser, ILoginPL } from './models';
+import { User } from "../../db/models";
+import { IResponse, IUser, ILoginPL } from "./models";
 
 export class UserServices {
   User = User;
@@ -20,18 +20,17 @@ export class UserServices {
   }
 
   public async login(userInput: ILoginPL, res: Response): Promise<IResponse> {
-    console.log(userInput);
     const user = await this.User.findOne({ where: { email: userInput.email } });
 
     if (!user) {
-      throw new Error('No user found');
+      throw new Error("No user found");
     }
     const isValidPass = await compare(userInput.password, user.password);
 
     if (isValidPass === true) {
       return returnAndSignCookies(user, res);
     } else {
-      throw new Error('User info does not match');
+      throw new Error("User info does not match");
     }
   }
 }
@@ -41,22 +40,21 @@ const returnAndSignCookies = (user: any, res: Response) => {
   const expiresIn = process.env.ACCESS_EXPIRY_TIME;
 
   const accessToken = sign({ email: user.email, role: user.role }, SECRET, {
-      expiresIn,
+      expiresIn
     }),
     refreshToken = uuidv4();
 
   const response: IResponse = {
     email: user.email,
-    role: user.role,
+    role: user.role
   };
-  res.cookie('accessToken', accessToken, {
+  res.cookie("accessToken", accessToken, {
     maxAge: Number(expiresIn),
-    httpOnly: true,
+    httpOnly: true
   });
-  res.cookie('refreshToken', refreshToken, {
+  res.cookie("refreshToken", refreshToken, {
     maxAge: Number(expiresIn),
-    httpOnly: true,
+    httpOnly: true
   });
-  console.log(response);
   return response;
 };

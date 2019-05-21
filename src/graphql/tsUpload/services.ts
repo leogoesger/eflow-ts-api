@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   TsUpload,
   UploadTimeSeriesPL,
   RequestWithUser,
-  TSCalcResponse,
-} from './models';
+  TSCalcResponse
+} from "./models";
 
-import { params } from '../../static/params';
+import { params } from "../../static/params";
 
 export class TsUploadServices {
   TsUpload = TsUpload;
@@ -21,7 +21,7 @@ export class TsUploadServices {
 
   public async uploadTimeSeries(pl: UploadTimeSeriesPL, req: RequestWithUser) {
     if (this._isInvalidInput(pl)) {
-      throw new Error('dates, flows and startDate must be provided');
+      throw new Error("dates, flows and startDate must be provided");
     }
 
     pl.params = pl.params ? pl.params : params;
@@ -31,7 +31,7 @@ export class TsUploadServices {
     try {
       const axiosRes = await axios.post(`${this.flaskServerUrl}/api`, {
         ...pl,
-        start_date: pl.startDate,
+        start_date: pl.startDate
       });
       const tsCal: TSCalcResponse = JSON.parse(axiosRes.data);
 
@@ -51,7 +51,7 @@ export class TsUploadServices {
         summer: tsCal.summer,
         spring: tsCal.spring,
         fallWinter: tsCal.fall_winter,
-        yearRanges: tsCal.year_ranges,
+        yearRanges: tsCal.year_ranges
       });
     } catch (err) {
       this.TsUpload.create({
@@ -61,12 +61,11 @@ export class TsUploadServices {
         startDate,
         params: JSON.stringify(params),
         failed: true,
-        userId: req.user.id,
+        userId: req.user.id
       }).catch(e => {
         throw new Error(`Database Error ${e.toString()}`);
       });
-      console.log(err);
-      throw new Error('Data could not be processed');
+      throw new Error("Data could not be processed");
     }
   }
 }

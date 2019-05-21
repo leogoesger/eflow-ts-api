@@ -1,17 +1,24 @@
-import { AllYear } from '../../../db/models';
+import { AllYear } from "../../../db/models";
 
 export interface IValidatePayload {
   gaugeNum: number;
   yearNum: number;
 }
 
+const columns = ["average", "coeffientVariance", "standardDeviation"];
+
 export class AllYearServices {
   AllYear = AllYear;
 
-  public getAllYear(id: number) {
-    return this.AllYear.findOne({
+  public async getAllYear(id: number) {
+    const result = await this.AllYear.findOne({
       where: { gaugeId: id },
+      raw: true
     });
+    columns.forEach((col, indx) => {
+      result[col] = result[col].map(n => (isNaN(n) ? null : n));
+    });
+    return result;
   }
 
   public async validate(d: IValidatePayload): Promise<boolean> {

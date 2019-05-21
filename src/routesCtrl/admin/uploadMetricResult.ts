@@ -65,7 +65,6 @@ export const uploadMetricResult = async (req: Request, res: Response) => {
   src$.subscribe(
     ({ dbObj, gaugeId }: IDbObjects) => {
       Object.keys(dbObj).forEach(key => dbObjects[key].push(dbObj[key]));
-      // console.log(gaugeId);
     },
     (error: any) => res.status(400).send(error),
     () =>

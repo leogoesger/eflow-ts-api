@@ -1,13 +1,13 @@
-import { HydrographServices } from './services';
+import { HydrographServices } from "./services";
+import { IHydroInfo } from "../../models";
 
 const service = new HydrographServices();
 
-export interface IGetHydrographPL {
-  id: number;
-  type: 'CLASS' | 'GAUGE';
+export interface IHydro {
+  hydroInfo: IHydroInfo;
 }
 
 export const hydrographQueries = {
-  getHydrograph: (_: any, { id, type }: IGetHydrographPL) =>
-    service.getHydrograph(id, type),
+  getHydrograph: (_: any, { hydroInfo }: IHydro) =>
+    service.getHydrograph(hydroInfo)
 };

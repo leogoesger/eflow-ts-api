@@ -15,7 +15,7 @@
     "seed:down": "npm run build && sequelize db:seed:undo:all",
     "test": "npm run test:prepare && NODE_ENV=test mocha -r ts-node/register **/*.spec.ts --exit",
     "dev:prepare": "rimraf ./build && npm run build && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all",
-    "test:prepare": "rimraf ./build && npm run build && NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
+    "test:prepare": "rimraf ./build && npm run build && NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:undo:all && NODE_ENV=test sequelize db:seed:all",
     "stage:prepare": "rimraf ./build && npm run build && NODE_ENV=stage sequelize db:migrate:undo:all && NODE_ENV=stage sequelize db:migrate && NODE_ENV=stage sequelize db:seed:undo:all && NODE_ENV=stage sequelize db:seed:all",
     "prod:serve": "NODE_ENV=production node build/src/index.js",
     "pm2:logs": "pm2 logs",
