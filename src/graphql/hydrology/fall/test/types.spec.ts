@@ -4,7 +4,7 @@ import { graphql } from "graphql";
 import { schema } from "../../../schema";
 import { addMockFunction } from "../../../../utils/testHelpers";
 
-describe("spring typeDefs", () => {
+describe("fall typeDefs", () => {
   addMockFunction();
 
   const query = `
