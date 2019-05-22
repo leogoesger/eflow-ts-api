@@ -14,6 +14,7 @@ describe("hydrograph queries", () => {
     expect(Boolean(res.drh)).to.be.true;
     expect(Boolean(res.type)).to.be.true;
     expect(Boolean(res.gaugeId)).to.be.true;
+    expect(res.gaugeId).to.be.equals(10295500);
     expect(Boolean(res.classId)).to.be.false;
     expect(Boolean(res.drh.TEN)).to.be.true;
     expect(Boolean(res.drh.TWENTYFIVE)).to.be.true;
