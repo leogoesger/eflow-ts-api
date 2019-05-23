@@ -3,7 +3,7 @@ export const classes = [
     id: 1,
     abbre: "SM",
     fullName: "Snowmelt",
-    gaugeCount: 23, //only 23 in gauges table not 24
+    gaugeCount: 23, // only 23 in gauges table not 24
     colors: ["#fbc02d", "#fff176"]
   },
   {
@@ -23,21 +23,21 @@ export const classes = [
   {
     id: 4,
     abbre: "WS",
-    fullName: "Winter Storms",
+    fullName: "Winter storms",
     gaugeCount: 34,
     colors: ["#ff6f00", "#ffcc80"]
   },
   {
     id: 5,
     abbre: "GW",
-    fullName: "Groudwater",
+    fullName: "Groundwater",
     gaugeCount: 1,
     colors: ["#F44336", "#ef9a9a"]
   },
   {
     id: 6,
     abbre: "PGR",
-    fullName: "Perenial Groundwater and Rain",
+    fullName: "Perenial groundwater and rain",
     gaugeCount: 56,
     colors: ["#087f23", "#a5d6a7"]
   },
