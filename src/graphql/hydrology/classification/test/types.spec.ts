@@ -55,7 +55,6 @@ describe("Classfications typeDefs", () => {
 
   it("should contain all getClassification query fields", async () => {
     const res = await graphql(schema, query);
-    console.log(res);
     query
       .split("\n")
       .slice(3)
