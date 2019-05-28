@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { graphql } from "graphql";
 
-import { schema } from "../../../schema";
 import { addMockFunction } from "../../../../utils/testHelpers";
+import { schema } from "../../../schema";
 
 describe("Classfications typeDefs", () => {
   addMockFunction();
@@ -55,11 +55,12 @@ describe("Classfications typeDefs", () => {
 
   it("should contain all getClassification query fields", async () => {
     const res = await graphql(schema, query);
+
     query
       .split("\n")
       .slice(3)
       .forEach(field => {
-        field = field.trim().split("}")[0];
+        field = field.split("}")[0].trim();
         if (field !== "")
           expect(Boolean(res.data.getClassification[field])).to.be.true;
       });

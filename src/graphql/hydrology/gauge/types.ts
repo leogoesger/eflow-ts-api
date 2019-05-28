@@ -4,7 +4,7 @@ export const gaugeTypes = `
       type: String
       coordinates: [Float]
     }
-    
+
     type Gauge {
         id: ID
         stationName: String

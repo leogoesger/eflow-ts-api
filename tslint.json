@@ -8,7 +8,7 @@
   "rules": {
     "no-var-requires": false,
     "quotemark": false,
-    "ordered-imports": false,
+    "ordered-imports": true,
     "arrow-parens": false,
     "trailing-comma": false,
     "interface-name": false,
@@ -19,7 +19,7 @@
     "no-angle-bracket-type-assertion": false,
     "whitespace": false,
     "one-variable-per-declaration": false,
-    "no-console": false,
+    "no-console": true,
     "variable-name": false,
     "only-arrow-functions": false
   },
