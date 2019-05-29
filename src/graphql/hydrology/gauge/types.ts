@@ -46,7 +46,7 @@ export const gaugeTypes = `
         Peak_Fre_50: [Float]
         createdAt: String
         updatedAt: String
-
+        classId: Int
         hydrographs: Hydrograph
     }
 

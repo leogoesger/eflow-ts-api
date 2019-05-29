@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { classes } from "../../../../static/allClasses";
+import { gauges } from "../../../../static/allGauges";
 import { IGaugeInfo, IPagePL } from "../models";
 import { gaugeQueries } from "../queries";
 
@@ -9,22 +9,27 @@ describe("Gauges queries", () => {
   };
 
   const pagePL: IPagePL = {
-    offset: 10,
-    limit: 10
+    offset: 0,
+    limit: 223
   };
 
-  it("should return class 1 info", async () => {
+  it("should return gauge 1 info", async () => {
     const res = await gaugeQueries.getGauge(null, { gaugeInfo });
-    expect(res.id).to.be.equals(1);
-    expect(Object.keys(res.dataValues).length).equals(40);
-    expect(Object.keys(res.gauges).length).equals(23);
+    expect(res.id).to.be.equals(10295500);
+    expect(Object.keys(res).length).equals(46);
   });
 
-  it("should return all classes info", async () => {
+  it("should return all gauges info", async () => {
     const res = await gaugeQueries.getGauges(null, { pagePL });
-    expect(res.length).equals(9);
-    classes.forEach((cls, indx) => {
-      expect(res[indx].dataValues.name).equals(cls.fullName);
+    expect(res.length).equals(223);
+    gauges.forEach((gauge, indx) => {
+      expect(res[indx].dataValues.id).equals(gauge.id);
+      expect(res[indx].dataValues.unimpairedStartYear).equals(
+        gauge.unimpairedStartYear
+      );
+      expect(res[indx].dataValues.unimpairedEndYear).equals(
+        gauge.unimpairedEndYear
+      );
     });
   });
 });
