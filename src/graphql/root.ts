@@ -1,19 +1,20 @@
+import { allYearQueries, allYearTypes } from "./hydrology/allYear";
+import { annualFlowQueries, annualFlowTypes } from "./hydrology/annualFlow";
 import {
   classificationQueries,
   classificationTypes
 } from "./hydrology/classification";
-import { gaugeQueries, gaugeMutations, gaugeTypes } from "./hydrology/gauge";
-import { allYearQueries, allYearTypes } from "./hydrology/allYear";
-import { userQueries, userMutations, userTypes } from "./user";
-import { annualFlowQueries, annualFlowTypes } from "./hydrology/annualFlow";
-import { hydrographTypes, hydrographQueries } from "./hydrology/hydrograph";
-import { memberTypes, memberQueries, memberMutations } from "./member";
-import { paperTypes, paperQueries, paperMutations } from "./paper";
-import { memberPaperTypes, memberPaperMutations } from "./memberPaper";
-import { tsUploadMutations, tsUploadTypes } from "./tsUpload";
-import { summerQueries, summerTypes } from "./hydrology/summer";
-import { springQueries, springTypes } from "./hydrology/spring";
 import { fallQueries, fallTypes } from "./hydrology/fall";
+import { fallWinterQueries, fallWinterTypes } from "./hydrology/fallWinter";
+import { gaugeMutations, gaugeQueries, gaugeTypes } from "./hydrology/gauge";
+import { hydrographQueries, hydrographTypes } from "./hydrology/hydrograph";
+import { springQueries, springTypes } from "./hydrology/spring";
+import { summerQueries, summerTypes } from "./hydrology/summer";
+import { memberMutations, memberQueries, memberTypes } from "./member";
+import { memberPaperMutations, memberPaperTypes } from "./memberPaper";
+import { paperMutations, paperQueries, paperTypes } from "./paper";
+import { tsUploadMutations, tsUploadTypes } from "./tsUpload";
+import { userMutations, userQueries, userTypes } from "./user";
 
 const typeDefs = [
   classificationTypes,
@@ -28,7 +29,8 @@ const typeDefs = [
   tsUploadTypes,
   summerTypes,
   springTypes,
-  fallTypes
+  fallTypes,
+  fallWinterTypes
 ];
 
 const Query = {
@@ -42,7 +44,8 @@ const Query = {
   ...paperQueries,
   ...summerQueries,
   ...springQueries,
-  ...fallQueries
+  ...fallQueries,
+  ...fallWinterQueries
 };
 
 const Mutation = {

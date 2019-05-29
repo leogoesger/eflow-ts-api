@@ -1,6 +1,6 @@
-import { Model, BuildOptions, DataTypes } from 'sequelize';
+import { BuildOptions, DataTypes, Model } from "sequelize";
 
-import { IDB } from './';
+import { IDB } from "./";
 export interface IFallWinter {
   id?: number;
   magWet: number[];
@@ -23,28 +23,28 @@ type FallWinterModel = typeof Model &
   };
 
 const fallWinterFactory = sequalize => {
-  const FallWinter = <FallWinterModel>sequalize.define('FallWinter', {
+  const FallWinter = <FallWinterModel>sequalize.define("FallWinter", {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     magWet: {
       type: DataTypes.ARRAY(DataTypes.DECIMAL(10, 2)),
-      allowNull: true,
+      allowNull: true
     },
     gaugeId: {
       allowNull: false,
       unique: true,
-      type: DataTypes.INTEGER,
-    },
+      type: DataTypes.INTEGER
+    }
   });
 
   FallWinter.associate = models => {
     FallWinter.belongsTo(models.Gauge, {
-      foreignKey: 'gaugeId',
-      as: 'gauge',
+      foreignKey: "gaugeId",
+      as: "gauge"
     });
   };
   return FallWinter;
