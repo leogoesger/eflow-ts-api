@@ -1,5 +1,5 @@
-import { FallWinterServices } from "./services";
 import { IGaugeInfo } from "../../models";
+import { FallWinterServices } from "./services";
 
 const service = new FallWinterServices();
 

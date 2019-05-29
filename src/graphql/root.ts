@@ -10,6 +10,7 @@ import { gaugeMutations, gaugeQueries, gaugeTypes } from "./hydrology/gauge";
 import { hydrographQueries, hydrographTypes } from "./hydrology/hydrograph";
 import { springQueries, springTypes } from "./hydrology/spring";
 import { summerQueries, summerTypes } from "./hydrology/summer";
+import { winterQueries, winterTypes } from "./hydrology/winter";
 import { memberMutations, memberQueries, memberTypes } from "./member";
 import { memberPaperMutations, memberPaperTypes } from "./memberPaper";
 import { paperMutations, paperQueries, paperTypes } from "./paper";
@@ -30,7 +31,8 @@ const typeDefs = [
   summerTypes,
   springTypes,
   fallTypes,
-  fallWinterTypes
+  fallWinterTypes,
+  winterTypes
 ];
 
 const Query = {
@@ -45,7 +47,8 @@ const Query = {
   ...summerQueries,
   ...springQueries,
   ...fallQueries,
-  ...fallWinterQueries
+  ...fallWinterQueries,
+  ...winterQueries
 };
 
 const Mutation = {
