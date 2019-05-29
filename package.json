@@ -14,6 +14,7 @@
     "seed:up": "npm run build && sequelize db:seed:all",
     "seed:down": "npm run build && sequelize db:seed:undo:all",
     "test": "npm run test:prepare && NODE_ENV=test mocha -r ts-node/register **/*.spec.ts --exit",
+    "test1": "rimraf ./build && npm run build && NODE_ENV=test mocha -r ts-node/register **/*.spec.ts --exit",
     "dev:prepare": "rimraf ./build && npm run build && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:undo:all && sequelize db:seed:all",
     "test:prepare": "rimraf ./build && npm run build && NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:undo:all && NODE_ENV=test sequelize db:seed:all",
     "stage:prepare": "rimraf ./build && npm run build && NODE_ENV=stage sequelize db:migrate:undo:all && NODE_ENV=stage sequelize db:migrate && NODE_ENV=stage sequelize db:seed:undo:all && NODE_ENV=stage sequelize db:seed:all",
@@ -79,6 +80,7 @@
     "rxjs": "^6.3.3",
     "sequelize": "^5.3.0",
     "sequelize-cli": "^5.4.0",
+    "typy": "^3.1.0",
     "uuid": "^3.3.2"
   }
 }
