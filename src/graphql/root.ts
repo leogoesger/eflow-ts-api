@@ -4,6 +4,7 @@ import {
   classificationQueries,
   classificationTypes
 } from "./hydrology/classification";
+import { conditionQueries, conditionTypes } from "./hydrology/condition";
 import { fallQueries, fallTypes } from "./hydrology/fall";
 import { fallWinterQueries, fallWinterTypes } from "./hydrology/fallWinter";
 import { gaugeMutations, gaugeQueries, gaugeTypes } from "./hydrology/gauge";
@@ -32,7 +33,8 @@ const typeDefs = [
   springTypes,
   fallTypes,
   fallWinterTypes,
-  winterTypes
+  winterTypes,
+  conditionTypes
 ];
 
 const Query = {
@@ -48,7 +50,8 @@ const Query = {
   ...springQueries,
   ...fallQueries,
   ...fallWinterQueries,
-  ...winterQueries
+  ...winterQueries,
+  ...conditionQueries
 };
 
 const Mutation = {
