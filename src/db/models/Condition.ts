@@ -1,12 +1,12 @@
-import { Model, BuildOptions, DataTypes } from 'sequelize';
+import { BuildOptions, DataTypes, Model } from "sequelize";
 
-import { db, IDB } from './';
+import { db, IDB } from "./";
 
 export enum Conditions {
-  'DRY',
-  'WET',
-  'MODERATE',
-  'NOT AVAILABLE',
+  "DRY",
+  "WET",
+  "MODERATE",
+  "NOT AVAILABLE"
 }
 
 export interface ICondition {
@@ -31,29 +31,29 @@ type ConditionModel = typeof Model &
   };
 
 const conditionFactory = sequelize => {
-  const Condition = <ConditionModel>sequelize.define('Condition', {
+  const Condition = <ConditionModel>sequelize.define("Condition", {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     conditions: {
       type: DataTypes.ARRAY(
-        DataTypes.ENUM('DRY', 'WET', 'MODERATE', 'NOT AVAILABLE')
+        DataTypes.ENUM("DRY", "WET", "MODERATE", "NOT AVAILABLE")
       ),
-      allowNull: true,
+      allowNull: true
     },
     gaugeId: {
       allowNull: false,
-      type: DataTypes.INTEGER,
-    },
+      type: DataTypes.INTEGER
+    }
   });
 
   Condition.associate = models => {
     Condition.belongsTo(models.Gauge, {
-      foreignKey: 'gaugeId',
-      as: 'gauge',
+      foreignKey: "gaugeId",
+      as: "gauge"
     });
   };
   return Condition;

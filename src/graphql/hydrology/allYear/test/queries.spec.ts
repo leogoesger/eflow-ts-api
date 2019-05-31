@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { allYearQueries } from "../queries";
 import { IGaugeInfo } from "../../gauge/models";
+import { allYearQueries } from "../queries";
 
 describe("allyear queries", () => {
   it("should return allyear info", async () => {

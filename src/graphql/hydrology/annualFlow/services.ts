@@ -1,27 +1,5 @@
-import {
-  IGaugeInfo,
-  IPagePL,
-  AllYear,
-  AnnualFlow,
-  Spring,
-  Summer,
-  Fall,
-  FallWinter,
-  Winter,
-  Condition,
-  Gauge,
-  Year
-} from "./models";
-import { metricReferenceAs } from "../../../static/metricReference";
-
-const models = {
-  Falls: Fall,
-  FallWinters: FallWinter,
-  Springs: Spring,
-  Summers: Summer,
-  Winters: Winter,
-  AllYears: AllYear
-};
+import { IGaugeInfo, IPagePL, AnnualFlow, Condition, Year } from "./models";
+import { ConditionServices } from "../condition";
 
 export interface IValidatePayload {
   gaugeId: number;
@@ -32,8 +10,15 @@ export class AnnualFlowServices {
   AnnualFlow = AnnualFlow;
 
   public async getAnnualFlow(gaugeInfo: IGaugeInfo) {
+    const services = new ConditionServices();
+
+    const data = await services.getCondition(gaugeInfo);
+
     const { gaugeId, year } = gaugeInfo;
-    return AnnualFlow.findOne({ where: { gaugeId, year } });
+    const result = await AnnualFlow.findOne({ where: { gaugeId, year } });
+    result.condition = data.conditions[0];
+
+    return result;
   }
 
   public async validate(d: IValidatePayload): Promise<boolean> {
