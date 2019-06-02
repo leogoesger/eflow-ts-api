@@ -1,7 +1,7 @@
 import { makeExecutableSchema } from "graphql-tools";
 
 import { directiveResolvers } from "./directiveResolvers";
-import { typeDefs, Query, Mutation } from "./root";
+import { Mutation, Query, typeDefs } from "./root";
 
 const rootQuery = `
   directive @isAuthenticated on FIELD | FIELD_DEFINITION

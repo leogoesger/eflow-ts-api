@@ -14,7 +14,7 @@ export const tsUploadTypes = `
     flowMatrix: [[Float]]
     DRH: DRHRes
     allYear: AllYearRes
-    winter: Winter
+    winter: WinterRes
     fall: FallRes
     summer: SummerRes
     spring: SpringRes
@@ -57,7 +57,7 @@ export const tsUploadTypes = `
     baseflows: [Float]
   }
 
-  type Winter {
+  type WinterRes {
     timings: Percentilles
     durations: Percentilles
     frequencys: Percentilles
